@@ -1,0 +1,85 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "svelte-docgen",
+	"version": "0.0.1",
+	"type": "module",
+	"description": "Generate documentation for Svelte components",
+	"keywords": ["svelte", "documentation", "props", "docgen"],
+	"license": "MIT",
+	"author": {
+		"name": "Mateusz Kadlubowski",
+		"email": "xeho91@pm.me",
+		"url": "https://github.com/xeho91"
+	},
+	"homepage": "https://github.com/xeho91/svelte-docgen",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xeho91/svelte-docgen.git",
+		"directory": "libs/svelte-docgen"
+	},
+	"bugs": "https://github.com/xeho91/svelte-docgen/issues",
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/xeho91"
+		},
+		{
+			"type": "opencollective",
+			"url": "https://opencollective.com/xeho91"
+		}
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"files": ["src/", "types/"],
+	"exports": {
+		".": {
+			"types": "./types/mod.d.ts",
+			"default": "./src/mod.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"types": "./types/mod.d.ts",
+	"scripts": {
+		"build": "pnpm run \"/^build:.*/\" ",
+		"build:doc": "typedoc",
+		"build:types": "dts-buddy",
+		"clean": "pnpm run \"/^clean:.*/\"; rm -rf \"./**/node_modules\" ",
+		"clean:cache": "rm -rf \"./node_modules/.cache\" ",
+		"clean:doc": "rm -rf \"./docs\" ",
+		"clean:test": "rm -rf \"./coverage\" ",
+		"clean:types": "rm -rf \"./types\" ",
+		"dev": "pnpm run \"/^dev:.*/\" ",
+		"dev:doc": "typedoc --watch",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui",
+		"fix": "pnpm run \"/^fix:.*/\" ",
+		"fix:biome": "biome check . --verbose --write",
+		"fix:format": "biome format . --verbose --write",
+		"fix:js": "biome lint . --verbose --fix --unsafe",
+		"fix:typos": "typos --verbose --write-changes",
+		"lint": "pnpm run \"/^lint:.*/\" ",
+		"lint:biome": "biome check . --verbose",
+		"lint:format": "biome format . --verbose",
+		"lint:js": "biome lint . --verbose",
+		"lint:ts": "tsc --noEmit",
+		"lint:typos": "typos --verbose",
+		"prepare": "pnpm build:types",
+		"serve:doc": "serve \"./docs\" ",
+		"test": "vitest run . --passWithNoTests"
+	},
+	"dependencies": {
+		"svelte2tsx": "^0.7.26"
+	},
+	"devDependencies": {
+		"dts-buddy": "0.5.3",
+		"typescript-svelte-plugin": "0.3.43"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0",
+		"typescript": "^5.6.0"
+	}
+}

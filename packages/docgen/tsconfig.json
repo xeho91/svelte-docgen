@@ -1,0 +1,22 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"lib": ["ESNext"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"plugins": [
+			{
+				"name": "typescript-svelte-plugin",
+				"enabled": true,
+				"assumeIsSvelteProject": true
+			}
+		],
+		"strict": true,
+		"target": "ESNext",
+		"types": ["node", "svelte"]
+	},
+	"include": ["examples/", "src/", "tests/"]
+}
