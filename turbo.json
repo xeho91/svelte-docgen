@@ -1,0 +1,32 @@
+{
+	"$schema": "https://turborepo.org/schema.json",
+	"tasks": {
+		"build": {
+			"cache": true,
+			"inputs": ["$TURBO_DEFAULT$", "src/**"],
+			"outputs": ["./types"]
+		},
+		"//#build:doc": {
+			"cache": true,
+			"inputs": ["$TURBO_DEFAULT$", "src/**"],
+			"outputs": ["./docs"]
+		},
+		"lint": {
+			"cache": true
+		},
+		"lint:svelte": {
+			"cache": true
+		},
+		"lint:ts": {
+			"cache": true
+		},
+		"//#_test": {
+			"cache": true,
+			"inputs": ["src/**", "test/**"],
+			"outputs": [".coverage/**"]
+		}
+	},
+	"remoteCache": {
+		"signature": true
+	}
+}

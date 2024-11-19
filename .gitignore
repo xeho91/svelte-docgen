@@ -16,5 +16,8 @@ pnpm-debug.log*
 # Sensitive data
 .env
 
+# Turbo cache
+.turbo/
+
 # Tests coverage (auto-generated)
 coverage/
