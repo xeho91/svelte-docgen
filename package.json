@@ -29,8 +29,8 @@
 		"lint:typos": "typos --verbose",
 		"serve:doc": "serve \"./docs\" ",
 		"test": "turbo run _test",
-		"_test": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json",
-		"_version": "pnpm changeset version && pnpm fix:format"
+		"_ci:test": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json",
+		"_ci:version": "pnpm changeset version && pnpm fix:format"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",

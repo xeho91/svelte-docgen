@@ -1,22 +1,22 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
+	"allowSyntheticDefaultImports": true,
 	"compilerOptions": {
 		"allowJs": true,
 		"checkJs": true,
-		"lib": ["DOM", "ESNext"],
+		"lib": ["ESNext"],
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"noEmit": true,
-		"plugins": [
-			{
-				"name": "typescript-svelte-plugin",
-				"enabled": true,
-				"assumeIsSvelteProject": true
-			}
-		],
+		"noEmitOnError": true,
+		"noErrorTruncation": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": ["node", "svelte"]
+		"types": ["node"],
+		"verbatimModuleSyntax": true
 	},
+	"exclude": ["node_modules/"],
 	"include": ["examples/", "src/", "tests/"]
 }

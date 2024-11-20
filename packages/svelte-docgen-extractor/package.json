@@ -1,10 +1,10 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "svelte-docgen",
-	"version": "0.0.1",
+	"name": "svelte-docgen-extractor",
+	"version": "0.0.0",
 	"type": "module",
 	"description": "Generate documentation for Svelte components",
-	"keywords": ["svelte", "documentation", "props", "docgen"],
+	"keywords": ["svelte", "documentation", "component", "props", "docgen", "extractor"],
 	"license": "MIT",
 	"author": {
 		"name": "Mateusz Kadlubowski",
@@ -15,7 +15,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/xeho91/svelte-docgen.git",
-		"directory": "libs/svelte-docgen"
+		"directory": "libs/svelte-docgen-extractor"
 	},
 	"bugs": "https://github.com/xeho91/svelte-docgen/issues",
 	"funding": [
@@ -47,7 +47,7 @@
 	"scripts": {
 		"build": "pnpm run \"/^build:.*/\" ",
 		"build:doc": "typedoc",
-		"build:types": "dts-buddy",
+		"build:pkg": "dts-buddy",
 		"clean": "pnpm run \"/^clean:.*/\"; rm -rf \"./**/node_modules\" ",
 		"clean:cache": "rm -rf \"./node_modules/.cache\" ",
 		"clean:doc": "rm -rf \"./docs\" ",
@@ -67,7 +67,7 @@
 		"lint:js": "biome lint . --verbose",
 		"lint:ts": "tsc --noEmit",
 		"lint:typos": "typos --verbose",
-		"prepare": "pnpm build:types",
+		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
 		"test": "vitest run . --passWithNoTests"
 	},
@@ -75,8 +75,7 @@
 		"svelte2tsx": "^0.7.26"
 	},
 	"devDependencies": {
-		"dts-buddy": "0.5.3",
-		"typescript-svelte-plugin": "0.3.43"
+		"dts-buddy": "0.5.3"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0",
