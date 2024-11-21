@@ -1,0 +1,27 @@
+{
+  "projectName": "svelte-docgen",
+  "projectOwner": "xeho91",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 50,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "xeho91",
+      "name": "Mateusz Kadlubowski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18627568?v=4",
+      "profile": "https://github.com/xeho91",
+      "contributions": [
+        "code",
+        "infra",
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": false
+}
