@@ -2,7 +2,6 @@
 @component Native button component
 @category Atom
 @subcategory Semantic
-
 -->
 
 <script lang="ts">
@@ -31,8 +30,7 @@ interface Props extends HTMLButtonAttributes {
 	 */
 	children: Snippet;
 }
-
-const {
+let {
 	primary = false,
 	backgroundColor,
 	size = $bindable("medium"),

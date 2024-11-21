@@ -50,8 +50,7 @@ describe("Compiler", () => {
 
 
 
-
-				const {
+				let {
 					primary = false,
 					backgroundColor,
 					size = $bindable("medium"),

@@ -13,7 +13,7 @@ export class PropExtractor {
 	/**
 	 * @param {ts.Symbol} symbol
 	 * @param {ts.Type} type
-	 * */
+	 */
 	constructor(symbol, type) {
 		this.symbol = symbol;
 		this.type = type;
