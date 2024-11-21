@@ -266,8 +266,6 @@ export class Extractor {
 				return default_host.fileExists(filepath);
 			},
 			getSourceFile: (filepath, language_version, on_error) => {
-				const without_tsx = filepath.replace(/.svelte.tsx$/, ".svelte");
-				const last_modified = ts.sys.getModifiedTime?.(without_tsx);
 				const cached = this.#cache.get(filepath);
 				if (cached?.source) return cached.source;
 				/** @type {ts.SourceFile | undefined} */
@@ -286,7 +284,7 @@ export class Extractor {
 					source = default_host.getSourceFile(filepath, language_version, on_error);
 				}
 				if (!source) throw new Error(`Source file was not found by program: ${filepath}`);
-				this.#cache.set(filepath, { source, last_modified });
+				this.#cache.set(filepath, { source });
 				return source;
 			},
 			readFile: (filepath) => {

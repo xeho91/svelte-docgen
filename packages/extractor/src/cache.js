@@ -47,8 +47,10 @@ export class Cache {
 	set(filepath, updated) {
 		const cached = this.#cached.get(filepath);
 		if (cached) return { ...cached, ...updated };
-		this.#cached.set(filepath, updated);
-		return updated;
+		const last_modified = ts.sys.getModifiedTime?.(filepath);
+		const value = { ...updated, last_modified };
+		this.#cached.set(filepath, value);
+		return value;
 	}
 }
 
