@@ -2,7 +2,7 @@ import path from "node:path";
 import url from "node:url";
 
 import { createCacheStorage } from "../src/cache.js";
-import type { SvelteFilepath } from "../src/util.js";
+import type { Options, SvelteFilepath } from "../src/util.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
