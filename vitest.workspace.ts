@@ -11,8 +11,8 @@ const __dirname = path.dirname(__filename);
 const config = defineWorkspace([
 	{
 		test: {
-			name: "svelte-docgen",
-			root: path.resolve(__dirname, "packages", "svelte-docgen-extractor"),
+			name: "extractor",
+			root: path.resolve(__dirname, "packages", "extractor"),
 			env: Object.assign(process.env, loadEnv("", path.resolve(__dirname), "")),
 			typecheck: {
 				enabled: true,

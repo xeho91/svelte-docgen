@@ -55,7 +55,7 @@
 		"clean:types": "rm -rf \"./types\" ",
 		"dev": "pnpm run \"/^dev:.*/\" ",
 		"dev:doc": "typedoc --watch",
-		"dev:test": "pnpm vitest watch --passWithNoTests --ui",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"extractor\" ",
 		"fix": "pnpm run \"/^fix:.*/\" ",
 		"fix:biome": "biome check . --verbose --write",
 		"fix:format": "biome format . --verbose --write",
@@ -69,7 +69,7 @@
 		"lint:typos": "typos --verbose",
 		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
-		"test": "vitest run . --passWithNoTests"
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"extractor\" "
 	},
 	"dependencies": {
 		"svelte2tsx": "^0.7.26"
