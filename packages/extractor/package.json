@@ -72,8 +72,7 @@
 		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"extractor\" "
 	},
 	"dependencies": {
-		"svelte2tsx": "^0.7.26",
-		"svelte-docgen-extractor": "workspace:*"
+		"svelte2tsx": "^0.7.26"
 	},
 	"devDependencies": {
 		"dts-buddy": "0.5.3"

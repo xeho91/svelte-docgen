@@ -62,9 +62,6 @@ importers:
       svelte:
         specifier: ^5.0.0
         version: 5.2.0
-      svelte-docgen-extractor:
-        specifier: workspace:*
-        version: 'link:'
       svelte2tsx:
         specifier: ^0.7.26
         version: 0.7.26(svelte@5.2.0)(typescript@5.6.3)
@@ -81,6 +78,9 @@ importers:
       svelte:
         specifier: ^5.0.0
         version: 5.2.0
+      svelte-docgen-extractor:
+        specifier: workspace:*
+        version: link:../extractor
       svelte2tsx:
         specifier: ^0.7.26
         version: 0.7.26(svelte@5.2.0)(typescript@5.6.3)

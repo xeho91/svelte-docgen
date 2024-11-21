@@ -11,8 +11,9 @@ import { Compiler } from "./compiler.js";
 import { DocumentationExtractor } from "./documentation.js";
 import { Parser } from "./parser.js";
 import { PropExtractor } from "./prop.js";
+import { validate_filepath } from "./util.js";
 
-export class Extractor {
+class Extractor {
 	/** @type {SvelteFilepath} */
 	filepath;
 	/**
@@ -423,4 +424,14 @@ export class Extractor {
 		}
 		return this.#cached_extracted_from_render_fn;
 	}
+}
+
+/**
+ * @param {string} filepath
+ * @param {ConstructorParameters<typeof Extractor>[1]} options
+ * @returns {Extractor}
+ */
+export function extract(filepath, options) {
+	validate_filepath(filepath);
+	return new Extractor(filepath, options);
 }
