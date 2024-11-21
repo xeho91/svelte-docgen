@@ -1,10 +1,10 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "svelte-docgen-extractor",
+	"name": "svelte-docgen",
 	"version": "0.0.0",
 	"type": "module",
 	"description": "Generate documentation for Svelte components",
-	"keywords": ["svelte", "documentation", "component", "props", "docgen", "extractor"],
+	"keywords": ["svelte", "documentation", "component", "props", "docgen", "analyzer"],
 	"license": "MIT",
 	"author": {
 		"name": "Mateusz Kadlubowski",
@@ -15,7 +15,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/xeho91/svelte-docgen.git",
-		"directory": "libs/svelte-docgen-extractor"
+		"directory": "libs/svelte-docgen"
 	},
 	"bugs": "https://github.com/xeho91/svelte-docgen/issues",
 	"funding": [
@@ -55,7 +55,7 @@
 		"clean:types": "rm -rf \"./types\" ",
 		"dev": "pnpm run \"/^dev:.*/\" ",
 		"dev:doc": "typedoc --watch",
-		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"extractor\" ",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"svelte-docgen\" ",
 		"fix": "pnpm run \"/^fix:.*/\" ",
 		"fix:biome": "biome check . --verbose --write",
 		"fix:format": "biome format . --verbose --write",
@@ -69,11 +69,10 @@
 		"lint:typos": "typos --verbose",
 		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
-		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"extractor\" "
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"svelte-docgen\" "
 	},
 	"dependencies": {
-		"svelte2tsx": "^0.7.26",
-		"svelte-docgen-extractor": "workspace:*"
+		"svelte2tsx": "^0.7.26"
 	},
 	"devDependencies": {
 		"dts-buddy": "0.5.3"

@@ -19,6 +19,16 @@ const config = defineWorkspace([
 			},
 		},
 	},
+	{
+		test: {
+			name: "svelte-docgen",
+			root: path.resolve(__dirname, "packages", "svelte-docgen"),
+			env: Object.assign(process.env, loadEnv("", path.resolve(__dirname), "")),
+			typecheck: {
+				enabled: true,
+			},
+		},
+	},
 ]);
 
 export default config;
