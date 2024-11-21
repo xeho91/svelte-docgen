@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 
 import { DocumentationExtractor } from "../src/documentation.js";
 import { Parser } from "../src/parser.js";
-import { create_path_to_example_component } from "./util.js";
+import { create_path_to_example_component } from "./shared.js";
 
 describe("DocumentationExtractor", () => {
 	describe("description", () => {

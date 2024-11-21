@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 
 import { Extractor } from "../src/mod.js";
 import { PropExtractor } from "../src/prop.js";
-import { create_path_to_example_component } from "./util.js";
+import { create_path_to_example_component } from "./shared.js";
 
 describe("PropExractor", () => {
 	it("creates properties required for further transformation correctly", ({ expect }) => {
