@@ -45,7 +45,7 @@ export class Extractor {
 	 * @param {SvelteFilepath} filepath
 	 * @param {Partial<Options>} options
 	 */
-	constructor(filepath, options) {
+	constructor(filepath, options = {}) {
 		this.filepath = filepath;
 		this.options = { ...this.options, ...options };
 		this.parser = new Parser(this.filepath);

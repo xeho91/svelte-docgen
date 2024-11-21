@@ -23,7 +23,7 @@ export class DocumentationExtractor {
 	}
 
 	/** @type {RegExp} */
-	#regex = /(@\w+)\s+(.*)?/s;
+	#regex = /(@\w+)(\s+(.*)?)?/s;
 	/** @type {string | undefined} */
 	#latest_tag;
 	/** @type {string[]} */
@@ -43,7 +43,8 @@ export class DocumentationExtractor {
 			this.#wrap_latest_tag();
 			const [_, tag, content] = this.#regex.exec(trimmed) ?? [];
 			this.#latest_tag = tag;
-			for (const line of content.split("\n")) this.#parse_line(line);
+			this.#latest_tag_content.push(content);
+			// for (const line of content.split("\n")) this.#parse_line(line);
 		} else this.#latest_tag_content.push(trimmed);
 	}
 
