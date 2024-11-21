@@ -244,7 +244,7 @@ describe("Extractor", () => {
 			expect(extracted.slots.get("default")).toHaveLength(2);
 		});
 
-		it("handles mutliple slots", ({ expect }) => {
+		it("handles multiple slots", ({ expect }) => {
 			const filepath = create_path_to_example_component("extractor", "slots", "multiple.svelte");
 			const extracted = new Extractor(filepath);
 			expect(extracted.slots).toHaveLength(4);
