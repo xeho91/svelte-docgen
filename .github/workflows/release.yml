@@ -52,4 +52,4 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   title: "chore(Changesets): Versioning package(s)"
-                  version: pnpm run "_ci:version"
+                  version: "pnpm run _ci:version"
