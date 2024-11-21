@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
 
-import { create_path_to_example_component } from "./util.js";
 import { Compiler } from "../src/compiler.js";
 import { Parser } from "../src/parser";
+import { create_path_to_example_component } from "./util.js";
 
 describe("Compiler", () => {
 	describe("filepath", () => {

@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { create_path_to_example_component } from "./util.js";
 import { Parser } from "../src/parser.js";
+import { create_path_to_example_component } from "./util.js";
 
 describe("Parser", () => {
 	describe("documentation_comment", () => {

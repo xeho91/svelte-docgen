@@ -1,10 +1,10 @@
 import { describe, it } from "vitest";
 
-import { PropExtractor } from "../src/prop.js";
 import { DocumentationExtractor } from "../src/documentation.js";
-import { Parser } from "../src/parser.js";
-import { create_path_to_example_component } from "./util.js";
 import { Extractor } from "../src/mod.js";
+import { Parser } from "../src/parser.js";
+import { PropExtractor } from "../src/prop.js";
+import { create_path_to_example_component } from "./util.js";
 
 describe("DocumentationExtractor", () => {
 	describe("description", () => {
