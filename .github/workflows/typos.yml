@@ -13,7 +13,8 @@ env:
     CARGO_TERM_COLOR: always
 
 permissions:
-    pull-requests: read
+    contents: read
+    pull-requests: write
 
 jobs:
     typos:
@@ -24,6 +25,9 @@ jobs:
             - name: Checkout to the repository
               uses: actions/checkout@v4
 
-            # https://github.com/crate-ci/typos
+            # https://github.com/reviewdog/action-typos
             - name: Spell check with `typos`
-              uses: crate-ci/typos@v1.27.3
+              uses: reviewdog/action-typos@v1
+              with:
+                  github_token: ${{ secrets.github_token }}
+                  reporter: github-pr-review

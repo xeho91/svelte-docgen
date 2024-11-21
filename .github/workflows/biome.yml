@@ -22,10 +22,12 @@ jobs:
         timeout-minutes: 1
         steps:
             # https://github.com/actions/checkout
-            - uses: actions/checkout@v4
+            - name: Checkout to the repository
+              uses: actions/checkout@v4
 
             # https://github.com/mongolyy/reviewdog-action-biome
-            - uses: mongolyy/reviewdog-action-biome@v1
+            - name: Run Biome to review
+              uses: mongolyy/reviewdog-action-biome@v1
               with:
                   github_token: ${{ secrets.github_token }}
                   reporter: github-pr-review
