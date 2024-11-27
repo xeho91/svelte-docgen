@@ -95,11 +95,11 @@ describe("DocumentationExtractor", () => {
 			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
 			expect(extracted.tags).toHaveLength(2);
 			expect(extracted.tags).toContainEqual({
-				name: "@category",
+				name: "category",
 				description: "Atom",
 			});
 			expect(extracted.tags).toContainEqual({
-				name: "@subcategory",
+				name: "subcategory",
 				description: "Semantic",
 			});
 		});
@@ -110,7 +110,7 @@ describe("DocumentationExtractor", () => {
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
 			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
 			expect(extracted.tags).toHaveLength(1);
-			const customTag = extracted.tags.find((tag) => tag.name === "@custom");
+			const customTag = extracted.tags.find((tag) => tag.name === "custom");
 			expect(customTag?.description).toMatchInlineSnapshot(`
 				"Very complex tag with {@link https://example.com}
 				and multi-line {@link https://example.com}.
