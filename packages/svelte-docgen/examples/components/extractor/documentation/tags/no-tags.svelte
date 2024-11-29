@@ -1,3 +1,0 @@
-<!--
-@component Some description
--->

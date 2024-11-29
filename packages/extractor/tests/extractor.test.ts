@@ -39,8 +39,8 @@ describe("Extractor", () => {
 			const filepath = create_path_to_example_component("extractor", "defaults", "rune.svelte");
 			const extracted = extract(filepath, OPTIONS);
 			expect(extracted.defaults).toHaveLength(2);
-			expect(extracted.defaults.get("id")?.isStringLiteral()).toBe(true);
-			expect(extracted.defaults.get("onclick")?.getCallSignatures()).toHaveLength(1);
+			expect(extracted.defaults.get("id")?.getText()).toMatchInlineSnapshot(`""button-123""`);
+			expect(extracted.defaults.get("onclick")?.getText()).toMatchInlineSnapshot(`"() => {}"`);
 			expect(extracted.defaults.has("disabled")).toBe(false);
 		});
 
@@ -48,8 +48,8 @@ describe("Extractor", () => {
 			const filepath = create_path_to_example_component("extractor", "defaults", "legacy-let-export.svelte");
 			const extracted = extract(filepath, OPTIONS);
 			expect(extracted.defaults).toHaveLength(2);
-			expect(extracted.defaults.get("id")?.isNumberLiteral()).toBe(true);
-			expect(extracted.defaults.get("name")?.isStringLiteral()).toBe(true);
+			expect(extracted.defaults.get("id")?.getText()).toMatchInlineSnapshot(`"42"`);
+			expect(extracted.defaults.get("name")?.getText()).toMatchInlineSnapshot(`""Chuck""`);
 			expect(extracted.defaults.has("age")).toBe(false);
 		});
 	});
@@ -108,6 +108,13 @@ describe("Extractor", () => {
 			expect(extracted.slots.get("footer")).toBeDefined();
 			expect(extracted.slots.get("footer")).toHaveLength(1);
 			expect(extracted.slots.get("footer")?.get("footnote")).toBeDefined();
+		});
+
+		it("covers fallback slot with no passed data", ({ expect }) => {
+			const filepath = create_path_to_example_component("extractor", "slots", "fallback.svelte");
+			const extracted = extract(filepath, OPTIONS);
+			expect(extracted.slots).toHaveLength(1);
+			expect(extracted.slots.get("default")).toBeDefined();
 		});
 	});
 

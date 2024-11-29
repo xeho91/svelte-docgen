@@ -4,7 +4,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"description": "Generate documentation for Svelte components",
-	"keywords": ["svelte", "documentation", "component", "props", "docgen", "extractor"],
+	"keywords": [
+		"svelte",
+		"documentation",
+		"component",
+		"props",
+		"docgen",
+		"extractor"
+	],
 	"license": "MIT",
 	"author": {
 		"name": "Mateusz Kadlubowski",
@@ -35,7 +42,10 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"files": ["src/", "types/"],
+	"files": [
+		"src/",
+		"types/"
+	],
 	"exports": {
 		".": {
 			"types": "./types/mod.d.ts",
@@ -72,6 +82,7 @@
 		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"extractor\" "
 	},
 	"dependencies": {
+		"magic-string": "0.30.14",
 		"svelte2tsx": "^0.7.26"
 	},
 	"devDependencies": {

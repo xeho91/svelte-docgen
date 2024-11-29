@@ -59,6 +59,9 @@ importers:
 
   packages/extractor:
     dependencies:
+      magic-string:
+        specifier: 0.30.14
+        version: 0.30.14
       svelte:
         specifier: ^5.0.0
         version: 5.2.0
@@ -1169,6 +1172,9 @@ packages:
 
   magic-string@0.30.13:
     resolution: {integrity: sha512-8rYBO+MsWkgjDSOvLomYnzhdwEG51olQ4zL5KXnNJWV5MNmrb4rTZdrtkhxjnD/QyZUqR/Z/XDsUs/4ej2nx0g==}
+
+  magic-string@0.30.14:
+    resolution: {integrity: sha512-5c99P1WKTed11ZC0HMJOj6CDIue6F8ySu+bJL+85q1zBEIY8IklrJ1eiKC2NDRh3Ct3FcvmJPyQHb9erXMTJNw==}
 
   magicast@0.3.5:
     resolution: {integrity: sha512-L0WhttDl+2BOsybvEOLK7fW3UA0OQ0IQ2d6Zl2x/a6vVRs3bAY0ECOSHHeL5jD+SbOpOCUEi0y1DgHEn9Qn1AQ==}
@@ -2702,7 +2708,7 @@ snapshots:
       globrex: 0.1.2
       kleur: 4.1.5
       locate-character: 3.0.0
-      magic-string: 0.30.13
+      magic-string: 0.30.14
       sade: 1.8.1
       tiny-glob: 0.2.9
       ts-api-utils: 1.4.0(typescript@5.6.3)
@@ -3035,6 +3041,10 @@ snapshots:
   lunr@2.3.9: {}
 
   magic-string@0.30.13:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.0
+
+  magic-string@0.30.14:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 

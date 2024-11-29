@@ -1,95 +1,68 @@
 /**
- * @import { BaseDocumentation, Tag } from "./shared.js";
+ * @import { ExportsDocumentation } from "./exports.js";
+ * @import { EventsDocumentation } from "./events.js";
  * @import { PropDocumentation } from "./props.js";
+ * @import { BaseDocumentation } from "./shared.js";
+ * @import { SlotsDocumentation } from "./slots.js";
  */
 
 import { extract } from "svelte-docgen-extractor";
 
-/**
- * @typedef ModernComponentDocumentation
- * @prop {false} isLegacy
- * @prop {PropDocumentation[]} props
- * @prop {PropDocumentation[]} bindings
- * @prop {PropDocumentation[]} snippets
- * @prop {never} slots
- * @prop {never} exports
- * @prop {never} events
- */
+import { generate_component_documentation } from "./component.js";
+import { generate_events_documentation } from "./events.js";
+import { generate_exports_documentation } from "./exports.js";
+import { generate_props_documentation } from "./props.js";
+import { generate_slots_documentation } from "./slots.js";
 
-/**
- * @typedef LegacyComponentDocumentation
- * @prop {true} isLegacy
- * @prop {PropDocumentation[]} props
- * @prop {never} bindings
- * @prop {never} snippets
- * @prop {PropDocumentation[]} slots
- * @prop {PropDocumentation[]} exports
- * @prop {PropDocumentation[]} events
- */
+class Documentation {
+	/** @type {ReturnType<typeof extract>} */
+	#extractor;
 
-/**
- * @typedef {ModernComponentDocumentation | LegacyComponentDocumentation} ComponentDocumentation
- */
+	/**
+	 * @param {string} filepath
+	 * @param {GeneratorOptions} options
+	 */
+	constructor(filepath, options) {
+		this.#extractor = extract(filepath, options);
+	}
 
-/**
- * @typedef {BaseDocumentation & ComponentDocumentation} Documentation
- */
+	/** @returns {BaseDocumentation} */
+	get component() {
+		return generate_component_documentation(this.#extractor);
+	}
 
-/**
- * @typedef {BaseDocumentation} BindableDocumentation
- * @prop {string} type
- * @prop {string} alias
- */
+	/** @returns {boolean} */
+	get isLegacy() {
+		const has_slots = this.#extractor.slots.size > 0;
+		const has_exports = this.#extractor.events.size > 0;
+		return this.#extractor.parser.has_legacy_syntax || has_slots || has_exports;
+	}
 
-const FIELD_CREATORS = /** @type {const} */ ({
-	documentation: create_documentation,
-	tags: create_tags,
-	props: create_props,
-	bindings: create_bindings,
-	snippets: create_snippets,
-	slots: create_slots,
-	exports: create_exports,
-	events: create_events,
-});
+	/** @returns {Map<string, PropDocumentation>} */
+	get props() {
+		return generate_props_documentation(this.#extractor);
+	}
 
-/** @returns {Documentation['documentation']} */
-function create_documentation() {
-	throw new Error("Not implemented");
-}
+	/** @returns {ExportsDocumentation} */
+	get exports() {
+		return generate_exports_documentation(this.#extractor);
+	}
 
-/** @returns {Documentation['tags']} */
-function create_tags() {
-	throw new Error("Not implemented");
-}
+	/** @returns {typeof this['isLegacy'] extends true ? EventsDocumentation : never} */
+	get events() {
+		// TODO: Document error
+		if (!this.isLegacy) throw new Error();
+		// @ts-expect-error Not worth it?
+		return generate_events_documentation(this.#extractor);
+	}
 
-/** @returns {Documentation['props']} */
-function create_props() {
-	throw new Error("Not implemented");
-}
-
-/** @returns {Documentation['bindings']} */
-function create_bindings() {
-	throw new Error("Not implemented");
-}
-
-/** @returns {Documentation['snippets']} */
-function create_snippets() {
-	throw new Error("Not implemented");
-}
-
-/** @returns {Documentation['slots']} */
-function create_slots() {
-	throw new Error("Not implemented");
-}
-
-/** @returns {Documentation['exports']} */
-function create_exports() {
-	throw new Error("Not implemented");
-}
-
-/** @returns {Documentation['events']} */
-function create_events() {
-	throw new Error("Not implemented");
+	/** @returns {typeof this['isLegacy'] extends true ? SlotsDocumentation : never} */
+	get slots() {
+		// TODO: Document error
+		if (!this.isLegacy) throw new Error();
+		// @ts-expect-error Not worth it?
+		return generate_slots_documentation(this.#extractor);
+	}
 }
 
 /**
@@ -107,16 +80,6 @@ export function generate(filepath, options = {}) {
 		// TODO: Provide default options
 		...options,
 	};
-	/** @type {Documentation} */
-	let documentation = {};
+	const documentation = new Documentation(filepath, merged_options);
 	return [filepath, documentation];
-}
-
-const [filepath, doc] = generate("test.svelte", { fields: ["documentation", "tags", "props", "snippets"] });
-
-if (doc.isLegacy) {
-	doc.slots;
-} else {
-	doc.slots;
-	doc.snippets;
 }

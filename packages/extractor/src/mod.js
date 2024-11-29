@@ -10,7 +10,6 @@ import { createCacheStorage } from "./cache.js";
 import { Compiler } from "./compiler.js";
 import { DocumentationExtractor } from "./documentation.js";
 import { Parser } from "./parser.js";
-import { PropExtractor } from "./prop.js";
 import { validate_filepath } from "./util.js";
 
 class Extractor {
@@ -24,9 +23,9 @@ class Extractor {
 		cwd: process.cwd(),
 	};
 	/** @type {Parser} */
-	#parser;
+	parser;
 	/** @type {Compiler} */
-	#compiler;
+	compiler;
 
 	/**
 	 * @param {SvelteFilepath} filepath
@@ -35,17 +34,17 @@ class Extractor {
 	constructor(filepath, options = {}) {
 		this.filepath = filepath;
 		this.#options = { ...this.#options, ...options };
-		this.#parser = new Parser(this.filepath);
-		this.#compiler = new Compiler(this.filepath, this.#parser);
+		this.parser = new Parser(this.filepath);
+		this.compiler = new Compiler(this.filepath, this.parser);
 	}
 
 	/** @returns {DocumentationExtractor | undefined} */
 	get documentation() {
-		if (this.#parser.documentation_comment) return new DocumentationExtractor(this.#parser.documentation_comment);
+		if (this.parser.documentation_comment) return new DocumentationExtractor(this.parser.documentation_comment);
 		return undefined;
 	}
 
-	/** @returns {Map<string, PropExtractor>} */
+	/** @returns {Map<string, ts.Symbol>} */
 	get props() {
 		// biome-ignore lint/style/useConst: Readability: mutation
 		let results = new Map();
@@ -54,23 +53,20 @@ class Extractor {
 		if (!props) throw new Error("props not found");
 		for (const symbol of props.getProperties()) {
 			const name = symbol.getName();
-			const type = this.#checker.getTypeOfSymbolAtLocation(symbol, this.#fn_render);
-			results.set(name, new PropExtractor(symbol, type));
+			results.set(name, symbol);
 		}
 		return results;
 	}
 
-	/** @returns {Map<string, ts.Type>} */
+	/** @returns {Map<string, ts.BindingElement>} */
 	get defaults() {
 		// biome-ignore lint/style/useConst: Readability: mutation
 		let results = new Map();
 		if (this.#props_obj) {
 			for (const binding of this.#props_obj?.elements ?? []) {
-				if (binding.initializer) {
-					const name = binding.name.getText();
-					const type = this.#checker.getTypeAtLocation(binding.initializer);
-					results.set(name, type);
-				}
+				if (!binding.initializer) continue;
+				const name = binding.name.getText();
+				results.set(name, binding.initializer);
 			}
 		} else {
 			// TODO: Remove when Svelte drops support for legacy export let (v4)
@@ -78,11 +74,9 @@ class Extractor {
 				if (ts.isVariableStatement(statement) && (statement.flags & ts.NodeFlags.Let) === 0) {
 					const first_item = statement.declarationList.declarations[0];
 					if (!first_item) continue;
-					const initializer = first_item.initializer;
-					if (!initializer) continue;
+					if (!first_item.initializer) continue;
 					const name = first_item.name.getText();
-					const type = this.#checker.getTypeAtLocation(initializer);
-					results.set(name, type);
+					results.set(name, first_item.initializer);
 				}
 			}
 		}
@@ -97,7 +91,13 @@ class Extractor {
 		// TODO: Document error
 		if (!bindings) throw new Error("bindings not found");
 		// NOTE: No bindings, is empty
-		if (bindings.isStringLiteral() && bindings.value === "") return results;
+		if (
+			//
+			(bindings.isStringLiteral() && bindings.value === "") ||
+			this.checker.typeToString(bindings) === "string"
+		) {
+			return results;
+		}
 		// TODO: Document error
 		if (!bindings?.isUnion()) throw new Error("bindings is not an union");
 		for (const type of bindings.types) {
@@ -109,7 +109,7 @@ class Extractor {
 	}
 
 	/**
-	 * @returns {Map<string, Map<string, ts.Type>>}
+	 * @returns {Map<string, Map<string, ts.Symbol>>}
 	 * TODO: Remove when Svelte stops support for legacy slots (v4)
 	 */
 	get slots() {
@@ -120,21 +120,20 @@ class Extractor {
 		if (!slots) throw new Error("slots not found");
 		for (const symbol of slots.getProperties()) {
 			const name = symbol.getName();
-			const type = this.#checker.getTypeOfSymbolAtLocation(symbol, this.#source_file);
+			const type = this.checker.getTypeOfSymbolAtLocation(symbol, this.#source_file);
 			// biome-ignore lint/style/useConst: Readability: mutation
-			let nested_types = new Map();
+			let props_symbols = new Map();
 			for (const symbol of type.getProperties()) {
 				const slot_prop_name = symbol.getName();
-				const slot_prop_type = this.#checker.getTypeOfSymbolAtLocation(symbol, this.#source_file);
-				nested_types.set(slot_prop_name, slot_prop_type);
+				props_symbols.set(slot_prop_name, symbol);
 			}
-			results.set(name, nested_types);
+			results.set(name, props_symbols);
 		}
 		return results;
 	}
 
 	/**
-	 * @returns {Map<string, ts.Type>}
+	 * @returns {Map<string, ts.Symbol>}
 	 * TODO: Remove when Svelte stops support for legacy exports from instance script (v4)
 	 */
 	get exports() {
@@ -145,13 +144,12 @@ class Extractor {
 		if (!exports) throw new Error("exports not found");
 		for (const symbol of exports.getProperties()) {
 			const name = symbol.getName();
-			const type = this.#checker.getTypeOfSymbolAtLocation(symbol, this.#source_file);
-			results.set(name, type);
+			results.set(name, symbol);
 		}
 		return results;
 	}
 	/**
-	 * @returns {Map<string, ts.Type>}
+	 * @returns {Map<string, ts.Symbol>}
 	 * TODO: Remove when Svelte stops support for legacy custom events (v4)
 	 */
 	get events() {
@@ -162,8 +160,7 @@ class Extractor {
 		if (!events) throw new Error("events not found");
 		for (const symbol of events.getProperties()) {
 			const name = symbol.getName();
-			const type = this.#checker.getTypeOfSymbolAtLocation(symbol, this.#source_file);
-			results.set(name, type);
+			results.set(name, symbol);
 		}
 		return results;
 	}
@@ -186,7 +183,7 @@ class Extractor {
 	 * @returns {ts.Program}
 	 */
 	#create_program() {
-		this.#cache.root_names.add(this.#compiler.filepath);
+		this.#cache.root_names.add(this.compiler.filepath);
 		const program = ts.createProgram({
 			rootNames: Array.from(this.#cache.root_names),
 			options: this.#get_ts_options(),
@@ -263,7 +260,7 @@ class Extractor {
 		const overridden_methods = {
 			fileExists: (filepath) => {
 				if (this.#cache.has(filepath)) return true;
-				if (filepath === this.#compiler.filepath) return true;
+				if (filepath === this.compiler.filepath) return true;
 				return default_host.fileExists(filepath);
 			},
 			getSourceFile: (filepath, language_version, on_error) => {
@@ -271,15 +268,15 @@ class Extractor {
 				if (cached?.source) return cached.source;
 				/** @type {ts.SourceFile | undefined} */
 				let source;
-				if (filepath === this.#compiler.filepath) {
-					const content = this.#compiler.tsx.code;
+				if (filepath === this.compiler.filepath) {
+					const content = this.compiler.tsx.code;
 					source = ts.createSourceFile(
-						this.#compiler.filepath,
+						this.compiler.filepath,
 						content,
 						language_version,
 						true,
 						// Set to 'JS' to enable TypeScript to parse JSDoc.
-						this.#parser.is_lang_typescript ? ts.ScriptKind.TS : ts.ScriptKind.JS,
+						this.parser.is_lang_typescript ? ts.ScriptKind.TS : ts.ScriptKind.JS,
 					);
 				} else {
 					source = default_host.getSourceFile(filepath, language_version, on_error);
@@ -293,8 +290,8 @@ class Extractor {
 				if (cached?.content) return cached.content;
 				/** @type {string | undefined} */
 				let content;
-				if (filepath === this.#compiler.filepath) {
-					content = this.#compiler.tsx.code;
+				if (filepath === this.compiler.filepath) {
+					content = this.compiler.tsx.code;
 				} else {
 					content = default_host.readFile(filepath);
 				}
@@ -314,7 +311,7 @@ class Extractor {
 	/** @type {ts.TypeChecker | undefined} */
 	#cached_checker;
 	/** @returns {ts.TypeChecker} */
-	get #checker() {
+	get checker() {
 		if (this.#cached_checker) return this.#cached_checker;
 		this.#cached_checker = this.#program.getTypeChecker();
 		return this.#cached_checker;
@@ -325,13 +322,13 @@ class Extractor {
 	/** @returns {ts.SourceFile} */
 	get #source_file() {
 		if (this.#cached_source_file) return this.#cached_source_file;
-		const from_cache = this.#cache.get(this.#compiler.filepath)?.source;
+		const from_cache = this.#cache.get(this.compiler.filepath)?.source;
 		if (from_cache) return from_cache;
-		const from_program = this.#program.getSourceFile(this.#compiler.filepath);
+		const from_program = this.#program.getSourceFile(this.compiler.filepath);
 		//O TODO: Document it
 		if (!from_program)
-			throw new Error(`Source file could not be found by TypeScript program: ${this.#compiler.filepath}`);
-		this.#cached_source_file = this.#cache.set(this.#compiler.filepath, { source: from_program }).source;
+			throw new Error(`Source file could not be found by TypeScript program: ${this.compiler.filepath}`);
+		this.#cached_source_file = this.#cache.set(this.compiler.filepath, { source: from_program }).source;
 		return from_program;
 	}
 
@@ -400,10 +397,10 @@ class Extractor {
 	/** @returns {{ [key in RenderFnKey]?: ts.Type }} */
 	get #extracted_from_render_fn() {
 		if (this.#cached_extracted_from_render_fn) return this.#cached_extracted_from_render_fn;
-		const signature = this.#checker.getSignatureFromDeclaration(this.#fn_render);
+		const signature = this.checker.getSignatureFromDeclaration(this.#fn_render);
 		// TODO: Document error
 		if (!signature) throw new Error("signature not found");
-		const return_type = this.#checker.getReturnTypeOfSignature(signature);
+		const return_type = this.checker.getReturnTypeOfSignature(signature);
 		const properties = return_type.getProperties();
 		this.#cached_extracted_from_render_fn = {};
 		// biome-ignore format: Prettier
@@ -416,7 +413,7 @@ class Extractor {
 				case "slots":
 				case "exports":
 				case "events": {
-					this.#cached_extracted_from_render_fn[name] = this.#checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
+					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
 					continue;
 				}
 				default: continue;
@@ -435,3 +432,5 @@ export function extract(filepath, options) {
 	validate_filepath(filepath);
 	return new Extractor(filepath, options);
 }
+
+export { createCacheStorage };
