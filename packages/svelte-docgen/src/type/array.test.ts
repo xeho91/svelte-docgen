@@ -1,8 +1,8 @@
 import { it } from "vitest";
 
-import { generate } from "../mod.js";
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
 import type { ArrayDocumentation } from "../documentation.ts";
+import { generate } from "../mod.js";
 
 const filepath = create_path_to_example_component("data", "type", "array.svelte");
 const generated = generate(filepath, OPTIONS);

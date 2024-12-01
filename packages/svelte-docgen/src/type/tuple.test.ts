@@ -1,8 +1,8 @@
 import { it } from "vitest";
 
+import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
 import type { TupleDocumentation } from "../documentation.ts";
 import { generate } from "../mod.js";
-import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
 
 const filepath = create_path_to_example_component("data", "type", "tuple.svelte");
 const generated = generate(filepath, OPTIONS);

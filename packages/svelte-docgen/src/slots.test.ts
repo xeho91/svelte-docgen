@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { generate } from "./mod.js";
 import { OPTIONS, create_path_to_example_component } from "../tests/shared.js";
+import { generate } from "./mod.js";
 
 describe("generate(filepath)[1].slots", () => {
 	it("returns empty object is component doesn't include slots (legacy)", ({ expect }) => {

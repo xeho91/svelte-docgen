@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { generate } from "./mod.js";
 import { OPTIONS, create_path_to_example_component } from "../tests/shared.js";
+import { generate } from "./mod.js";
 describe("generate(filepath)[1].props", () => {
 	it("returns empty map if component doesn't have any props", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "props", "none.svelte");
