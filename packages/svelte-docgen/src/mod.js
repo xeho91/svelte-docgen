@@ -6,7 +6,7 @@
  * @import { SlotsDocumentation } from "./slots.js";
  */
 
-import { extract } from "svelte-docgen-extractor";
+import { extract } from "@svelte-docgen/extractor";
 
 import { generate_component_documentation } from "./component.js";
 import { generate_events_documentation } from "./events.js";

@@ -1,5 +1,5 @@
 /**
- * @import { extract } from "svelte-docgen-extractor";
+ * @import { extract } from "@svelte-docgen/extractor";
  *
  * @import { BaseDocumentation } from "./shared.js";
  * @import { TypeDocumentation } from "./type.js";

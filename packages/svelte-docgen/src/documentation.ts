@@ -1,4 +1,4 @@
-import type { extract } from "svelte-docgen-extractor";
+import type { extract } from "@svelte-docgen/extractor";
 import type ts from "typescript";
 
 import type { parse_stringified_type } from "./shared.js";

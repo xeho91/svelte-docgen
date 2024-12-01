@@ -1,5 +1,5 @@
 /**
- * @import { extract } from "svelte-docgen-extractor";
+ * @import { extract } from "@svelte-docgen/extractor";
  */
 
 import ts from "typescript";

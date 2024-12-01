@@ -1,6 +1,6 @@
 # `@svelte-docgen/extractor`
 
-![NPM Version](https://img.shields.io/npm/v/svelte-docgen-extractor?style=for-the-badge&logo=npm)
+![NPM Version](https://img.shields.io/npm/v/@svelte-docgen/extractor?style=for-the-badge&logo=npm)
 
 Package for extracting documentation data/nodes from Svelte component files.
 
