@@ -3,21 +3,21 @@
 	"name": "svelte-docgen",
 	"version": "0.0.0",
 	"type": "module",
-	"description": "Generate documentation for Svelte components",
-	"keywords": ["svelte", "documentation", "component", "props", "docgen", "analyzer"],
+	"description": "Generate documentation for Svelte component(s)",
+	"keywords": ["svelte", "documentation", "component", "props", "docgen"],
 	"license": "MIT",
 	"author": {
 		"name": "Mateusz Kadlubowski",
 		"email": "xeho91@pm.me",
 		"url": "https://github.com/xeho91"
 	},
-	"homepage": "https://github.com/xeho91/svelte-docgen",
+	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/xeho91/svelte-docgen.git",
 		"directory": "libs/svelte-docgen"
 	},
-	"bugs": "https://github.com/xeho91/svelte-docgen/issues",
+	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"funding": [
 		{
 			"type": "github",
@@ -73,10 +73,10 @@
 	},
 	"dependencies": {
 		"svelte2tsx": "^0.7.26",
-		"svelte-docgen-extractor": "workspace:*"
+		"@svelte-docgen/extractor": "workspace:*"
 	},
 	"devDependencies": {
-		"dts-buddy": "0.5.3"
+		"dts-buddy": "^0.5.3"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0",

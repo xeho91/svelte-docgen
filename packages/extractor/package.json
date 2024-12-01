@@ -1,17 +1,10 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "svelte-docgen-extractor",
+	"name": "@svelte-docgen/extractor",
 	"version": "0.0.0",
 	"type": "module",
 	"description": "Generate documentation for Svelte components",
-	"keywords": [
-		"svelte",
-		"documentation",
-		"component",
-		"props",
-		"docgen",
-		"extractor"
-	],
+	"keywords": ["svelte", "documentation", "component", "props", "docgen", "extractor"],
 	"license": "MIT",
 	"author": {
 		"name": "Mateusz Kadlubowski",
@@ -21,10 +14,10 @@
 	"homepage": "https://github.com/xeho91/svelte-docgen",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/xeho91/svelte-docgen.git",
-		"directory": "libs/svelte-docgen-extractor"
+		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
+		"directory": "libs/extractor"
 	},
-	"bugs": "https://github.com/xeho91/svelte-docgen/issues",
+	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"funding": [
 		{
 			"type": "github",
@@ -42,10 +35,7 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"files": [
-		"src/",
-		"types/"
-	],
+	"files": ["src/", "types/"],
 	"exports": {
 		".": {
 			"types": "./types/mod.d.ts",
@@ -65,7 +55,7 @@
 		"clean:types": "rm -rf \"./types\" ",
 		"dev": "pnpm run \"/^dev:.*/\" ",
 		"dev:doc": "typedoc --watch",
-		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"extractor\" ",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/extractor\" ",
 		"fix": "pnpm run \"/^fix:.*/\" ",
 		"fix:biome": "biome check . --verbose --write",
 		"fix:format": "biome format . --verbose --write",
@@ -79,14 +69,13 @@
 		"lint:typos": "typos --verbose",
 		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
-		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"extractor\" "
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/extractor\" "
 	},
 	"dependencies": {
-		"magic-string": "0.30.14",
 		"svelte2tsx": "^0.7.26"
 	},
 	"devDependencies": {
-		"dts-buddy": "0.5.3"
+		"dts-buddy": "^0.5.3"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0",

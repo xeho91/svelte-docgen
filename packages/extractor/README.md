@@ -1,11 +1,11 @@
-# `svelte-docgen-extractor`
+# `@svelte-docgen/extractor`
 
 ![NPM Version](https://img.shields.io/npm/v/svelte-docgen-extractor?style=for-the-badge&logo=npm)
 
 Package for extracting documentation data/nodes from Svelte component files.
 
 > [!NOTE]
-> Use this package if you want to create your own analyser or generator.
+> Use this package if you want to create your own parser, analyser or generator.
 
 ## Dependencies
 
