@@ -9,7 +9,7 @@ import path from "node:path";
 
 import ts from "typescript";
 
-import { parse_stringified_type } from "./shared.js";
+import { is_symbol_optional, parse_stringified_type } from "./shared.js";
 import { get_type_documentation } from "./type.js";
 
 export class PropDocumentation {
@@ -29,11 +29,11 @@ export class PropDocumentation {
 
 	/** @returns {boolean} */
 	get isOptional() {
-		return (this.#symbol.getFlags() & ts.SymbolFlags.Optional) !== 0;
+		return is_symbol_optional(this.#symbol);
 	}
 
 	/**
-	 * @returns {this['isOptional'] extends true ? ReturnType<typeof JSON.parse> | undefined : never}
+	 * @returns {this['isOptional'] extends true ? ReturnType<typeof parse_stringified_type> | undefined : never}
 	 *  TODO: Should we read JSDoc tag `@default`?
 	 */
 	get default() {
@@ -98,13 +98,13 @@ export class PropDocumentation {
 		}
 		// @ts-expect-error Not worth it?
 		return Iterator.from(/** @type {ts.TupleType} */ (tuple_type_parameters).typeArguments ?? [])
-			.map((type_argument) => get_type_documentation(type_argument, this.#extractor))
+			.map((type_argument) => get_type_documentation({ type: type_argument, extractor: this.#extractor }))
 			.toArray();
 	}
 
 	/** @returns {TypeDocumentation} */
 	get type() {
-		return get_type_documentation(this.#symbol_type, this.#extractor);
+		return get_type_documentation({ type: this.#symbol_type, extractor: this.#extractor });
 	}
 
 	/**

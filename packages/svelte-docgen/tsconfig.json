@@ -3,6 +3,7 @@
 	"allowSyntheticDefaultImports": true,
 	"compilerOptions": {
 		"allowJs": true,
+		"allowImportingTsExtensions": true,
 		"checkJs": true,
 		"lib": ["ESNext"],
 		"module": "ESNext",

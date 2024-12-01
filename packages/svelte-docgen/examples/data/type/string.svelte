@@ -1,10 +1,7 @@
 <script lang="ts">
-interface Data {
-	foo: string;
-	bar: number;
-}
 interface Props {
-	data: Data;
+	loose: string;
+	literal: "awesome";
 }
 let { ..._ }: Props = $props();
 </script>
