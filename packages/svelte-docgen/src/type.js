@@ -5,7 +5,7 @@
 
 import ts from "typescript";
 
-import { is_object_type, is_tuple_type, is_type_reference } from "./shared.js";
+import { is_object_type, is_tuple_type, is_type_reference, remove_tsx_extension } from "./shared.js";
 
 /**
  * @internal
@@ -473,12 +473,4 @@ function get_type_sources(params) {
 			.map((d) => remove_tsx_extension(d.getSourceFile().fileName))
 			.toArray();
 	}
-}
-
-/**
- * @param {string} filepath
- * @returns {string}
- */
-function remove_tsx_extension(filepath) {
-	return filepath.replace(/\.tsx$/, "");
 }

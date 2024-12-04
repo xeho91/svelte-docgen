@@ -1,7 +1,7 @@
 import type { TYPE_KINDS } from "./type.js";
 
 export declare namespace Doc {
-	interface Base {
+	interface Docable {
 		description?: string;
 		tags: Tag[];
 	}
@@ -11,7 +11,7 @@ export declare namespace Doc {
 		content?: string;
 	}
 
-	interface Component extends Base {}
+	interface Component extends Docable {}
 
 	interface OptionalProp {
 		default?: Type;
@@ -21,11 +21,13 @@ export declare namespace Doc {
 		default?: never;
 		isOptional: false;
 	}
-	type Prop = Base & {
+	type Prop = Docable & {
 		default?: Type;
 		isBindable: boolean;
 		isOptional: boolean;
 		type: Type;
+		/** Where is this prop declared? Could be extended. */
+		sources: string[];
 	} & (OptionalProp | RequiredProp);
 
 	type Events = Map<string, Type>;
@@ -48,9 +50,10 @@ export declare namespace Doc {
 		| Union;
 
 	export interface BaseType {
+		/** @see {@link TYPE_KINDS} */
 		kind: TypeKind;
 		/**
-		 * Where is this type defined?
+		 * Where is this type declared?
 		 */
 		sources?: string[];
 	}

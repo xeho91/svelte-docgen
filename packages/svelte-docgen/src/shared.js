@@ -42,3 +42,11 @@ export const is_tuple_type = (type) => is_object_type(type) && (type.objectFlags
  * @returns {boolean}
  */
 export const is_symbol_optional = (symbol) => (symbol.flags & ts.SymbolFlags.Optional) !== 0;
+
+/**
+ * @param {string} filepath
+ * @returns {string}
+ */
+export function remove_tsx_extension(filepath) {
+	return filepath.replace(/\.tsx$/, "");
+}

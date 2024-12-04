@@ -5,7 +5,7 @@
 
 import ts from "typescript";
 
-import { is_symbol_optional } from "./shared.js";
+import { is_symbol_optional, remove_tsx_extension } from "./shared.js";
 import { get_type_documentation } from "./type.js";
 
 // 	/** @returns {boolean} */
@@ -84,6 +84,7 @@ function get_prop_doc(symbol, extractor) {
 		isBindable: extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
 		isOptional: is_symbol_optional(symbol),
 		type: get_type_documentation({ extractor, type }),
+		sources: get_symbol_sources(symbol),
 	};
 	const description = get_prop_description(symbol, extractor);
 	if (description) results.description = description;
@@ -123,4 +124,12 @@ function get_prop_tags(symbol, extractor) {
 		if (content) results.content = content;
 		return results;
 	});
+}
+
+/**
+ * @param {ts.Symbol} symbol
+ * @returns {Doc.Prop["sources"]}
+ */
+function get_symbol_sources(symbol) {
+	return symbol.getDeclarations()?.map((d) => remove_tsx_extension(d.getSourceFile().fileName)) ?? [];
 }
