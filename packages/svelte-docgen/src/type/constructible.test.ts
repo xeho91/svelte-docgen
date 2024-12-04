@@ -26,6 +26,9 @@ it("documents prop(s) with custom 'constructible' type - class", ({ expect }) =>
 		        "name": "bar",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "kind": "number",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -98,6 +101,9 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		        "name": "date",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "kind": "number",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -113,6 +119,9 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		        "name": "hours",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "kind": "number",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -128,6 +137,9 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		        "name": "minutes",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "kind": "number",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -143,6 +155,9 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		        "name": "seconds",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "kind": "number",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -158,6 +173,9 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		        "name": "ms",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "kind": "number",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -225,6 +243,32 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		        "name": "entries",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "element": {
+		              "elements": [
+		                {
+		                  "constraint": {
+		                    "kind": "unknown",
+		                  },
+		                  "isConst": false,
+		                  "kind": "type-parameter",
+		                  "name": "K",
+		                },
+		                {
+		                  "constraint": {
+		                    "kind": "unknown",
+		                  },
+		                  "isConst": false,
+		                  "kind": "type-parameter",
+		                  "name": "V",
+		                },
+		              ],
+		              "isReadonly": true,
+		              "kind": "tuple",
+		            },
+		            "isReadonly": true,
+		            "kind": "array",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -269,6 +313,39 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		        "name": "iterable",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "alias": "Iterable",
+		            "kind": "interface",
+		            "members": Map {
+		              "__@iterator@19" => {
+		                "isOptional": false,
+		                "isReadonly": false,
+		                "type": {
+		                  "alias": "__@iterator@19",
+		                  "calls": [
+		                    {
+		                      "parameters": [],
+		                      "returns": {
+		                        "constructors": [
+		                          [],
+		                        ],
+		                        "kind": "constructible",
+		                        "name": "Iterator",
+		                        "sources": [
+		                          "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		                          "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.esnext.iterator.d.ts",
+		                        ],
+		                      },
+		                    },
+		                  ],
+		                  "kind": "function",
+		                },
+		              },
+		            },
+		            "sources": [
+		              "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		            ],
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -284,6 +361,7 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		                  "isOptional": false,
 		                  "isReadonly": false,
 		                  "type": {
+		                    "alias": "__@iterator@19",
 		                    "calls": [
 		                      {
 		                        "parameters": [],
@@ -337,6 +415,21 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		        "name": "values",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "element": {
+		              "constraint": {
+		                "kind": "unknown",
+		              },
+		              "default": {
+		                "kind": "any",
+		              },
+		              "isConst": false,
+		              "kind": "type-parameter",
+		              "name": "T",
+		            },
+		            "isReadonly": true,
+		            "kind": "array",
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -369,6 +462,39 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		        "name": "iterable",
 		        "type": {
 		          "kind": "union",
+		          "nonNullable": {
+		            "alias": "Iterable",
+		            "kind": "interface",
+		            "members": Map {
+		              "__@iterator@19" => {
+		                "isOptional": false,
+		                "isReadonly": false,
+		                "type": {
+		                  "alias": "__@iterator@19",
+		                  "calls": [
+		                    {
+		                      "parameters": [],
+		                      "returns": {
+		                        "constructors": [
+		                          [],
+		                        ],
+		                        "kind": "constructible",
+		                        "name": "Iterator",
+		                        "sources": [
+		                          "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		                          "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.esnext.iterator.d.ts",
+		                        ],
+		                      },
+		                    },
+		                  ],
+		                  "kind": "function",
+		                },
+		              },
+		            },
+		            "sources": [
+		              "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		            ],
+		          },
 		          "types": [
 		            {
 		              "kind": "undefined",
@@ -384,6 +510,7 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		                  "isOptional": false,
 		                  "isReadonly": false,
 		                  "type": {
+		                    "alias": "__@iterator@19",
 		                    "calls": [
 		                      {
 		                        "parameters": [],

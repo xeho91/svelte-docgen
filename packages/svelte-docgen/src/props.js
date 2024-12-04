@@ -8,19 +8,6 @@ import ts from "typescript";
 import { is_symbol_optional, remove_tsx_extension } from "./shared.js";
 import { get_type_doc } from "./type.js";
 
-// 	/** @returns {boolean} */
-// 	get isEventHandler() {
-// 		// NOTE: Event handler cannot be an union
-// 		if (this.#non_nullable_symbol_type.isUnion()) return false;
-// 		const call_signatures = this.#non_nullable_symbol_type.getCallSignatures();
-// 		if (call_signatures.length !== 1) return false;
-// 		const return_type = call_signatures[0].getReturnType();
-// 		const has_void_flag = (return_type.getFlags() & ts.TypeFlags.Void) === 0;
-// 		const alias = this.#symbol_type.aliasSymbol;
-// 		const has_event_handler_in_alias = alias?.name.endsWith("EventHandler") ?? false;
-// 		return has_void_flag && has_event_handler_in_alias;
-// 	}
-
 /**
  * @param {Extractor} extractor
  * @returns {Doc.Props}

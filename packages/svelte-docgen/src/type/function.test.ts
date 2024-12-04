@@ -64,6 +64,21 @@ it("documents parameter(s) type if specified", ({ expect }) => {
 		          "name": "bar",
 		          "type": {
 		            "kind": "union",
+		            "nonNullable": {
+		              "alias": "Baz",
+		              "kind": "union",
+		              "sources": [
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/function.svelte",
+		              ],
+		              "types": [
+		                {
+		                  "kind": "string",
+		                },
+		                {
+		                  "kind": "number",
+		                },
+		              ],
+		            },
 		            "types": [
 		              {
 		                "kind": "undefined",

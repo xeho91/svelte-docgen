@@ -59,6 +59,9 @@ it("recognizes aliased interface", ({ expect }) => {
 		      "isReadonly": false,
 		      "type": {
 		        "kind": "union",
+		        "nonNullable": {
+		          "kind": "number",
+		        },
 		        "types": [
 		          {
 		            "kind": "undefined",
@@ -204,6 +207,9 @@ it("understands type which is an alias to interface only", ({ expect }) => {
 		      "isReadonly": false,
 		      "type": {
 		        "kind": "union",
+		        "nonNullable": {
+		          "kind": "number",
+		        },
 		        "types": [
 		          {
 		            "kind": "undefined",

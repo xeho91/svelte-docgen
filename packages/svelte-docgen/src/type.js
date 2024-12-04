@@ -173,6 +173,32 @@ function get_constructible_doc(params) {
 }
 
 /**
+ * @param  {{ parameter: ts.Symbol, extractor: Extractor, self?: string }} params
+ * @returns {Doc.FnParam}
+ */
+function get_fn_param_doc(params) {
+	const { parameter, extractor, self } = params;
+	if (!parameter.valueDeclaration || !ts.isParameter(parameter.valueDeclaration)) {
+		// TODO: Document error
+		throw new Error("Not a parameter");
+	}
+	const type = extractor.checker.getTypeOfSymbol(parameter);
+	const isOptional = parameter.valueDeclaration.questionToken !== undefined;
+	/** @type {Doc.FnParam} */
+	// biome-ignore lint/style/useConst: Readability - mutation
+	let data = {
+		name: parameter.name,
+		isOptional,
+		type: get_type_doc({ type, extractor, self }),
+	};
+	if (data.isOptional && parameter.valueDeclaration.initializer) {
+		const default_type = extractor.checker.getTypeAtLocation(parameter.valueDeclaration.initializer);
+		data.default = get_type_doc({ type: default_type, extractor, self });
+	}
+	return data;
+}
+
+/**
  * @param {GetTypeParams} params
  * @returns {Doc.Fn}
  */
@@ -192,8 +218,8 @@ function get_function_doc(params) {
 	};
 	const symbol = type.getSymbol();
 	if (symbol || type.aliasSymbol) {
-		if (symbol) results.alias = symbol.name;
-		if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
+		if (symbol && symbol.name !== "__type") results.alias = symbol.name;
+		if (type.aliasSymbol && type.aliasSymbol.name !== "__type") results.alias = type.aliasSymbol.name;
 	}
 	const sources = get_type_sources(params);
 	// NOTE: Alias is needed, because the symbol is defined and named as "__type"
@@ -286,32 +312,6 @@ function is_symbol_readonly(symbol) {
 		const modifiers = ts.getCombinedModifierFlags(d);
 		return (modifiers & ts.ModifierFlags.Readonly) !== 0;
 	});
-}
-
-/**
- * @param  {{ parameter: ts.Symbol, extractor: Extractor, self?: string }} params
- * @returns {Doc.FnParam}
- */
-function get_fn_param_doc(params) {
-	const { parameter, extractor, self } = params;
-	if (!parameter.valueDeclaration || !ts.isParameter(parameter.valueDeclaration)) {
-		// TODO: Document error
-		throw new Error("Not a parameter");
-	}
-	const type = extractor.checker.getTypeOfSymbol(parameter);
-	const isOptional = parameter.valueDeclaration.questionToken !== undefined;
-	/** @type {Doc.FnParam} */
-	// biome-ignore lint/style/useConst: Readability - mutation
-	let data = {
-		name: parameter.name,
-		isOptional,
-		type: get_type_doc({ type, extractor, self }),
-	};
-	if (data.isOptional && parameter.valueDeclaration.initializer) {
-		const default_type = extractor.checker.getTypeAtLocation(parameter.valueDeclaration.initializer);
-		data.default = get_type_doc({ type: default_type, extractor, self });
-	}
-	return data;
 }
 
 /**
@@ -424,8 +424,8 @@ function get_union_doc(params) {
 		types,
 	};
 	if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
-	const source = get_type_sources(params);
-	if (source) results.sources = source;
+	const sources = get_type_sources(params);
+	if (sources) results.sources = sources;
 	const nonNullable = type.getNonNullableType();
 	if (nonNullable !== type) results.nonNullable = get_type_doc({ ...params, type: nonNullable });
 	return results;
@@ -458,10 +458,12 @@ export function get_type_doc(params) {
  */
 function get_type_sources(params) {
 	const { type, extractor } = params;
-	const symbol = type.getSymbol() || type.aliasSymbol;
+	/** @type {ts.Symbol | undefined} */
+	let symbol = type.getSymbol();
+	if (!symbol || symbol.name === "__type") symbol = type.aliasSymbol;
 	if (symbol) {
 		const declared_type = extractor.checker.getDeclaredTypeOfSymbol(symbol);
-		const declared_type_symbol = declared_type.getSymbol();
+		const declared_type_symbol = declared_type.getSymbol() || declared_type.aliasSymbol;
 		if (declared_type_symbol) {
 			return Iterator.from(declared_type_symbol.getDeclarations() ?? [])
 				.map((d) => remove_tsx_extension(d.getSourceFile().fileName))

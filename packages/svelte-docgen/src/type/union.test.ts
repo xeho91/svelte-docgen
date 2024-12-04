@@ -68,6 +68,30 @@ it("documents prop(s) with 'union' type kind - mixed", ({ expect }) => {
 	expect(mixed?.type).toMatchInlineSnapshot(`
 		{
 		  "kind": "union",
+		  "nonNullable": {
+		    "kind": "union",
+		    "types": [
+		      {
+		        "kind": "string",
+		      },
+		      {
+		        "kind": "number",
+		      },
+		      {
+		        "kind": "bigint",
+		      },
+		      {
+		        "kind": "literal",
+		        "subkind": "boolean",
+		        "value": false,
+		      },
+		      {
+		        "kind": "literal",
+		        "subkind": "boolean",
+		        "value": true,
+		      },
+		    ],
+		  },
 		  "types": [
 		    {
 		      "kind": "undefined",

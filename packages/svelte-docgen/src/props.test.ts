@@ -31,6 +31,9 @@ describe("parse(filepath)[1].props", () => {
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
+			      "nonNullable": {
+			        "kind": "number",
+			      },
 			      "types": [
 			        {
 			          "kind": "undefined",
@@ -57,6 +60,13 @@ describe("parse(filepath)[1].props", () => {
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
+			      "nonNullable": {
+			        "element": {
+			          "kind": "string",
+			        },
+			        "isReadonly": false,
+			        "kind": "array",
+			      },
 			      "types": [
 			        {
 			          "kind": "undefined",
@@ -80,6 +90,9 @@ describe("parse(filepath)[1].props", () => {
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
+			      "nonNullable": {
+			        "kind": "boolean",
+			      },
 			      "types": [
 			        {
 			          "kind": "undefined",
@@ -125,6 +138,9 @@ describe("parse(filepath)[1].props", () => {
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
+			      "nonNullable": {
+			        "kind": "string",
+			      },
 			      "types": [
 			        {
 			          "kind": "undefined",
@@ -160,6 +176,9 @@ describe("parse(filepath)[1].props", () => {
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
+			      "nonNullable": {
+			        "kind": "string",
+			      },
 			      "types": [
 			        {
 			          "kind": "undefined",
@@ -231,6 +250,9 @@ describe("parse(filepath)[1].props", () => {
 			  "tags": [],
 			  "type": {
 			    "kind": "union",
+			    "nonNullable": {
+			      "kind": "boolean",
+			    },
 			    "types": [
 			      {
 			        "kind": "undefined",
