@@ -1,6 +1,3 @@
-import type ts from "typescript";
-
-import type { Extractor, parse_stringified_type } from "./shared.js";
 import type { TYPE_KINDS } from "./type.js";
 
 export declare namespace Doc {
@@ -52,15 +49,19 @@ export declare namespace Doc {
 
 	export interface BaseType {
 		kind: TypeKind;
+		/**
+		 * Where is this type defined?
+		 */
+		sources?: string[];
 	}
 
-	interface ArrayType {
+	interface ArrayType extends BaseType {
 		kind: "array";
 		isReadonly: boolean;
 		element: Type;
 	}
 
-	interface Constructible {
+	interface Constructible extends BaseType {
 		kind: "constructible";
 		name: string;
 		constructors: Array<FunctionParameter[]> | "self";
@@ -68,7 +69,7 @@ export declare namespace Doc {
 
 	interface OptionalFunctionParameter {
 		isOptional: true;
-		default?: ReturnType<typeof parse_stringified_type>;
+		default?: Type;
 	}
 	interface RequiredFunctionParameter {
 		isOptional: false;
@@ -77,7 +78,7 @@ export declare namespace Doc {
 	type FunctionParameter = {
 		name: string;
 		isOptional: boolean;
-		default?: ReturnType<typeof parse_stringified_type>;
+		default?: Type;
 		type: Type;
 	} & (OptionalFunctionParameter | RequiredFunctionParameter);
 
@@ -85,44 +86,44 @@ export declare namespace Doc {
 		parameters: (FunctionParameter | "self")[];
 		returns: Type;
 	}
-	interface FunctionType {
+	interface FunctionType extends BaseType {
 		kind: "function";
 		calls: FunctionCall[];
 	}
 
-	interface Interface {
+	interface Interface extends BaseType {
 		kind: "interface";
 		name: string;
 		members: Map<string, Member>;
 	}
 
-	interface Intersection {
+	interface Intersection extends BaseType {
 		kind: "intersection";
 		types: Type[];
 		alias?: string;
 	}
 
-	interface LiteralBigInt {
+	interface LiteralBigInt extends BaseType {
 		kind: "literal";
 		subkind: "bigint";
 		value: bigint;
 	}
-	interface LiteralBoolean {
+	interface LiteralBoolean extends BaseType {
 		kind: "literal";
 		subkind: "boolean";
 		value: boolean;
 	}
-	interface LiteralNumber {
+	interface LiteralNumber extends BaseType {
 		kind: "literal";
 		subkind: "number";
 		value: number;
 	}
-	interface LiteralString {
+	interface LiteralString extends BaseType {
 		kind: "literal";
 		subkind: "string";
 		value: string;
 	}
-	interface LiteralSymbol {
+	interface LiteralSymbol extends BaseType {
 		kind: "literal";
 		subkind: "symbol";
 	}
@@ -134,19 +135,19 @@ export declare namespace Doc {
 		type: Type;
 	}
 
-	interface ObjectType {
+	interface ObjectType extends BaseType {
 		kind: "object";
 		members?: Map<string, Member>;
 	}
 
-	interface Tuple {
+	interface Tuple extends BaseType {
 		kind: "tuple";
 		isReadonly: boolean;
 		elements: Type[];
 		alias?: string;
 	}
 
-	interface TypeParameter {
+	interface TypeParameter extends BaseType {
 		kind: "type-parameter";
 		name: string;
 		isConst: boolean;
@@ -154,18 +155,9 @@ export declare namespace Doc {
 		default?: Type;
 	}
 
-	interface Union {
+	interface Union extends BaseType {
 		kind: "union";
 		types: Type[];
 		alias?: string;
 	}
-}
-
-/**
- * @internal
- */
-export interface GetTypeParams<T extends ts.Type = ts.Type> {
-	type: T;
-	extractor: Extractor;
-	self?: string;
 }

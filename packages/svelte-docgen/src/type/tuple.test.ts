@@ -17,6 +17,9 @@ it("documents prop(s) with 'tuple' type kind", ({ expect }) => {
 		    {
 		      "alias": "Letter",
 		      "kind": "union",
+		      "sources": [
+		        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/tuple.svelte",
+		      ],
 		      "types": [
 		        {
 		          "kind": "literal",
@@ -38,6 +41,9 @@ it("documents prop(s) with 'tuple' type kind", ({ expect }) => {
 		    {
 		      "alias": "Num",
 		      "kind": "union",
+		      "sources": [
+		        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/tuple.svelte",
+		      ],
 		      "types": [
 		        {
 		          "kind": "literal",
@@ -73,6 +79,9 @@ it("recognizes 'readonly'", ({ expect }) => {
 		    {
 		      "alias": "Letter",
 		      "kind": "union",
+		      "sources": [
+		        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/tuple.svelte",
+		      ],
 		      "types": [
 		        {
 		          "kind": "literal",
@@ -94,6 +103,9 @@ it("recognizes 'readonly'", ({ expect }) => {
 		    {
 		      "alias": "Num",
 		      "kind": "union",
+		      "sources": [
+		        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/tuple.svelte",
+		      ],
 		      "types": [
 		        {
 		          "kind": "literal",

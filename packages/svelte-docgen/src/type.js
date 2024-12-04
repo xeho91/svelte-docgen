@@ -1,11 +1,20 @@
 /**
- * @import * as Doc from "./documentation.ts";
+ * @import { Doc } from "./documentation.ts";
  * @import { Extractor } from "./shared.js"
  */
 
 import ts from "typescript";
 
 import { is_object_type, is_tuple_type, is_type_reference } from "./shared.js";
+
+/**
+ * @internal
+ * @template {ts.Type} [T=ts.Type]
+ * @typedef GetTypeParams
+ * @prop {T} type
+ * @prop {Extractor} extractor
+ * @prop {string} [self]
+ */
 
 /**
  * @param {ts.Type} type
@@ -80,7 +89,7 @@ function is_interface_type(type) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
+ * @param {GetTypeParams} params
  * @returns {Doc.TypeKind}
  */
 function get_type_kind(params) {
@@ -127,8 +136,8 @@ function get_type_kind(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.ArrayDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.ArrayType}
  */
 function get_array_documentation(params) {
 	const { type, extractor } = params;
@@ -144,15 +153,15 @@ function get_array_documentation(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams<ts.Type>} params
- * @returns {Doc.ConstructibleDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Constructible}
  */
 function get_constructible_documentation(params) {
 	const { type, extractor, self } = params;
 	const symbol = get_type_symbol(type);
 	const name = extractor.checker.getFullyQualifiedName(symbol);
 	if (self === name) return { kind: "constructible", name, constructors: "self" };
-	/** @type {Doc.ConstructibleDocumentation['constructors']} */
+	/** @type {Doc.Constructible['constructors']} */
 	const constructors = get_construct_signatures(type, extractor).map((s) => {
 		return s.getParameters().map((p) => {
 			return get_function_parameter_documentation({ parameter: p, extractor, self: name });
@@ -166,8 +175,8 @@ function get_constructible_documentation(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.FunctionDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.FunctionType}
  */
 function get_function_documentation(params) {
 	const { type, extractor, self } = params;
@@ -187,8 +196,8 @@ function get_function_documentation(params) {
 
 /**
  * @param {ts.Symbol} symbol
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.MemberDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Member}
  */
 function get_member_documentation(symbol, params) {
 	const { extractor } = params;
@@ -201,28 +210,33 @@ function get_member_documentation(symbol, params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.InterfaceDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Interface}
  */
 function get_interface_documentation(params) {
 	const { type, extractor } = params;
 	// FIXME: This is a workaround, because `svelte2tsx` converts `type` to `interface` defined inside svelte component file
 	const name = type.aliasSymbol?.name ?? extractor.checker.getFullyQualifiedName(type.symbol);
-	/** @type {Doc.InterfaceDocumentation['members']} */
+	/** @type {Doc.Interface['members']} */
 	const members = new Map(
 		Iterator.from(type.getProperties()).map((p) => {
 			return [p.name, get_member_documentation(p, params)];
 		}),
 	);
-	return {
+	/**@type {Doc.Interface} */
+	// biome-ignore lint/style/useConst: Readability - mutation
+	let results = {
 		kind: "interface",
 		name,
 		members,
 	};
+	const source = get_type_sources(params);
+	if (source) results.sources = source;
+	return results;
 }
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.IntersectionDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Intersection}
  */
 function get_intersection_documentation(params) {
 	const { type, extractor } = params;
@@ -230,10 +244,12 @@ function get_intersection_documentation(params) {
 	if (!type.isIntersection())
 		throw new Error(`Expected intersection type, got ${extractor.checker.typeToString(type)}`);
 	const types = type.types.map((t) => get_type_documentation({ type: t, extractor }));
-	/** @type {Doc.IntersectionDocumentation} */
+	/** @type {Doc.Intersection} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let results = { kind: "intersection", types };
 	if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
+	const source = get_type_sources(params);
+	if (source) results.sources = source;
 	return results;
 }
 
@@ -266,7 +282,7 @@ function is_symbol_readonly(symbol) {
 
 /**
  * @param  {{ parameter: ts.Symbol, extractor: Extractor, self?: string }} params
- * @returns {Doc.FunctionParameterDocumentation}
+ * @returns {Doc.FunctionParameter}
  */
 function get_function_parameter_documentation(params) {
 	const { parameter, extractor, self } = params;
@@ -276,7 +292,7 @@ function get_function_parameter_documentation(params) {
 	}
 	const type = extractor.checker.getTypeOfSymbol(parameter);
 	const isOptional = parameter.valueDeclaration.questionToken !== undefined;
-	/** @type {Doc.FunctionParameterDocumentation} */
+	/** @type {Doc.FunctionParameter} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let data = {
 		name: parameter.name,
@@ -291,8 +307,8 @@ function get_function_parameter_documentation(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.LiteralDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Literal}
  */
 function get_literal_documentation(params) {
 	const { type, extractor } = params;
@@ -320,8 +336,8 @@ function get_literal_documentation(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.ObjectTypeDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.ObjectType}
  */
 function get_object_documentation(params) {
 	const { type } = params;
@@ -330,7 +346,7 @@ function get_object_documentation(params) {
 			return [p.name, get_member_documentation(p, params)];
 		}),
 	);
-	/** @type {Doc.ObjectTypeDocumentation} */
+	/** @type {Doc.ObjectType} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let results = { kind: "object" };
 	if (members.size > 0) results.members = members;
@@ -338,8 +354,8 @@ function get_object_documentation(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.TupleDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Tuple}
  */
 function get_tuple_documentation(params) {
 	const { type, extractor } = params;
@@ -353,7 +369,7 @@ function get_tuple_documentation(params) {
 	const elements = extractor.checker.getTypeArguments(type).map((t) => {
 		return get_type_documentation({ type: t, extractor });
 	});
-	/** @type {Doc.TupleDocumentation} */
+	/** @type {Doc.Tuple} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let results = {
 		kind: "tuple",
@@ -365,8 +381,8 @@ function get_tuple_documentation(params) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.TypeParameterDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.TypeParameter}
  */
 function get_type_parameter_documentation(params) {
 	const { type, extractor } = params;
@@ -374,7 +390,7 @@ function get_type_parameter_documentation(params) {
 	if (!type.isTypeParameter())
 		throw new Error(`Expected type parameter, got ${extractor.checker.typeToString(type)}`);
 	const constraint = type.getConstraint();
-	/** @type {Doc.TypeParameterDocumentation} */
+	/** @type {Doc.TypeParameter} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let results = {
 		kind: "type-parameter",
@@ -403,27 +419,29 @@ function is_const_type_parameter(type) {
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.UnionDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Union}
  */
 function get_union_documentation(params) {
 	const { type, extractor } = params;
 	// TODO: Document error
 	if (!type.isUnion()) throw new Error(`Expected union type, got ${extractor.checker.typeToString(type)}`);
 	const types = type.types.map((m) => get_type_documentation({ ...params, type: m }));
-	/** @type {Doc.UnionDocumentation} */
+	/** @type {Doc.Union} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let results = {
 		kind: "union",
 		types,
 	};
 	if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
+	const source = get_type_sources(params);
+	if (source) results.sources = source;
 	return results;
 }
 
 /**
- * @param {Doc.GetTypeParams} params
- * @returns {Doc.TypeDocumentation}
+ * @param {GetTypeParams} params
+ * @returns {Doc.Type}
  */
 export function get_type_documentation(params) {
 	const kind = get_type_kind(params);
@@ -441,4 +459,26 @@ export function get_type_documentation(params) {
 		case "union": return get_union_documentation(params);
 		default: return { kind };
 	}
+}
+
+/**
+ * @param {GetTypeParams} params
+ * @returns {Doc.Type['sources']}
+ */
+function get_type_sources(params) {
+	const { type } = params;
+	const symbol = type.getSymbol() || type.aliasSymbol;
+	if (symbol && !symbol.name.startsWith("__")) {
+		return Iterator.from(symbol.getDeclarations() ?? [])
+			.map((d) => remove_tsx_extension(d.getSourceFile().fileName))
+			.toArray();
+	}
+}
+
+/**
+ * @param {string} filepath
+ * @returns {string}
+ */
+function remove_tsx_extension(filepath) {
+	return filepath.replace(/\.tsx$/, "");
 }

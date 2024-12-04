@@ -283,6 +283,9 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		                },
 		              },
 		              "name": "Iterable",
+		              "sources": [
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		              ],
 		            },
 		          ],
 		        },
@@ -370,6 +373,9 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		                },
 		              },
 		              "name": "Iterable",
+		              "sources": [
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		              ],
 		            },
 		          ],
 		        },

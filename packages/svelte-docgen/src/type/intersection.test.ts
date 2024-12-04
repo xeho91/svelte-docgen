@@ -33,6 +33,9 @@ it("documents aliased", ({ expect }) => {
 		{
 		  "alias": "Aliased",
 		  "kind": "intersection",
+		  "sources": [
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/intersection.svelte",
+		  ],
 		  "types": [
 		    {
 		      "kind": "number",
