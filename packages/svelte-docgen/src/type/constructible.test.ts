@@ -47,6 +47,9 @@ it("documents prop(s) with custom 'constructible' type - class", ({ expect }) =>
 		  ],
 		  "kind": "constructible",
 		  "name": "Custom",
+		  "sources": [
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/constructible.svelte",
+		  ],
 		}
 	`);
 });
@@ -183,6 +186,13 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		              "constructors": "self",
 		              "kind": "constructible",
 		              "name": "Date",
+		              "sources": [
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es5.d.ts",
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es5.d.ts",
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es5.d.ts",
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2020.date.d.ts",
+		              ],
 		            },
 		          ],
 		        },
@@ -191,6 +201,13 @@ it("documents prop(s) with builtin 'constructible' type - Date", ({ expect }) =>
 		  ],
 		  "kind": "constructible",
 		  "name": "Date",
+		  "sources": [
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es5.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es5.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es5.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2020.date.d.ts",
+		  ],
 		}
 	`);
 });
@@ -260,6 +277,7 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		              "kind": "null",
 		            },
 		            {
+		              "alias": "Iterable",
 		              "kind": "interface",
 		              "members": Map {
 		                "__@iterator@19" => {
@@ -275,6 +293,10 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		                          ],
 		                          "kind": "constructible",
 		                          "name": "Iterator",
+		                          "sources": [
+		                            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		                            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.esnext.iterator.d.ts",
+		                          ],
 		                        },
 		                      },
 		                    ],
@@ -282,7 +304,6 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		                  },
 		                },
 		              },
-		              "name": "Iterable",
 		              "sources": [
 		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
 		              ],
@@ -294,6 +315,12 @@ it("documents prop(s) with builtin 'constructible' type - Map", ({ expect }) => 
 		  ],
 		  "kind": "constructible",
 		  "name": "Map",
+		  "sources": [
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.collection.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.collection.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+		  ],
 		}
 	`);
 });
@@ -350,6 +377,7 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		              "kind": "null",
 		            },
 		            {
+		              "alias": "Iterable",
 		              "kind": "interface",
 		              "members": Map {
 		                "__@iterator@19" => {
@@ -365,6 +393,10 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		                          ],
 		                          "kind": "constructible",
 		                          "name": "Iterator",
+		                          "sources": [
+		                            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		                            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.esnext.iterator.d.ts",
+		                          ],
 		                        },
 		                      },
 		                    ],
@@ -372,7 +404,6 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		                  },
 		                },
 		              },
-		              "name": "Iterable",
 		              "sources": [
 		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
 		              ],
@@ -384,6 +415,13 @@ it("documents prop(s) with builtin 'constructible' type - Set", ({ expect }) => 
 		  ],
 		  "kind": "constructible",
 		  "name": "Set",
+		  "sources": [
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.collection.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.collection.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.6.3/node_modules/typescript/lib/lib.esnext.collection.d.ts",
+		  ],
 		}
 	`);
 });

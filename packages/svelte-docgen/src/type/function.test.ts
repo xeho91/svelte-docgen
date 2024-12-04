@@ -132,6 +132,6 @@ it("recognizes aliased type", ({ expect }) => {
 		  ],
 		}
 	`);
-	expect((aliased?.type as Doc.FunctionType).alias).toBeDefined();
-	expect((aliased?.type as Doc.FunctionType).alias).toBe("Aliased");
+	expect((aliased?.type as Doc.Fn).alias).toBeDefined();
+	expect((aliased?.type as Doc.Fn).alias).toBe("Aliased");
 });

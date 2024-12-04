@@ -17,64 +17,12 @@ it("documents prop(s) with loose 'object' type kind", ({ expect }) => {
 	`);
 });
 
-it("documents members when provided an anonymous interface", ({ expect }) => {
-	const anonymous = props.get("anonymous");
-	expect(anonymous).toBeDefined();
-	expect(anonymous?.type).toMatchInlineSnapshot(`
+it("recognizes {}", ({ expect }) => {
+	const unknown = props.get("unknown");
+	expect(unknown).toBeDefined();
+	expect(unknown?.type).toMatchInlineSnapshot(`
 		{
-		  "kind": "interface",
-		  "members": Map {
-		    "x" => {
-		      "isOptional": false,
-		      "isReadonly": false,
-		      "type": {
-		        "kind": "number",
-		      },
-		    },
-		    "y" => {
-		      "isOptional": true,
-		      "isReadonly": false,
-		      "type": {
-		        "kind": "union",
-		        "types": [
-		          {
-		            "kind": "undefined",
-		          },
-		          {
-		            "kind": "number",
-		          },
-		        ],
-		      },
-		    },
-		  },
-		  "name": "__type",
-		}
-	`);
-});
-
-it("documents readonly members", ({ expect }) => {
-	const strict = props.get("strict");
-	expect(strict).toBeDefined();
-	expect(strict?.type).toMatchInlineSnapshot(`
-		{
-		  "kind": "interface",
-		  "members": Map {
-		    "foo" => {
-		      "isOptional": false,
-		      "isReadonly": true,
-		      "type": {
-		        "kind": "string",
-		      },
-		    },
-		    "bar" => {
-		      "isOptional": false,
-		      "isReadonly": true,
-		      "type": {
-		        "kind": "number",
-		      },
-		    },
-		  },
-		  "name": "__type",
+		  "kind": "object",
 		}
 	`);
 });

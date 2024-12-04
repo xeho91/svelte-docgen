@@ -1,8 +1,8 @@
 <script lang="ts">
 interface Props {
 	data: object;
-	anonymous: { x: number; y?: number };
-	strict: { readonly foo: string; readonly bar: number };
+	// biome-ignore lint/complexity/noBannedTypes: Testing
+	unknown: {};
 }
 let { ..._ }: Props = $props();
 </script>

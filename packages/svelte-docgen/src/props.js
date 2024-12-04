@@ -6,7 +6,7 @@
 import ts from "typescript";
 
 import { is_symbol_optional, remove_tsx_extension } from "./shared.js";
-import { get_type_documentation } from "./type.js";
+import { get_type_doc } from "./type.js";
 
 // 	/** @returns {boolean} */
 // 	get isEventHandler() {
@@ -21,48 +21,11 @@ import { get_type_documentation } from "./type.js";
 // 		return has_void_flag && has_event_handler_in_alias;
 // 	}
 
-// 	/**
-// 	 * @param {ts.Type} type
-// 	 * @returns {boolean}
-// 	 * */
-// 	#is_type_from_svelte(type) {
-// 		const declaration = type.getSymbol()?.getDeclarations()?.[0];
-// 		const source = declaration?.getSourceFile();
-// 		// TODO: Document error
-// 		if (!source) throw new Error("Could not find source file");
-// 		const { dir } = path.parse(source.fileName);
-// 		return dir.endsWith(path.join(path.sep, "node_modules", "svelte", "types"));
-// 	}
-//
-// 	/** @returns {boolean} */
-// 	get isSnippet() {
-// 		const symbol = this.#non_nullable_symbol_type.getSymbol();
-// 		return symbol?.name === "Snippet" && this.#is_type_from_svelte(this.#non_nullable_symbol_type);
-// 	}
-//
-// 	/**
-// 	 * Snippet parameters
-// 	 * @returns {typeof this['isSnippet'] extends true ? Doc.TypeDocumentation[] : never}
-// 	 */
-// 	get parameters() {
-// 		// TODO: Document error
-// 		if (!this.isSnippet) throw new Error();
-// 		const tuple_type_parameters = /** @type {ts.TupleType} */ (this.#non_nullable_symbol_type).typeArguments?.[0];
-// 		if (!tuple_type_parameters || !this.#extractor.checker.isTupleType(tuple_type_parameters)) {
-// 			// TODO: Document error
-// 			throw new Error("Not a tuple type");
-// 		}
-// 		// @ts-expect-error Not worth it?
-// 		return Iterator.from(/** @type {ts.TupleType} */ (tuple_type_parameters).typeArguments ?? [])
-// 			.map((type_argument) => get_type_documentation({ type: type_argument, extractor: this.#extractor }))
-// 			.toArray();
-// 	}
-
 /**
  * @param {Extractor} extractor
  * @returns {Doc.Props}
  */
-export function get_props_documentation(extractor) {
+export function get_props_doc(extractor) {
 	return new Map(
 		Iterator.from(extractor.props).map(([name, symbol]) => {
 			return [name, get_prop_doc(symbol, extractor)];
@@ -75,7 +38,7 @@ export function get_props_documentation(extractor) {
  * @param {Extractor} extractor
  * @returns {Doc.Prop}
  */
-function get_prop_doc(symbol, extractor) {
+export function get_prop_doc(symbol, extractor) {
 	const type = extractor.checker.getTypeOfSymbol(symbol);
 	/** @type {Doc.Prop} */
 	// biome-ignore lint/style/useConst: Readability - mutation
@@ -83,7 +46,7 @@ function get_prop_doc(symbol, extractor) {
 		tags: get_prop_tags(symbol, extractor),
 		isBindable: extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
 		isOptional: is_symbol_optional(symbol),
-		type: get_type_documentation({ extractor, type }),
+		type: get_type_doc({ extractor, type }),
 		sources: get_symbol_sources(symbol),
 	};
 	const description = get_prop_description(symbol, extractor);
@@ -92,7 +55,7 @@ function get_prop_doc(symbol, extractor) {
 		const initializer = extractor.defaults.get(symbol.name);
 		if (initializer) {
 			const default_type = extractor.checker.getTypeAtLocation(initializer);
-			results.default = get_type_documentation({ extractor, type: default_type });
+			results.default = get_type_doc({ extractor, type: default_type });
 		}
 	}
 	return results;

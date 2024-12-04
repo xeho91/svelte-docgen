@@ -17,7 +17,15 @@ describe("parse(filepath)[1].slots", () => {
 			Map {
 			  "header" => Map {
 			    "title" => {
-			      "kind": "string",
+			      "isBindable": false,
+			      "isOptional": false,
+			      "sources": [
+			        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/slots/some.svelte",
+			      ],
+			      "tags": [],
+			      "type": {
+			        "kind": "string",
+			      },
 			    },
 			  },
 			  "default" => Map {},
@@ -32,7 +40,15 @@ describe("parse(filepath)[1].slots", () => {
 			expect(title).toBeDefined();
 			expect(title).toMatchInlineSnapshot(`
 				{
-				  "kind": "string",
+				  "isBindable": false,
+				  "isOptional": false,
+				  "sources": [
+				    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/slots/some.svelte",
+				  ],
+				  "tags": [],
+				  "type": {
+				    "kind": "string",
+				  },
 				}
 			`);
 		}

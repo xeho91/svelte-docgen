@@ -3,19 +3,16 @@
  * @import { Extractor } from "./shared.js"
  */
 
-import { get_type_documentation } from "./type.js";
+import { get_type_doc } from "./type.js";
 
 /**
  * @param {Extractor} extractor
  * @returns {Doc.Events}
  */
-export function get_events_documentation(extractor) {
+export function get_events_doc(extractor) {
 	return new Map(
 		Iterator.from(extractor.events).map(([name, symbol]) => {
-			return [
-				`on:${name}`,
-				get_type_documentation({ type: extractor.checker.getTypeOfSymbol(symbol), extractor }),
-			];
+			return [`on:${name}`, get_type_doc({ type: extractor.checker.getTypeOfSymbol(symbol), extractor })];
 		}),
 	);
 }

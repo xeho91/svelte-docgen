@@ -41,93 +41,113 @@ export declare namespace Doc {
 		| BaseType
 		| ArrayType
 		| Constructible
-		| FunctionType
+		| Fn
 		| Interface
 		| Intersection
 		| Literal
 		| Tuple
-		| TypeParameter
+		| TypeParam
 		| Union;
 
-	export interface BaseType {
-		/** @see {@link TYPE_KINDS} */
-		kind: TypeKind;
+	interface WithAlias {
+		alias?: string;
 		/**
 		 * Where is this type declared?
 		 */
 		sources?: string[];
 	}
 
-	interface ArrayType extends BaseType {
+	interface WithName {
+		name: string;
+		/**
+		 * Where is this type declared?
+		 */
+		sources: string[];
+	}
+
+	interface BaseType {
+		/** @see {@link TYPE_KINDS} */
+		kind: Exclude<
+			TypeKind,
+			| "array"
+			| "constructible"
+			| "function"
+			| "interface"
+			| "intersection"
+			| "literal"
+			| "tuple"
+			| "type-parameter"
+			| "union"
+		>;
+	}
+
+	interface ArrayType {
 		kind: "array";
 		isReadonly: boolean;
 		element: Type;
 	}
 
-	interface Constructible extends BaseType {
+	interface Constructible extends WithName {
 		kind: "constructible";
 		name: string;
-		constructors: Array<FunctionParameter[]> | "self";
+		constructors: Array<FnParam[]> | "self";
 	}
 
-	interface OptionalFunctionParameter {
+	interface OptionalFnParam {
 		isOptional: true;
 		default?: Type;
 	}
-	interface RequiredFunctionParameter {
+	interface RequiredFnParam {
 		isOptional: false;
 		default?: never;
 	}
-	type FunctionParameter = {
+	type FnParam = {
 		name: string;
 		isOptional: boolean;
 		default?: Type;
 		type: Type;
-	} & (OptionalFunctionParameter | RequiredFunctionParameter);
+	} & (OptionalFnParam | RequiredFnParam);
 
-	interface FunctionCall {
-		parameters: (FunctionParameter | "self")[];
+	interface FnCall {
+		parameters: (FnParam | "self")[];
 		returns: Type;
 	}
-	interface FunctionType extends BaseType {
+	interface Fn extends WithAlias {
 		kind: "function";
-		calls: FunctionCall[];
-		alias?: string;
+		calls: FnCall[];
 	}
 
-	interface Interface extends BaseType {
+	interface Interface extends WithAlias {
 		kind: "interface";
-		name: string;
 		members: Map<string, Member>;
 	}
 
-	interface Intersection extends BaseType {
+	interface Intersection extends WithAlias {
 		kind: "intersection";
 		types: Type[];
-		alias?: string;
 	}
 
-	interface LiteralBigInt extends BaseType {
+	interface LiteralBigInt {
 		kind: "literal";
 		subkind: "bigint";
 		value: bigint;
 	}
-	interface LiteralBoolean extends BaseType {
+	interface LiteralBoolean {
 		kind: "literal";
 		subkind: "boolean";
 		value: boolean;
 	}
-	interface LiteralNumber extends BaseType {
+	interface LiteralNumber {
 		kind: "literal";
 		subkind: "number";
 		value: number;
 	}
-	interface LiteralString extends BaseType {
+	interface LiteralString {
 		kind: "literal";
 		subkind: "string";
 		value: string;
 	}
-	interface LiteralSymbol extends BaseType {
+	interface LiteralSymbol {
 		kind: "literal";
 		subkind: "symbol";
 	}
@@ -139,19 +159,13 @@ export declare namespace Doc {
 		type: Type;
 	}
 
-	interface ObjectType extends BaseType {
-		kind: "object";
-		members?: Map<string, Member>;
-	}
-
-	interface Tuple extends BaseType {
+	interface Tuple extends WithAlias {
 		kind: "tuple";
 		isReadonly: boolean;
 		elements: Type[];
-		alias?: string;
 	}
 
-	interface TypeParameter extends BaseType {
+	interface TypeParam {
 		kind: "type-parameter";
 		name: string;
 		isConst: boolean;
@@ -159,7 +173,7 @@ export declare namespace Doc {
 		default?: Type;
 	}
 
-	interface Union extends BaseType {
+	interface Union extends WithAlias {
 		kind: "union";
 		types: Type[];
 		alias?: string;
