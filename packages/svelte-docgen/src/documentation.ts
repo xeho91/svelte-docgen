@@ -176,6 +176,6 @@ export declare namespace Doc {
 	interface Union extends WithAlias {
 		kind: "union";
 		types: Type[];
-		alias?: string;
+		nonNullable?: Type;
 	}
 }

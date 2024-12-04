@@ -6,6 +6,8 @@ interface Props {
 	header?: Snippet<[string]>;
 	children: Snippet;
 	footer?: Snippet<[Color, number]>;
+	// biome-ignore lint/suspicious/noExplicitAny: Testing
+	whatever: any;
 }
 let { footer = default_footer }: Props = $props();
 const color = "red" satisfies Color;

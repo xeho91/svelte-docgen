@@ -122,9 +122,6 @@ function get_type_kind(params) {
 	if (is_object_type(type)) {
 		// FIXME: Sometimes the constructible type is not recognized with `ts.Type.isClassOrInterface()` - e.g. `Map` - don't know why.
 		if ("symbol" in type && is_constructible(type, extractor)) return "constructible";
-		// FIXME:
-		// This is a hacky and ugly workaround.
-		// Because `svelte2tsx` converts `type` to `interface` defined inside svelte component file
 		if (is_type_interface_only(type)) return "interface";
 		return "object";
 	}
@@ -429,6 +426,8 @@ function get_union_doc(params) {
 	if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
 	const source = get_type_sources(params);
 	if (source) results.sources = source;
+	const nonNullable = type.getNonNullableType();
+	if (nonNullable !== type) results.nonNullable = get_type_doc({ ...params, type: nonNullable });
 	return results;
 }
 
