@@ -1,6 +1,7 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
+import type { Doc } from "../documentation.js";
 import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "function.svelte");
@@ -109,4 +110,25 @@ it("documents parameter(s) type if specified", ({ expect }) => {
 		  "kind": "function",
 		}
 	`);
+});
+
+it("recognizes aliased type", ({ expect }) => {
+	const aliased = props.get("aliased");
+	expect(aliased).toBeDefined();
+	expect(aliased?.type).toMatchInlineSnapshot(`
+		{
+		  "alias": "Aliased",
+		  "calls": [
+		    {
+		      "parameters": [],
+		      "returns": {
+		        "kind": "void",
+		      },
+		    },
+		  ],
+		  "kind": "function",
+		}
+	`);
+	expect((aliased?.type as Doc.FunctionType).alias).toBeDefined();
+	expect((aliased?.type as Doc.FunctionType).alias).toBe("Aliased");
 });

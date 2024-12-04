@@ -188,10 +188,14 @@ function get_function_documentation(params) {
 			returns: get_type_documentation({ type: s.getReturnType(), extractor, self }),
 		};
 	});
-	return {
+	/** @type {Doc.FunctionType} */
+	// biome-ignore lint/style/useConst: Readability - mutation
+	let results = {
 		kind: "function",
 		calls,
 	};
+	if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
+	return results;
 }
 
 /**

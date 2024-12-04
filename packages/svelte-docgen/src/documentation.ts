@@ -92,6 +92,7 @@ export declare namespace Doc {
 	interface FunctionType extends BaseType {
 		kind: "function";
 		calls: FunctionCall[];
+		alias?: string;
 	}
 
 	interface Interface extends BaseType {
