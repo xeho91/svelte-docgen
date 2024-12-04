@@ -1,31 +1,24 @@
 /**
- * @import { extract } from "@svelte-docgen/extractor";
- *
- * @import { BaseDocumentation, Tag } from "./shared.js";
+ * @import { Doc } from "./documentation.ts";
+ * @import { Extractor } from "./shared.js"
  */
 
 /**
- * @typedef {BaseDocumentation} ComponentDocumentation
- * @prop {string} description
- * @prop {Tag[]} tags
+ * @param {Extractor} extractor
+ * @returns {Doc.Component}
  */
-
-/**
- * @param {ReturnType<typeof extract>} extractor
- * @returns {BaseDocumentation}
- */
-export function generate_component_documentation(extractor) {
+export function get_component_doc(extractor) {
 	return {
 		description: extractor?.documentation?.description ?? "",
-		tags: generate_tags(extractor),
+		tags: get_tags(extractor),
 	};
 }
 
 /**
- * @param {ReturnType<typeof extract>} extractor
- * @returns {Tag[]}
+ * @param {Extractor} extractor
+ * @returns {Doc.Tag[]}
  */
-function generate_tags(extractor) {
+function get_tags(extractor) {
 	return Iterator.from(extractor.documentation?.tags ?? [])
 		.map((tag) => {
 			return {

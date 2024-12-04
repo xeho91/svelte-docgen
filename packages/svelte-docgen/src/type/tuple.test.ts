@@ -1,17 +1,16 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import type { TupleDocumentation } from "../documentation.ts";
-import { generate } from "../mod.js";
+import type { Doc } from "../documentation.ts";
+import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "tuple.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("documents prop(s) with 'tuple' type kind", ({ expect }) => {
 	const sample = props.get("sample");
 	expect(sample).toBeDefined();
-	expect((sample?.type as TupleDocumentation).isReadonly).toBe(false);
 	expect(sample?.type).toMatchInlineSnapshot(`
 		{
 		  "elements": [
@@ -62,12 +61,12 @@ it("documents prop(s) with 'tuple' type kind", ({ expect }) => {
 		  "kind": "tuple",
 		}
 	`);
+	expect((sample?.type as Doc.Tuple).isReadonly).toBe(false);
 });
 
 it("recognizes 'readonly'", ({ expect }) => {
 	const strict = props.get("strict");
 	expect(strict).toBeDefined();
-	expect((strict?.type as TupleDocumentation).isReadonly).toBe(true);
 	expect(strict?.type).toMatchInlineSnapshot(`
 		{
 		  "elements": [
@@ -118,12 +117,12 @@ it("recognizes 'readonly'", ({ expect }) => {
 		  "kind": "tuple",
 		}
 	`);
+	expect((strict?.type as Doc.Tuple).isReadonly).toBe(true);
 });
 
 it("recognizes empty tuple", ({ expect }) => {
 	const empty = props.get("empty");
 	expect(empty).toBeDefined();
-	expect((empty?.type as TupleDocumentation).isReadonly).toBe(false);
 	expect(empty?.type).toMatchInlineSnapshot(`
 		{
 		  "elements": [],
@@ -131,12 +130,12 @@ it("recognizes empty tuple", ({ expect }) => {
 		  "kind": "tuple",
 		}
 	`);
+	expect((empty?.type as Doc.Tuple).isReadonly).toBe(false);
 });
 
 it("recognizes 'readonly' empty tuple", ({ expect }) => {
 	const empty = props.get("really-empty");
 	expect(empty).toBeDefined();
-	expect((empty?.type as TupleDocumentation).isReadonly).toBe(true);
 	expect(empty?.type).toMatchInlineSnapshot(`
 		{
 		  "elements": [],
@@ -144,6 +143,7 @@ it("recognizes 'readonly' empty tuple", ({ expect }) => {
 		  "kind": "tuple",
 		}
 	`);
+	expect((empty?.type as Doc.Tuple).isReadonly).toBe(true);
 });
 
 it("recognizes aliased tuple type", ({ expect }) => {
@@ -164,5 +164,6 @@ it("recognizes aliased tuple type", ({ expect }) => {
 		  "kind": "tuple",
 		}
 	`);
-	expect(aliased?.type.alias).toBeDefined();
+	expect((aliased?.type as Doc.Tuple).alias).toBeDefined();
+	expect((aliased?.type as Doc.Tuple).alias).toBe("Aliased");
 });

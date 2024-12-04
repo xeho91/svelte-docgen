@@ -1,30 +1,31 @@
 import { describe, it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../tests/shared.js";
-import { generate } from "./mod.js";
+import { parse } from "./parser.js";
 
-describe("generate(filepath)[1].events", () => {
-	it("returns empty object is component doesn't create custom events (legacy)", ({ expect }) => {
+describe("parse(filepath)[1].events", () => {
+	it("returns empty map is component doesn't create custom events (legacy)", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "events", "none.svelte");
-		const generated = generate(filepath, OPTIONS);
-		expect(generated[1].events).toMatchInlineSnapshot("{}");
+		const parsed = parse(filepath, OPTIONS)[1];
+		expect(parsed.events).toMatchInlineSnapshot("Map {}");
+		expect(parsed.events.size).toBe(0);
 	});
 
-	it("returns object with available custom events (legacy) prefixed with `on:`", ({ expect }) => {
+	it("returns map with available custom events (legacy) prefixed with `on:`", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "events", "some.svelte");
-		const generated = generate(filepath, OPTIONS);
-		expect(generated[1].events).toMatchInlineSnapshot(`
-			{
-			  "on:decrement": {
-			    "expanded": "CustomEvent<Typings[Key]>",
+		const parsed = parse(filepath, OPTIONS)[1];
+		expect(parsed.events).toMatchInlineSnapshot(`
+			Map {
+			  "on:decrement" => {
+			    "kind": "any",
 			  },
-			  "on:increment": {
-			    "expanded": "CustomEvent<Typings[Key]>",
+			  "on:increment" => {
+			    "kind": "any",
 			  },
 			}
 		`);
-		const keys = Object.keys(generated[1].events);
-		expect(keys).toHaveLength(2);
-		expect(keys.every((name) => name.startsWith("on:"))).toBe(true);
+		for (const key of parsed.events.keys()) {
+			expect(key.startsWith("on:")).toBe(true);
+		}
 	});
 });

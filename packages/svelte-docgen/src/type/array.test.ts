@@ -1,17 +1,16 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import type { ArrayDocumentation } from "../documentation.ts";
-import { generate } from "../mod.js";
+import { parse } from "../parser.js";
+import type { Doc } from "../documentation.ts";
 
 const filepath = create_path_to_example_component("data", "type", "array.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("documents prop(s) with 'array' type kind", ({ expect }) => {
 	const letters = props.get("letters");
 	expect(letters).toBeDefined();
-	expect((letters?.type as ArrayDocumentation).isReadonly).toBe(false);
 	expect(letters?.type).toMatchInlineSnapshot(`
 		{
 		  "element": {
@@ -39,12 +38,12 @@ it("documents prop(s) with 'array' type kind", ({ expect }) => {
 		  "kind": "array",
 		}
 	`);
+	expect((letters?.type as Doc.ArrayType).isReadonly).toBe(false);
 });
 
 it("recognizes 'readonly'", ({ expect }) => {
 	const numbers = props.get("numbers");
 	expect(numbers).toBeDefined();
-	expect((numbers?.type as ArrayDocumentation).isReadonly).toBe(true);
 	expect(numbers?.type).toMatchInlineSnapshot(`
 		{
 		  "element": {
@@ -72,4 +71,5 @@ it("recognizes 'readonly'", ({ expect }) => {
 		  "kind": "array",
 		}
 	`);
+	expect((numbers?.type as Doc.ArrayType).isReadonly).toBe(true);
 });

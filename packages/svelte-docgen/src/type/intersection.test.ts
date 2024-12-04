@@ -1,12 +1,12 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import type { IntersectionDocumentation } from "../documentation.js";
-import { generate } from "../mod.js";
+import type { Doc } from "../documentation.js";
+import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "intersection.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("documents anonymous", ({ expect }) => {
 	const anonymous = props.get("anonymous");
@@ -29,7 +29,6 @@ it("documents anonymous", ({ expect }) => {
 it("documents aliased", ({ expect }) => {
 	const aliased = props.get("aliased");
 	expect(aliased).toBeDefined();
-	expect((aliased?.type as IntersectionDocumentation).alias).toBe("Aliased");
 	expect(aliased?.type).toMatchInlineSnapshot(`
 		{
 		  "alias": "Aliased",
@@ -44,4 +43,5 @@ it("documents aliased", ({ expect }) => {
 		  ],
 		}
 	`);
+	expect((aliased?.type as Doc.Intersection).alias).toBe("Aliased");
 });

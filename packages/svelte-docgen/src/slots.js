@@ -1,32 +1,24 @@
 /**
- * @import { extract } from "@svelte-docgen/extractor";
- *
- * @import { TypeDocumentation } from "./shared.js";
+ * @import { Doc } from "./documentation.ts";
+ * @import { Extractor } from "./shared.js"
  */
 
-import { generate_type_documentation } from "./shared.js";
-
-/**
- * @typedef {Record<string, SlotPropDocumentation>} SlotsDocumentation
- */
+import { get_type_documentation } from "./type.js";
 
 /**
- * @typedef {Record<string, TypeDocumentation>} SlotPropDocumentation
+ * @param {Extractor} extractor
+ * @returns {Doc.Slots}
  */
-
-/**
- * @param {ReturnType<typeof extract>} extractor
- * @returns {SlotsDocumentation}
- */
-export function generate_slots_documentation(extractor) {
-	/** @type {SlotsDocumentation} */
-	// biome-ignore lint/style/useConst: Readability - mutation
-	let results = {};
-	for (const [name, props] of extractor.slots) {
-		results[name] = {};
-		for (const [prop_name, prop_type] of props) {
-			results[name][prop_name] = generate_type_documentation(prop_type, extractor);
-		}
-	}
-	return results;
+export function get_slots_documentation(extractor) {
+	return new Map(
+		Iterator.from(extractor.slots).map(([name, props]) => {
+			const documented_props = new Map(
+				Iterator.from(props).map(([name, prop]) => [
+					name,
+					get_type_documentation({ type: extractor.checker.getTypeOfSymbol(prop), extractor }),
+				]),
+			);
+			return [name, documented_props];
+		}),
+	);
 }

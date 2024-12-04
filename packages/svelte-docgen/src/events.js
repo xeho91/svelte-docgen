@@ -1,25 +1,21 @@
 /**
- * @import { extract } from "@svelte-docgen/extractor";
- *
- * @import { TypeDocumentation } from "./shared.js";
+ * @import { Doc } from "./documentation.ts";
+ * @import { Extractor } from "./shared.js"
  */
 
-import { generate_type_documentation } from "./shared.js";
-
-/**
- * @typedef {Record<string, TypeDocumentation>} EventsDocumentation
- */
+import { get_type_documentation } from "./type.js";
 
 /**
- * @param {ReturnType<typeof extract>} extractor
- * @returns {EventsDocumentation}
+ * @param {Extractor} extractor
+ * @returns {Doc.Events}
  */
-export function generate_events_documentation(extractor) {
-	/** @type {EventsDocumentation} */
-	// biome-ignore lint/style/useConst: Readability: mutation
-	let events = {};
-	for (const [name, symbol] of extractor.events) {
-		events[`on:${name}`] = generate_type_documentation(symbol, extractor);
-	}
-	return events;
+export function get_events_documentation(extractor) {
+	return new Map(
+		Iterator.from(extractor.events).map(([name, symbol]) => {
+			return [
+				`on:${name}`,
+				get_type_documentation({ type: extractor.checker.getTypeOfSymbol(symbol), extractor }),
+			];
+		}),
+	);
 }

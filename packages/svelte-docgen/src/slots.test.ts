@@ -1,35 +1,40 @@
 import { describe, it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../tests/shared.js";
-import { generate } from "./mod.js";
+import { parse } from "./parser.js";
 
-describe("generate(filepath)[1].slots", () => {
-	it("returns empty object is component doesn't include slots (legacy)", ({ expect }) => {
+describe("parse(filepath)[1].slots", () => {
+	it("returns empty map if component doesn't include slots (legacy)", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "slots", "none.svelte");
-		const generated = generate(filepath, OPTIONS);
-		const slots = generated[1].slots;
-		expect(slots).toMatchInlineSnapshot("{}");
+		const parsed = parse(filepath, OPTIONS)[1];
+		expect(parsed.slots).toMatchInlineSnapshot("Map {}");
 	});
 
-	it("returns object wtih available slots (legacy)", ({ expect }) => {
+	it("returns map wtih available slots (legacy)", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "slots", "some.svelte");
-		const generated = generate(filepath, OPTIONS);
-		const slots = generated[1].slots;
-		expect(slots).toMatchInlineSnapshot(`
-			{
-			  "default": {},
-			  "footer": {},
-			  "header": {
-			    "title": {
-			      "expanded": "string",
+		const parsed = parse(filepath, OPTIONS)[1];
+		expect(parsed.slots).toMatchInlineSnapshot(`
+			Map {
+			  "header" => Map {
+			    "title" => {
+			      "kind": "string",
 			    },
 			  },
+			  "default" => Map {},
+			  "footer" => Map {},
 			}
 		`);
-		const keys = Object.keys(slots);
-		expect(keys).toHaveLength(3);
-		expect(slots).toHaveProperty("header");
-		expect(slots.header).toHaveProperty("title");
-		expect(slots.header.title).toStrictEqual({ expanded: "string" });
+		expect(parsed.isLegacy).toBe(true);
+		if (parsed.isLegacy) {
+			const header = parsed.slots.get("header");
+			expect(header).toBeDefined();
+			const title = header?.get("title");
+			expect(title).toBeDefined();
+			expect(title).toMatchInlineSnapshot(`
+				{
+				  "kind": "string",
+				}
+			`);
+		}
 	});
 });

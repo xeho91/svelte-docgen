@@ -1,11 +1,11 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import { generate } from "../mod.js";
+import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "function.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("documents prop(s) with 'function' type - retuning void", ({ expect }) => {
 	const void_ = props.get("void");

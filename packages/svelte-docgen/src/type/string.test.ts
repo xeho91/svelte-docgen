@@ -1,11 +1,12 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import { generate } from "../mod.js";
+import type { Doc } from "../documentation.js";
+import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "string.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("recognizes prop(s) with loose 'string' type", ({ expect }) => {
 	const loose = props.get("loose");
@@ -27,4 +28,5 @@ it("recognizes prop(s) with literal 'string' type", ({ expect }) => {
 		  "value": "awesome",
 		}
 	`);
+	expect((literal?.type as Doc.LiteralString).value).toBe("awesome");
 });

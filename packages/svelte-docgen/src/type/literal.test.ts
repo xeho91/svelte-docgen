@@ -1,11 +1,12 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import { generate } from "../mod.js";
+import { parse } from "../parser.js";
+import type { Doc } from "../documentation.js";
 
 const filepath = create_path_to_example_component("data", "type", "literal.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("recognizes prop(s) with 'literal' type - bigint", ({ expect }) => {
 	const bigintish = props.get("bigintish");
@@ -17,6 +18,7 @@ it("recognizes prop(s) with 'literal' type - bigint", ({ expect }) => {
 		  "value": 1n,
 		}
 	`);
+	expect((bigintish?.type as Doc.LiteralBigInt)?.value).toBe(1n);
 });
 
 it("recognizes prop(s) with 'literal' type - boolean", ({ expect }) => {
@@ -29,6 +31,7 @@ it("recognizes prop(s) with 'literal' type - boolean", ({ expect }) => {
 		  "value": true,
 		}
 	`);
+	expect((booleanish?.type as Doc.LiteralBoolean)?.value).toBe(true);
 });
 
 it("recognizes prop(s) with 'literal' type - number", ({ expect }) => {
@@ -41,6 +44,7 @@ it("recognizes prop(s) with 'literal' type - number", ({ expect }) => {
 		  "value": 1337,
 		}
 	`);
+	expect((numberish?.type as Doc.LiteralNumber)?.value).toBe(1337);
 });
 
 it("recognizes prop(s) with 'literal' type - string", ({ expect }) => {
@@ -53,4 +57,5 @@ it("recognizes prop(s) with 'literal' type - string", ({ expect }) => {
 		  "value": "awesome",
 		}
 	`);
+	expect((stringish?.type as Doc.LiteralString)?.value).toBe("awesome");
 });

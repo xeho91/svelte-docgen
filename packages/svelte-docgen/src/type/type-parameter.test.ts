@@ -1,11 +1,11 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import { generate } from "../mod.js";
+import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "type-parameter.svelte");
-const generated = generate(filepath, OPTIONS);
-const { props } = generated[1];
+const parsed = parse(filepath, OPTIONS);
+const { props } = parsed[1];
 
 it("documents prop(s) with 'type-parameter' type kind - unknown", ({ expect }) => {
 	const unknown = props.get("unknown");

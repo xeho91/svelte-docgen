@@ -1,7 +1,6 @@
 /**
- * @import { extract } from "@svelte-docgen/extractor";
- *
  * @import * as Doc from "./documentation.ts";
+ * @import { Extractor } from "./shared.js"
  */
 
 import ts from "typescript";
@@ -21,7 +20,7 @@ function get_type_symbol(type) {
 
 /**
  * @param {ts.Type} type
- * @param {ReturnType<typeof extract>} extractor
+ * @param {Extractor} extractor
  * @returns {readonly ts.Signature[]}
  */
 function get_construct_signatures(type, extractor) {
@@ -32,7 +31,7 @@ function get_construct_signatures(type, extractor) {
 
 /**
  * @param {ts.Type} type
- * @param {ReturnType<typeof extract>} extractor
+ * @param {Extractor} extractor
  * @returns {boolean}
  */
 function is_constructible(type, extractor) {
@@ -41,27 +40,27 @@ function is_constructible(type, extractor) {
 
 export const TYPE_KINDS = new Set(
 	/** @type {const} */ ([
-		"any", // ✅
-		"array", // ✅
-		"bigint", // ✅
-		"boolean", // ✅
-		"constructible", // ✅
-		"function", // ✅
-		"interface", // ✅
-		"intersection", // ✅
-		"literal", // ✅
-		"never", // ✅
-		"null", // ✅
-		"number", // ✅
-		"object", // ✅
-		"string", // ✅
-		"symbol", // ✅
-		"tuple", // ✅
+		"any",
+		"array",
+		"bigint",
+		"boolean",
+		"constructible",
+		"function",
+		"interface",
+		"intersection",
+		"literal",
+		"never",
+		"null",
+		"number",
+		"object",
+		"string",
+		"symbol",
+		"tuple",
 		"type-parameter",
-		"undefined", // ✅
-		"union", // ✅
-		"unknown", // ✅
-		"void", // ✅
+		"undefined",
+		"union",
+		"unknown",
+		"void",
 	]),
 );
 
@@ -70,7 +69,7 @@ export const TYPE_KINDS = new Set(
  * @returns {boolean}
  * FIXME: This is a very hacky workaround.
  * Because `svelte2tsx` converts `type` to `interface` defined inside svelte component file
- * Needs to be gone once we provide custom compiler instead of `svelte2tsx`.
+ * Needs to be gone once we provide custom compiler instead of `svelte2tsx` or they fix it - if they can.
  */
 function is_interface_type(type) {
 	if (!type.symbol) return false;
@@ -266,7 +265,7 @@ function is_symbol_readonly(symbol) {
 }
 
 /**
- * @param  {{ parameter: ts.Symbol, extractor: ReturnType<typeof extract>, self?: string }} params
+ * @param  {{ parameter: ts.Symbol, extractor: Extractor, self?: string }} params
  * @returns {Doc.FunctionParameterDocumentation}
  */
 function get_function_parameter_documentation(params) {

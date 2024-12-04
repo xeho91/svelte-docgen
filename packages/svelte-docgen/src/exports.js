@@ -1,25 +1,24 @@
 /**
- * @import { extract } from "@svelte-docgen/extractor";
- *
- * @import { TypeDocumentation } from "./shared.js";
+ * @import { Doc } from "./documentation.ts";
+ * @import { Extractor } from "./shared.js"
  */
 
-import { generate_type_documentation } from "./shared.js";
-
-/**
- * @typedef {Record<string, TypeDocumentation>} ExportsDocumentation
- */
+import { get_type_documentation } from "./type.js";
 
 /**
- * @param {ReturnType<typeof extract>} extractor
- * @returns {ExportsDocumentation}
+ * @param {Extractor} extractor
+ * @returns {Doc.Exports}
  */
-export function generate_exports_documentation(extractor) {
-	/** @type {ExportsDocumentation} */
-	// biome-ignore lint/style/useConst: Readability - mutation
-	let results = {};
-	for (const [name, symbol] of extractor.exports) {
-		results[name] = generate_type_documentation(symbol, extractor);
-	}
-	return results;
+export function get_exports_documentation(extractor) {
+	return new Map(
+		Iterator.from(extractor.exports).map(([name, symbol]) => {
+			return [
+				name,
+				get_type_documentation({
+					type: extractor.checker.getTypeOfSymbol(symbol),
+					extractor,
+				}),
+			];
+		}),
+	);
 }
