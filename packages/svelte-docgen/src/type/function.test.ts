@@ -127,6 +127,9 @@ it("recognizes aliased type", ({ expect }) => {
 		    },
 		  ],
 		  "kind": "function",
+		  "sources": [
+		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/function.svelte",
+		  ],
 		}
 	`);
 	expect((aliased?.type as Doc.FunctionType).alias).toBeDefined();
