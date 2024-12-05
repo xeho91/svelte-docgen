@@ -1,8 +1,8 @@
 import { it } from "vitest";
 
 import { OPTIONS, create_path_to_example_component } from "../../tests/shared.js";
-import { parse } from "../parser.js";
 import type { Doc } from "../documentation.js";
+import { parse } from "../parser.js";
 
 const filepath = create_path_to_example_component("data", "type", "union.svelte");
 const parsed = parse(filepath, OPTIONS);

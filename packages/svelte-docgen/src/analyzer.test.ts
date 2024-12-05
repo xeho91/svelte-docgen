@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
+import { OPTIONS, create_path_to_example_component } from "../tests/shared.ts";
 import { analyzeProperty } from "./analyzer.js";
-import { create_path_to_example_component, OPTIONS } from "../tests/shared.ts";
 import { parse } from "./parser.js";
 
 describe(analyzeProperty.name, () => {
