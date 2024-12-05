@@ -4,7 +4,7 @@
 
 import path from "node:path";
 
-export class PropAnalyzer {
+class PropAnalyzer {
 	/** @type {Doc.Prop} */
 	#prop;
 
@@ -19,6 +19,11 @@ export class PropAnalyzer {
 		const is_type_from_svelte = this.#prop.type.sources?.some((f) => this.#is_filepath_from_svelte(f));
 		if (!is_type_from_svelte) return false;
 		return Boolean(this.#prop.type.alias?.endsWith("EventHandler"));
+	}
+
+	/** @returns {boolean} */
+	get isExtendedBySvelte() {
+		return Boolean(this.#prop.isExtended && this.#prop.sources?.some((f) => this.#is_filepath_from_svelte(f)));
 	}
 
 	/** @returns {boolean} */
@@ -73,4 +78,39 @@ export class PropAnalyzer {
 		if (type.kind !== "function" || type.alias !== "Snippet") return false;
 		return Boolean(type.sources?.some((f) => this.#is_filepath_from_svelte(f)));
 	}
+}
+
+/**
+ * @typedef EventHandlerPropAnalysis
+ * @prop {boolean} isExtendedBySvelte
+ * @prop {false} isSnippet
+ * @prop {true} isEventHandler
+ */
+
+/**
+ * @typedef SnippetPropAnalysis
+ * @prop {boolean} isExtendedBySvelte
+ * @prop {true} isSnippet
+ * @prop {() => Doc.Tuple} getSnippetParameters
+ * @prop {false} isEventHandler
+ */
+
+/**
+ * @typedef OtherPropAnalysis
+ * @prop {boolean} isExtendedBySvelte
+ * @prop {false} isSnippet
+ * @prop {false} isEventHandler
+ */
+
+/**
+ * @typedef {(EventHandlerPropAnalysis | SnippetPropAnalysis | OtherPropAnalysis)} PropAnalysis
+ */
+
+/**
+ * @param {Doc.Prop} prop
+ * @returns {PropAnalysis}
+ */
+export function analyzeProperty(prop) {
+	// @ts-expect-error: WARN: Hard to type (cast), but should be fine from usage perspective
+	return new PropAnalyzer(prop);
 }

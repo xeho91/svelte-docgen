@@ -1,6 +1,9 @@
 <script lang="ts">
 import type { HTMLButtonAttributes } from "svelte/elements";
-interface Props extends HTMLButtonAttributes {
+
+import type { CustomProps } from "./custom-extended.ts";
+
+interface Props extends HTMLButtonAttributes, CustomProps {
 	custom: string;
 }
 let { custom, ...rest }: Props = $props();

@@ -21,14 +21,20 @@ export declare namespace Doc {
 		default?: never;
 		isOptional: false;
 	}
+	interface LocalProp {
+		isExtended: false;
+		sources?: never;
+	}
+	interface ExtendedProp {
+		isExtended: true;
+		/** Where is this extended prop declared? */
+		sources?: string[];
+	}
 	type Prop = Docable & {
-		default?: Type;
 		isBindable: boolean;
-		isOptional: boolean;
 		type: Type;
-		/** Where is this prop declared? Could be extended. */
-		sources: string[];
-	} & (OptionalProp | RequiredProp);
+	} & (OptionalProp | RequiredProp) &
+		(LocalProp | ExtendedProp);
 
 	type Events = Map<string, Type>;
 	type Exports = Map<string, Type>;

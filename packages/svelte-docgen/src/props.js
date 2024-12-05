@@ -27,14 +27,15 @@ export function get_props_doc(extractor) {
  */
 export function get_prop_doc(symbol, extractor) {
 	const type = extractor.checker.getTypeOfSymbol(symbol);
+	const sources = get_symbol_sources(symbol);
 	/** @type {Doc.Prop} */
 	// biome-ignore lint/style/useConst: Readability - mutation
 	let results = {
 		tags: get_prop_tags(symbol, extractor),
 		isBindable: extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
+		isExtended: Boolean(sources?.some((f) => f !== extractor.filepath)),
 		isOptional: is_symbol_optional(symbol),
 		type: get_type_doc({ extractor, type }),
-		sources: get_symbol_sources(symbol),
 	};
 	const description = get_prop_description(symbol, extractor);
 	if (description) results.description = description;
@@ -45,6 +46,7 @@ export function get_prop_doc(symbol, extractor) {
 			results.default = get_type_doc({ extractor, type: default_type });
 		}
 	}
+	if (results.isExtended && sources) results.sources = sources;
 	return results;
 }
 

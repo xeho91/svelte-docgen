@@ -7,15 +7,17 @@ describe("parse(filepath)[1].props", () => {
 	it("returns empty map if component doesn't have any props", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "props", "none.svelte");
 		const parsed = parse(filepath, OPTIONS)[1];
-		expect(parsed.props.size).toBe(0);
-		expect(parsed.props).toMatchInlineSnapshot("Map {}");
-		expect(parsed.props.size).toBe(0);
+		const { props } = parsed;
+		expect(props.size).toBe(0);
+		expect(props).toMatchInlineSnapshot("Map {}");
+		expect(props.size).toBe(0);
 	});
 
 	it("recognizes props with `$bindable()` rune", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "props", "bindable.svelte");
 		const parsed = parse(filepath, OPTIONS)[1];
-		expect(parsed.props).toMatchInlineSnapshot(`
+		const { props } = parsed;
+		expect(props).toMatchInlineSnapshot(`
 			Map {
 			  "value" => {
 			    "default": {
@@ -24,10 +26,8 @@ describe("parse(filepath)[1].props", () => {
 			      "value": 0,
 			    },
 			    "isBindable": true,
+			    "isExtended": false,
 			    "isOptional": true,
-			    "sources": [
-			      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/bindable.svelte",
-			    ],
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
@@ -53,10 +53,8 @@ describe("parse(filepath)[1].props", () => {
 			      "kind": "array",
 			    },
 			    "isBindable": true,
+			    "isExtended": false,
 			    "isOptional": true,
-			    "sources": [
-			      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/bindable.svelte",
-			    ],
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
@@ -83,10 +81,8 @@ describe("parse(filepath)[1].props", () => {
 			  },
 			  "disabled" => {
 			    "isBindable": false,
+			    "isExtended": false,
 			    "isOptional": true,
-			    "sources": [
-			      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/bindable.svelte",
-			    ],
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
@@ -112,13 +108,13 @@ describe("parse(filepath)[1].props", () => {
 			  },
 			}
 		`);
-		const value = parsed.props.get("value");
+		const value = props.get("value");
 		expect(value).toBeDefined();
 		expect(value?.isBindable).toBe(true);
-		const group = parsed.props.get("group");
+		const group = props.get("group");
 		expect(group).toBeDefined();
 		expect(group?.isBindable).toBe(true);
-		const disabled = parsed.props.get("disabled");
+		const disabled = props.get("disabled");
 		expect(disabled).toBeDefined();
 		expect(disabled?.isBindable).toBe(false);
 	});
@@ -131,10 +127,8 @@ describe("parse(filepath)[1].props", () => {
 			Map {
 			  "name" => {
 			    "isBindable": false,
+			    "isExtended": false,
 			    "isOptional": true,
-			    "sources": [
-			      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/optional.svelte",
-			    ],
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
@@ -153,10 +147,8 @@ describe("parse(filepath)[1].props", () => {
 			  },
 			  "id" => {
 			    "isBindable": false,
+			    "isExtended": false,
 			    "isOptional": false,
-			    "sources": [
-			      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/optional.svelte",
-			    ],
 			    "tags": [],
 			    "type": {
 			      "kind": "number",
@@ -169,10 +161,8 @@ describe("parse(filepath)[1].props", () => {
 			      "value": "terminal",
 			    },
 			    "isBindable": false,
+			    "isExtended": false,
 			    "isOptional": true,
-			    "sources": [
-			      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/optional.svelte",
-			    ],
 			    "tags": [],
 			    "type": {
 			      "kind": "union",
@@ -211,38 +201,39 @@ describe("parse(filepath)[1].props", () => {
 		`);
 	});
 
-	it("includes extended props and recognizes their sources", ({ expect }) => {
+	it("non-extended props are recognizes and doesn't have `sources` property", ({ expect }) => {
 		const filepath = create_path_to_example_component("data", "props", "extended.svelte");
 		const parsed = parse(filepath, OPTIONS)[1];
 		const { props } = parsed;
 		expect(props.size).toBeGreaterThan(1);
-		expect(props.size).toMatchInlineSnapshot("441");
+		expect(props.size).toMatchInlineSnapshot("442");
 		const custom = props.get("custom");
 		expect(custom).toBeDefined();
 		expect(custom).toMatchInlineSnapshot(`
 			{
 			  "isBindable": false,
+			  "isExtended": false,
 			  "isOptional": false,
-			  "sources": [
-			    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/extended.svelte",
-			  ],
 			  "tags": [],
 			  "type": {
 			    "kind": "string",
 			  },
 			}
 		`);
-		expect(custom?.sources).toMatchInlineSnapshot(`
-			[
-			  "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/props/extended.svelte",
-			]
-		`);
-		expect(custom?.sources.some((s) => s.endsWith("extended.svelte"))).toBe(true);
+		expect(custom?.isExtended).toBe(false);
+		expect(custom?.sources).not.toBeDefined();
+	});
+
+	it("includes extended props and recognizes their sources", ({ expect }) => {
+		const filepath = create_path_to_example_component("data", "props", "extended.svelte");
+		const parsed = parse(filepath, OPTIONS)[1];
+		const { props } = parsed;
 		const disabled = props.get("disabled");
 		expect(disabled).toBeDefined();
 		expect(disabled).toMatchInlineSnapshot(`
 			{
 			  "isBindable": false,
+			  "isExtended": true,
 			  "isOptional": true,
 			  "sources": [
 			    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/svelte@5.2.0/node_modules/svelte/elements.d.ts",
@@ -274,79 +265,14 @@ describe("parse(filepath)[1].props", () => {
 			  },
 			}
 		`);
+		expect(disabled?.isExtended).toBe(true);
 		expect(disabled?.sources).toMatchInlineSnapshot(`
 			[
 			  "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/svelte@5.2.0/node_modules/svelte/elements.d.ts",
 			]
 		`);
-		expect(disabled?.sources.some((s) => s.endsWith("/svelte/elements.d.ts")));
+		if (disabled?.isExtended) {
+			expect(disabled?.sources?.some((s) => s.endsWith("/svelte/elements.d.ts")));
+		}
 	});
-
-	// it("recognizes snippet props", ({ expect }) => {
-	// 	const filepath = create_path_to_example_component("data", "props", "snippet_type.svelte");
-	// 	const parsed = parse(filepath, OPTIONS);
-	// 	const { props } = parsed[1];
-	// 	expect(props.size).toBe(3);
-	// 	const header = props.get("header");
-	// 	expect(header).toBeDefined();
-	// 	expect(header?.isSnippet).toBe(true);
-	// 	expect(header?.isOptional).toBe(true);
-	// 	expect(header?.default).toBeUndefined();
-	// 	if (header?.isSnippet) {
-	// 		expect(header.parameters).toHaveLength(1);
-	// 		expect(header.parameters).toMatchInlineSnapshot(`
-	// 			[
-	// 			  {
-	// 			    "kind": "string",
-	// 			  },
-	// 			]
-	// 		`);
-	// 	}
-	// 	const children = props.get("children");
-	// 	expect(children).toBeDefined();
-	// 	expect(children?.isSnippet).toBe(true);
-	// 	expect(children?.isOptional).toBe(false);
-	// 	expect(() => children?.default).toThrowErrorMatchingInlineSnapshot("[Error]");
-	// 	if (children?.isSnippet) {
-	// 		expect(children.parameters).toHaveLength(0);
-	// 	}
-	// 	const footer = props.get("footer");
-	// 	expect(footer).toBeDefined();
-	// 	expect(footer?.isSnippet).toBe(true);
-	// 	expect(footer?.isOptional).toBe(true);
-	// 	expect(footer?.default).toMatchInlineSnapshot(
-	// 		`"(color: Color, year: number) => { '{@render ...} must be called with a Snippet': "import type { Snippet } from 'svelte'"; } & unique symbol"`,
-	// 	);
-	// 	if (footer?.isSnippet) {
-	// 		expect(footer.parameters).toHaveLength(2);
-	// 		expect(footer.parameters).toMatchInlineSnapshot(`
-	// 			[
-	// 			  {
-	// 			    "alias": "Color",
-	// 			    "kind": "union",
-	// 			    "types": [
-	// 			      {
-	// 			        "kind": "literal",
-	// 			        "subkind": "string",
-	// 			        "value": "red",
-	// 			      },
-	// 			      {
-	// 			        "kind": "literal",
-	// 			        "subkind": "string",
-	// 			        "value": "green",
-	// 			      },
-	// 			      {
-	// 			        "kind": "literal",
-	// 			        "subkind": "string",
-	// 			        "value": "blue",
-	// 			      },
-	// 			    ],
-	// 			  },
-	// 			  {
-	// 			    "kind": "number",
-	// 			  },
-	// 			]
-	// 		`);
-	// 	}
-	// });
 });

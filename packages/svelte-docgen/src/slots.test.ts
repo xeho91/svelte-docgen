@@ -18,10 +18,8 @@ describe("parse(filepath)[1].slots", () => {
 			  "header" => Map {
 			    "title" => {
 			      "isBindable": false,
+			      "isExtended": false,
 			      "isOptional": false,
-			      "sources": [
-			        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/slots/some.svelte",
-			      ],
 			      "tags": [],
 			      "type": {
 			        "kind": "string",
@@ -41,10 +39,8 @@ describe("parse(filepath)[1].slots", () => {
 			expect(title).toMatchInlineSnapshot(`
 				{
 				  "isBindable": false,
+				  "isExtended": false,
 				  "isOptional": false,
-				  "sources": [
-				    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/slots/some.svelte",
-				  ],
 				  "tags": [],
 				  "type": {
 				    "kind": "string",
