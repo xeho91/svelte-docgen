@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
 
-import { OPTIONS, create_path_to_example_component } from "../tests/shared.ts";
-import { analyzeProperty } from "./analyzer.js";
-import { parse } from "./parser.js";
+import { OPTIONS, create_path_to_example_component } from "../../tests/shared.ts";
+import { parse } from "../parser.js";
+import { analyzeProperty } from "./prop.js";
 
 describe(analyzeProperty.name, () => {
 	describe("getter .isEventHandler", () => {

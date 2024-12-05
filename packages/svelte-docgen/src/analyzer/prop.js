@@ -1,5 +1,5 @@
 /**
- * @import { Doc } from "./documentation.ts";
+ * @import { Doc } from "../documentation.ts";
  */
 
 import path from "node:path";
