@@ -89,7 +89,7 @@ it("recognizes aliased interface", ({ expect }) => {
 		    },
 		  },
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/interface.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/interface.svelte,
 		  ],
 		}
 	`);
@@ -120,7 +120,7 @@ it("recognizes 'readonly' members", ({ expect }) => {
 		    },
 		  },
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/interface.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/interface.svelte,
 		  ],
 		}
 	`);
@@ -146,7 +146,7 @@ it("recognizes types which contains anonymous interface only", ({ expect }) => {
 		    },
 		  },
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/interface.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/interface.svelte,
 		  ],
 		}
 	`);
@@ -162,7 +162,7 @@ it("recognizes empty aliased interface", ({ expect }) => {
 		  "kind": "interface",
 		  "members": Map {},
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/interface.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/interface.svelte,
 		  ],
 		}
 	`);
@@ -179,7 +179,7 @@ it("recognizes empty aliased interface as type", ({ expect }) => {
 		  "kind": "interface",
 		  "members": Map {},
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/interface.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/interface.svelte,
 		  ],
 		}
 	`);
@@ -237,7 +237,7 @@ it("understands type which is an alias to interface only", ({ expect }) => {
 		    },
 		  },
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/interface.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/interface.svelte,
 		  ],
 		}
 	`);

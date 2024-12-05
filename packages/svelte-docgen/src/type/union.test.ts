@@ -131,7 +131,7 @@ it("recognizes aliased union type", ({ expect }) => {
 		  "alias": "Aliased",
 		  "kind": "union",
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/union.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/union.svelte,
 		  ],
 		  "types": [
 		    {

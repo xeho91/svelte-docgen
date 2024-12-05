@@ -236,7 +236,7 @@ describe("parse(filepath)[1].props", () => {
 			  "isExtended": true,
 			  "isOptional": true,
 			  "sources": [
-			    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/svelte@5.2.0/node_modules/svelte/elements.d.ts",
+			    <process-cwd>/node_modules/.pnpm/svelte@5.2.0/node_modules/svelte/elements.d.ts,
 			  ],
 			  "tags": [],
 			  "type": {
@@ -268,7 +268,7 @@ describe("parse(filepath)[1].props", () => {
 		expect(disabled?.isExtended).toBe(true);
 		expect(disabled?.sources).toMatchInlineSnapshot(`
 			[
-			  "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/svelte@5.2.0/node_modules/svelte/elements.d.ts",
+			  <process-cwd>/node_modules/.pnpm/svelte@5.2.0/node_modules/svelte/elements.d.ts,
 			]
 		`);
 		if (disabled?.isExtended) {

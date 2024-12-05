@@ -14,6 +14,7 @@ const config = defineWorkspace([
 			name: "@svelte-docgen/extractor",
 			root: path.resolve(__dirname, "packages", "extractor"),
 			env: Object.assign(process.env, loadEnv("", path.resolve(__dirname), "")),
+			snapshotSerializers: [path.resolve(__dirname, "tests", "snapshot-serializer.ts")],
 			typecheck: {
 				enabled: true,
 			},
@@ -24,6 +25,7 @@ const config = defineWorkspace([
 			name: "svelte-docgen",
 			root: path.resolve(__dirname, "packages", "svelte-docgen"),
 			env: Object.assign(process.env, loadEnv("", path.resolve(__dirname), "")),
+			snapshotSerializers: [path.resolve(__dirname, "tests", "snapshot-serializer.ts")],
 			typecheck: {
 				enabled: true,
 			},

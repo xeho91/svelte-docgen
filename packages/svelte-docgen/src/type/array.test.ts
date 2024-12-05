@@ -17,7 +17,7 @@ it("documents prop(s) with 'array' type kind", ({ expect }) => {
 		    "alias": "Letter",
 		    "kind": "union",
 		    "sources": [
-		      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/array.svelte",
+		      <process-cwd>/packages/svelte-docgen/examples/data/type/array.svelte,
 		    ],
 		    "types": [
 		      {
@@ -53,7 +53,7 @@ it("recognizes 'readonly'", ({ expect }) => {
 		    "alias": "Num",
 		    "kind": "union",
 		    "sources": [
-		      "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/array.svelte",
+		      <process-cwd>/packages/svelte-docgen/examples/data/type/array.svelte,
 		    ],
 		    "types": [
 		      {

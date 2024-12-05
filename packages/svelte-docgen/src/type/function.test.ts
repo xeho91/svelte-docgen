@@ -68,7 +68,7 @@ it("documents parameter(s) type if specified", ({ expect }) => {
 		              "alias": "Baz",
 		              "kind": "union",
 		              "sources": [
-		                "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/function.svelte",
+		                <process-cwd>/packages/svelte-docgen/examples/data/type/function.svelte,
 		              ],
 		              "types": [
 		                {
@@ -143,7 +143,7 @@ it("recognizes aliased type", ({ expect }) => {
 		  ],
 		  "kind": "function",
 		  "sources": [
-		    "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/packages/svelte-docgen/examples/data/type/function.svelte",
+		    <process-cwd>/packages/svelte-docgen/examples/data/type/function.svelte,
 		  ],
 		}
 	`);
