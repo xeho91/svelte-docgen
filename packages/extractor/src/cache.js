@@ -8,7 +8,7 @@ import ts from "typescript";
  * @prop {ts.CompilerOptions} [options]
  */
 
-export class Cache {
+class Cache {
 	/** @type {Map<string, CachedFile>} */
 	#cached = new Map();
 	/** @type {ts.Program | undefined} */

@@ -1,5 +1,4 @@
 /**
- * @import { Cache } from "./cache.js";
  * @import { SvelteFilepath } from "./util.js";
  */
 
@@ -8,7 +7,7 @@ import { createCacheStorage } from "./cache.js";
 /** @typedef {Partial<Options> & { filepath?: SvelteFilepath | (string & {}) }} UserOptions */
 
 export class Options {
-	/** @type {Cache} */
+	/** @type {ReturnType<typeof createCacheStorage>} */
 	cache;
 	/** @type {SvelteFilepath} */
 	filepath;
