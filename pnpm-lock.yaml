@@ -4,6 +4,18 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    dts-buddy:
+      specifier: ^0.5.0
+      version: 0.5.4
+    svelte:
+      specifier: ^5.3.0
+      version: 5.3.1
+    typescript:
+      specifier: ^5.7.0
+      version: 5.7.2
+
 importers:
 
   .:
@@ -34,22 +46,22 @@ importers:
         version: 14.2.4
       svelte-check:
         specifier: 4.0.9
-        version: 4.0.9(picomatch@4.0.2)(svelte@5.2.0)(typescript@5.6.3)
+        version: 4.0.9(picomatch@4.0.2)(svelte@5.3.1)(typescript@5.7.2)
       turbo:
         specifier: 2.3.0
         version: 2.3.0
       typedoc:
         specifier: 0.26.11
-        version: 0.26.11(typescript@5.6.3)
+        version: 0.26.11(typescript@5.7.2)
       typedoc-plugin-coverage:
         specifier: 3.3.0
-        version: 3.3.0(typedoc@0.26.11(typescript@5.6.3))
+        version: 3.3.0(typedoc@0.26.11(typescript@5.7.2))
       typedoc-plugin-mdn-links:
         specifier: 3.3.8
-        version: 3.3.8(typedoc@0.26.11(typescript@5.6.3))
+        version: 3.3.8(typedoc@0.26.11(typescript@5.7.2))
       typescript:
-        specifier: 5.6.3
-        version: 5.6.3
+        specifier: 'catalog:'
+        version: 5.7.2
       vite:
         specifier: 5.4.11
         version: 5.4.11(@types/node@22.9.0)
@@ -60,18 +72,18 @@ importers:
   packages/extractor:
     dependencies:
       svelte:
-        specifier: ^5.0.0
-        version: 5.2.0
+        specifier: 'catalog:'
+        version: 5.3.1
       svelte2tsx:
         specifier: ^0.7.26
-        version: 0.7.26(svelte@5.2.0)(typescript@5.6.3)
+        version: 0.7.26(svelte@5.3.1)(typescript@5.7.2)
       typescript:
-        specifier: ^5.6.0
-        version: 5.6.3
+        specifier: 'catalog:'
+        version: 5.7.2
     devDependencies:
       dts-buddy:
-        specifier: ^0.5.3
-        version: 0.5.3(typescript@5.6.3)
+        specifier: 'catalog:'
+        version: 0.5.4(typescript@5.7.2)
 
   packages/svelte-docgen:
     dependencies:
@@ -79,18 +91,15 @@ importers:
         specifier: workspace:*
         version: link:../extractor
       svelte:
-        specifier: ^5.0.0
-        version: 5.2.0
-      svelte2tsx:
-        specifier: ^0.7.26
-        version: 0.7.26(svelte@5.2.0)(typescript@5.6.3)
+        specifier: 'catalog:'
+        version: 5.3.1
       typescript:
-        specifier: ^5.6.0
-        version: 5.6.3
+        specifier: 'catalog:'
+        version: 5.7.2
     devDependencies:
       dts-buddy:
-        specifier: ^0.5.3
-        version: 0.5.3(typescript@5.6.3)
+        specifier: 'catalog:'
+        version: 0.5.4(typescript@5.7.2)
 
 packages:
 
@@ -865,11 +874,11 @@ packages:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
 
-  dts-buddy@0.5.3:
-    resolution: {integrity: sha512-wS2DC5T+F6R+sG/YNlJ21yn8CKVhy1QQlpKA34G+uO4PUXkwz+JQWbGcIryUByxoJgbH98O0dTGzE2RqsRR3KA==}
+  dts-buddy@0.5.4:
+    resolution: {integrity: sha512-a3jJYbMXK98aJvhdV/v+tEKTTEJXXWtMjrl5L8jJL7rnZzGtPA6JNHJZ5//NVRw4JiB5T10Ie5T7h/QsP3aaYw==}
     hasBin: true
     peerDependencies:
-      typescript: '>=5.0.4 <5.6'
+      typescript: '>=5.0.4 <5.8'
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -903,16 +912,16 @@ packages:
     resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}
     engines: {node: '>=0.8.0'}
 
-  esm-env@1.1.4:
-    resolution: {integrity: sha512-oO82nKPHKkzIj/hbtuDYy/JHqBHFlMIW36SDiPCVsj87ntDLcWN+sJ1erdVryd4NxODacFTsdrIE3b7IamqbOg==}
+  esm-env@1.2.1:
+    resolution: {integrity: sha512-U9JedYYjCnadUlXk7e1Kr+aENQhtUaoaV9+gZm1T8LC/YBAPJx3NSPIAurFOC0U5vrdSevnUJS2/wUVxGwPhng==}
 
   esprima@4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
     hasBin: true
 
-  esrap@1.2.2:
-    resolution: {integrity: sha512-F2pSJklxx1BlQIQgooczXCPHmcWpn6EsP5oo73LQfonG9fIlIENQ8vMmfGXeojP9MrkzUNAfyU5vdFlR9shHAw==}
+  esrap@1.2.3:
+    resolution: {integrity: sha512-ZlQmCCK+n7SGoqo7DnfKaP1sJZa49P01/dXzmjCASSo04p72w8EksT2NMK8CEX8DhKsfJXANioIw8VyHNsBfvQ==}
 
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
@@ -1630,8 +1639,8 @@ packages:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
 
-  svelte@5.2.0:
-    resolution: {integrity: sha512-LOowFhMB0CoTzDsa90snaICFMftrxKlYsOhH4YP1AamjCSDBZvtDq0yB5QY8LJA1tFftcmpAhmLCK/gAOFNrtw==}
+  svelte@5.3.1:
+    resolution: {integrity: sha512-Y6PXppQhIZZ0HLZKj6UMV/VZPJbHiK98K8A5M7mJ+PGrz4erUmuDRUa8l7aw4La++Vl51YWzLUuuB0FZ7JPfnw==}
     engines: {node: '>=18'}
 
   term-size@2.2.1:
@@ -1760,8 +1769,8 @@ packages:
     peerDependencies:
       typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x
 
-  typescript@5.6.3:
-    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+  typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2698,7 +2707,7 @@ snapshots:
 
   dotenv@8.6.0: {}
 
-  dts-buddy@0.5.3(typescript@5.6.3):
+  dts-buddy@0.5.4(typescript@5.7.2):
     dependencies:
       '@jridgewell/source-map': 0.3.6
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -2708,8 +2717,8 @@ snapshots:
       magic-string: 0.30.14
       sade: 1.8.1
       tiny-glob: 0.2.9
-      ts-api-utils: 1.4.0(typescript@5.6.3)
-      typescript: 5.6.3
+      ts-api-utils: 1.4.0(typescript@5.7.2)
+      typescript: 5.7.2
 
   eastasianwidth@0.2.0: {}
 
@@ -2756,11 +2765,11 @@ snapshots:
 
   escape-string-regexp@1.0.5: {}
 
-  esm-env@1.1.4: {}
+  esm-env@1.2.1: {}
 
   esprima@4.0.1: {}
 
-  esrap@1.2.2:
+  esrap@1.2.3:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
       '@types/estree': 1.0.6
@@ -3462,26 +3471,26 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  svelte-check@4.0.9(picomatch@4.0.2)(svelte@5.2.0)(typescript@5.6.3):
+  svelte-check@4.0.9(picomatch@4.0.2)(svelte@5.3.1)(typescript@5.7.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.1
       fdir: 6.4.2(picomatch@4.0.2)
       picocolors: 1.1.1
       sade: 1.8.1
-      svelte: 5.2.0
-      typescript: 5.6.3
+      svelte: 5.3.1
+      typescript: 5.7.2
     transitivePeerDependencies:
       - picomatch
 
-  svelte2tsx@0.7.26(svelte@5.2.0)(typescript@5.6.3):
+  svelte2tsx@0.7.26(svelte@5.3.1)(typescript@5.7.2):
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
-      svelte: 5.2.0
-      typescript: 5.6.3
+      svelte: 5.3.1
+      typescript: 5.7.2
 
-  svelte@5.2.0:
+  svelte@5.3.1:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -3490,11 +3499,11 @@ snapshots:
       acorn-typescript: 1.4.13(acorn@8.14.0)
       aria-query: 5.3.2
       axobject-query: 4.1.0
-      esm-env: 1.1.4
-      esrap: 1.2.2
+      esm-env: 1.2.1
+      esrap: 1.2.3
       is-reference: 3.0.3
       locate-character: 3.0.0
-      magic-string: 0.30.13
+      magic-string: 0.30.14
       zimmerframe: 1.1.2
 
   term-size@2.2.1: {}
@@ -3541,9 +3550,9 @@ snapshots:
 
   trim-lines@3.0.1: {}
 
-  ts-api-utils@1.4.0(typescript@5.6.3):
+  ts-api-utils@1.4.0(typescript@5.7.2):
     dependencies:
-      typescript: 5.6.3
+      typescript: 5.7.2
 
   tslib@1.14.1: {}
 
@@ -3580,24 +3589,24 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  typedoc-plugin-coverage@3.3.0(typedoc@0.26.11(typescript@5.6.3)):
+  typedoc-plugin-coverage@3.3.0(typedoc@0.26.11(typescript@5.7.2)):
     dependencies:
-      typedoc: 0.26.11(typescript@5.6.3)
+      typedoc: 0.26.11(typescript@5.7.2)
 
-  typedoc-plugin-mdn-links@3.3.8(typedoc@0.26.11(typescript@5.6.3)):
+  typedoc-plugin-mdn-links@3.3.8(typedoc@0.26.11(typescript@5.7.2)):
     dependencies:
-      typedoc: 0.26.11(typescript@5.6.3)
+      typedoc: 0.26.11(typescript@5.7.2)
 
-  typedoc@0.26.11(typescript@5.6.3):
+  typedoc@0.26.11(typescript@5.7.2):
     dependencies:
       lunr: 2.3.9
       markdown-it: 14.1.0
       minimatch: 9.0.5
       shiki: 1.23.1
-      typescript: 5.6.3
+      typescript: 5.7.2
       yaml: 2.6.1
 
-  typescript@5.6.3: {}
+  typescript@5.7.2: {}
 
   uc.micro@2.1.0: {}
 

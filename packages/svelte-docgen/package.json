@@ -72,14 +72,13 @@
 		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"svelte-docgen\" "
 	},
 	"dependencies": {
-		"svelte2tsx": "^0.7.26",
 		"@svelte-docgen/extractor": "workspace:*"
 	},
 	"devDependencies": {
-		"dts-buddy": "^0.5.3"
+		"dts-buddy": "catalog:"
 	},
 	"peerDependencies": {
-		"svelte": "^5.0.0",
-		"typescript": "^5.6.0"
+		"svelte": "catalog:",
+		"typescript": "catalog:"
 	}
 }
