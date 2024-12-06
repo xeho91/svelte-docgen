@@ -3,17 +3,17 @@
  */
 
 /**
- * @typedef DocumentationTag
+ * @typedef Tag
  * @prop {string} name
  * @prop {string} description
  */
 
-export class DocumentationExtractor {
+export class ComponentDocExtractor {
 	/** @type {AST.Comment} */
 	node;
 	/** @type {string | undefined} */
 	description;
-	/** @type {DocumentationTag[]} */
+	/** @type {Tag[]} */
 	tags = [];
 
 	/** @param {AST.Comment} comment */

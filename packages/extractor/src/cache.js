@@ -1,11 +1,6 @@
 import ts from "typescript";
 
 /**
- * @typedef {Object} Props
- * @prop {ts.Program} [program]
- */
-
-/**
  * @typedef CachedFile
  * @prop {Date} [last_modified]
  * @prop {string} [content]

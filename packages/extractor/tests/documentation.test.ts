@@ -1,10 +1,10 @@
 import { describe, it } from "vitest";
 
-import { DocumentationExtractor } from "../src/documentation.js";
+import { ComponentDocExtractor } from "../src/documentation.js";
 import { Parser } from "../src/parser.js";
 import { create_path_to_example_component } from "./shared.js";
 
-describe("DocumentationExtractor", () => {
+describe(ComponentDocExtractor.name, () => {
 	describe("description", () => {
 		it("returns empty string when no description is found", ({ expect }) => {
 			const filepath = create_path_to_example_component(
@@ -15,7 +15,7 @@ describe("DocumentationExtractor", () => {
 			);
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.description).toBeDefined();
 			expect(extracted.description).toBe("");
 		});
@@ -29,7 +29,7 @@ describe("DocumentationExtractor", () => {
 			);
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.description).toBeDefined();
 			expect(extracted.description).toMatchInlineSnapshot(`"Native button component description"`);
 		});
@@ -43,7 +43,7 @@ describe("DocumentationExtractor", () => {
 			);
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.description).toBeDefined();
 			expect(extracted.description).toMatchInlineSnapshot(
 				`"Leading an trailing whitespaces from description are removed."`,
@@ -59,7 +59,7 @@ describe("DocumentationExtractor", () => {
 			);
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.description).toBeDefined();
 			expect(extracted.description).toMatchInlineSnapshot(`
 				"This is first paragraph.
@@ -84,7 +84,7 @@ describe("DocumentationExtractor", () => {
 			const filepath = create_path_to_example_component("extractor", "documentation", "tags", "no-tags.svelte");
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.tags).toHaveLength(0);
 		});
 
@@ -92,7 +92,7 @@ describe("DocumentationExtractor", () => {
 			const filepath = create_path_to_example_component("extractor", "documentation", "tags", "example.svelte");
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.tags).toHaveLength(2);
 			expect(extracted.tags).toContainEqual({
 				name: "category",
@@ -108,7 +108,7 @@ describe("DocumentationExtractor", () => {
 			const filepath = create_path_to_example_component("extractor", "documentation", "tags", "complex.svelte");
 			const parsed = new Parser(filepath);
 			// biome-ignore lint/style/noNonNullAssertion: No need to add type guard
-			const extracted = new DocumentationExtractor(parsed.documentation_comment!);
+			const extracted = new ComponentDocExtractor(parsed.documentation_comment!);
 			expect(extracted.tags).toHaveLength(1);
 			const customTag = extracted.tags.find((tag) => tag.name === "custom");
 			expect(customTag?.description).toMatchInlineSnapshot(`

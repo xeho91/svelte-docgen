@@ -8,7 +8,7 @@ import ts from "typescript";
 
 import { createCacheStorage } from "./cache.js";
 import { Compiler } from "./compiler.js";
-import { DocumentationExtractor } from "./documentation.js";
+import { ComponentDocExtractor } from "./documentation.js";
 import { Parser } from "./parser.js";
 import { validate_filepath } from "./util.js";
 
@@ -38,9 +38,9 @@ class Extractor {
 		this.compiler = new Compiler(this.filepath, this.parser);
 	}
 
-	/** @returns {DocumentationExtractor | undefined} */
+	/** @returns {ComponentDocExtractor | undefined} */
 	get documentation() {
-		if (this.parser.documentation_comment) return new DocumentationExtractor(this.parser.documentation_comment);
+		if (this.parser.documentation_comment) return new ComponentDocExtractor(this.parser.documentation_comment);
 		return undefined;
 	}
 
