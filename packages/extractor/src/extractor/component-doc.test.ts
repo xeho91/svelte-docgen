@@ -135,11 +135,11 @@ describe(ComponentDocExtractor.name, () => {
 					expect(tags).toHaveLength(2);
 					expect(tags).toContainEqual({
 						name: "category",
-						description: "Atom",
+						content: "Atom",
 					});
 					expect(tags).toContainEqual({
 						name: "subcategory",
-						description: "Semantic",
+						content: "Semantic",
 					});
 				}
 			});
@@ -176,7 +176,8 @@ describe(ComponentDocExtractor.name, () => {
 					const { tags } = new ComponentDocExtractor(componentComment);
 					expect(tags).toHaveLength(1);
 					const customTag = tags.find((tag) => tag.name === "custom");
-					expect(customTag?.description).toMatchInlineSnapshot(`
+					expect(customTag).toBeDefined();
+					expect(customTag?.content).toMatchInlineSnapshot(`
 						"Very complex tag with {@link https://example.com}
 						and multi-line {@link https://example.com}.
 

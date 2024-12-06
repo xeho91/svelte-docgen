@@ -5,7 +5,7 @@
 /**
  * @typedef Tag
  * @prop {string} name
- * @prop {string} description
+ * @prop {string} content
  */
 
 export class ComponentDocExtractor {
@@ -49,9 +49,9 @@ export class ComponentDocExtractor {
 	}
 
 	#wrap_latest_tag() {
-		const description = this.#latest_tag_content.join("\n").trim();
-		if (this.#latest_tag === "component") this.description = description;
-		else if (this.#latest_tag) this.tags.push({ name: this.#latest_tag, description });
+		const content = this.#latest_tag_content.join("\n").trim();
+		if (this.#latest_tag === "component") this.description = content;
+		else if (this.#latest_tag) this.tags.push({ name: this.#latest_tag, content });
 		this.#latest_tag = undefined;
 		this.#latest_tag_content = [];
 	}
