@@ -3,7 +3,7 @@
 	"name": "@svelte-docgen/extractor",
 	"version": "0.0.0",
 	"type": "module",
-	"description": "Generate documentation for Svelte components",
+	"description": "Extractor for svelte-docgen",
 	"keywords": ["svelte", "documentation", "component", "props", "docgen", "extractor"],
 	"license": "MIT",
 	"author": {
@@ -15,7 +15,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
-		"directory": "libs/extractor"
+		"directory": "packages/extractor"
 	},
 	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"funding": [

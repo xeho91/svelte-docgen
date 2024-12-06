@@ -14,5 +14,3 @@ export const CACHE = createCacheStorage();
 export const OPTIONS = {
 	cache: CACHE,
 } satisfies Partial<Parameters<typeof extract>[1]>;
-
-export function x() {}

@@ -89,7 +89,7 @@ class PropAnalyzer {
 
 /**
  * @typedef SnippetPropAnalysis
- * @prop {boolean} isExtendedBySvelte
+ * @prop {true} isExtendedBySvelte
  * @prop {true} isSnippet
  * @prop {() => Doc.Tuple} getSnippetParameters
  * @prop {false} isEventHandler
