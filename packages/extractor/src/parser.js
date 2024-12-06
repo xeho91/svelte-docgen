@@ -15,7 +15,7 @@ export class Parser {
 	 */
 	componentComment;
 	/** @type {boolean} */
-	is_lang_typescript;
+	isLangTypeScript;
 	/** @type {boolean} */
 	has_legacy_syntax;
 
@@ -23,7 +23,7 @@ export class Parser {
 	constructor(source) {
 		this.ast = this.#parse_code(source);
 		this.componentComment = this.#extract_description();
-		this.is_lang_typescript = this.#read_script_instance_lang_attribute();
+		this.isLangTypeScript = this.#read_script_instance_lang_attribute();
 		this.has_legacy_syntax = this.#determine_legacy_syntax();
 	}
 

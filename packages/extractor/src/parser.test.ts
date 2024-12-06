@@ -1,7 +1,6 @@
 import { describe, it } from "vitest";
 
 import { Parser } from "../src/parser.js";
-import { create_path_to_example_component } from "../tests/shared.js";
 
 describe(Parser.name, () => {
 	describe("componentComment", () => {
@@ -107,29 +106,39 @@ describe(Parser.name, () => {
 		});
 	});
 
-	describe("is_lang_typescript", () => {
+	describe("isLangTypeScript", () => {
 		it('returns `true` when the script tag (instance) has `lang="ts"`', ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "lang", "with-ts.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.is_lang_typescript).toBe(true);
+			const { isLangTypeScript } = new Parser(`
+				<script lang="ts">
+					// Test
+				</script>
+			`);
+			expect(isLangTypeScript).toBe(true);
 		});
 
 		it('returns `true` when the script tag (instance) has `lang="typescript"`', ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "lang", "with-typescript.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.is_lang_typescript).toBe(true);
+			const { isLangTypeScript } = new Parser(`
+				<script lang="typescript">
+					// Test
+				</script>
+			`);
+			expect(isLangTypeScript).toBe(true);
 		});
 
 		it("returns `false` when the script tag (instance) doesnt have `lang` attribute", ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "lang", "without.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.is_lang_typescript).toBe(false);
+			const { isLangTypeScript } = new Parser(`
+				<script>
+					// Test
+				</script>
+			`);
+			expect(isLangTypeScript).toBe(false);
 		});
 
 		it("returns `false` when no script tag (instance) is found", ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "lang", "no-script.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.is_lang_typescript).toBe(false);
+			const { isLangTypeScript } = new Parser(`
+				<h1>Hello world!</h1>
+			`);
+			expect(isLangTypeScript).toBe(false);
 		});
 	});
 });

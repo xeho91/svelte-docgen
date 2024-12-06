@@ -271,7 +271,7 @@ class Extractor {
 						language_version,
 						true,
 						// Set to 'JS' to enable TypeScript to parse JSDoc.
-						this.parser.is_lang_typescript ? ts.ScriptKind.TS : ts.ScriptKind.JS,
+						this.parser.isLangTypeScript ? ts.ScriptKind.TS : ts.ScriptKind.JS,
 					);
 				} else {
 					source = default_host.getSourceFile(filepath, language_version, on_error);
