@@ -32,7 +32,7 @@ export class Compiler {
 	#compile_to_tsx(source, parser) {
 		return svelte2tsx(source, {
 			filename: this.filepath,
-			isTsFile: parser.is_lang_typescript,
+			isTsFile: parser.isLangTypeScript,
 			mode: "dts",
 			version: VERSION,
 		});

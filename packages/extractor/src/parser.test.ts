@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 import { Parser } from "../src/parser.js";
 
 describe(Parser.name, () => {
-	describe("componentComment", () => {
+	describe("getter .componentComment", () => {
 		it("extracts `Comment` (html) AST node with starting `@component` correctly", ({ expect }) => {
 			const { componentComment } = new Parser(`
 				<!--
@@ -21,11 +21,11 @@ describe(Parser.name, () => {
 			expect(componentComment).toMatchInlineSnapshot(`
 				{
 				  "data": "
-					@component
-					This is an example component description.
-				",
-				  "end": 63,
-				  "start": 0,
+									@component
+									This is an example component description.
+								",
+				  "end": 80,
+				  "start": 5,
 				  "type": "Comment",
 				}
 			`);
@@ -48,11 +48,11 @@ describe(Parser.name, () => {
 			expect(componentComment).toMatchInlineSnapshot(`
 				{
 				  "data": "
-					@component
-					This is an example component description.
-				",
-				  "end": 108,
-				  "start": 45,
+									@component
+									This is an example component description.
+								",
+				  "end": 137,
+				  "start": 62,
 				  "type": "Comment",
 				}
 			`);
@@ -80,11 +80,11 @@ describe(Parser.name, () => {
 			expect(componentComment).toMatchInlineSnapshot(`
 				{
 				  "data": "
-					@component
-					FIRST
-				",
-				  "end": 27,
-				  "start": 0,
+									@component
+									FIRST
+								",
+				  "end": 44,
+				  "start": 5,
 				  "type": "Comment",
 				}
 			`);
@@ -106,7 +106,7 @@ describe(Parser.name, () => {
 		});
 	});
 
-	describe("isLangTypeScript", () => {
+	describe("getter .isLangTypeScript", () => {
 		it('returns `true` when the script tag (instance) has `lang="ts"`', ({ expect }) => {
 			const { isLangTypeScript } = new Parser(`
 				<script lang="ts">
@@ -139,6 +139,86 @@ describe(Parser.name, () => {
 				<h1>Hello world!</h1>
 			`);
 			expect(isLangTypeScript).toBe(false);
+		});
+	});
+
+	describe("getter .hasLegacySyntax", () => {
+		it("returns `false` when no legacy syntax is used", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<script lang="ts">
+					import { ButtonHTMLAttributes } from "svelte/element";
+
+					interface Props extends ButtonHTMLAttributes {}
+					let { ..._ }: Props = $props();
+				</script>
+			`);
+			expect(hasLegacySyntax).toBe(false);
+		});
+
+		it("returns `true` when legacy `export let` component props was found", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<script lang="ts">
+					export let disabled = false;
+				</script>
+			`);
+			expect(hasLegacySyntax).toBe(true);
+		});
+
+		it("returns `true` when legacy `$:` reactivity was found in instance script tag", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<script lang="ts">
+					let a = 1;
+					let b = 2;
+					$: sum = a + b;
+				</script>
+			`);
+			expect(hasLegacySyntax).toBe(true);
+		});
+
+		it("returns `true` when legacy `<slot />` elements were found", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<slot />
+			`);
+			expect(hasLegacySyntax).toBe(true);
+		});
+
+		it("returns `true` when legacy `<svelte:component>` element was found", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<svelte:component this={Button} />
+			`);
+			expect(hasLegacySyntax).toBe(true);
+		});
+
+		it("returns `true` when legacy `<svelte:component>` element was found", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<svelte:component this={MyComponent} />
+			`);
+			expect(hasLegacySyntax).toBe(true);
+		});
+
+		it("returns `true` when legacy `<svelte:fragment>` element was found", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				<Widget>
+					<h1 slot="header">Hello</h1>
+					<svelte:fragment slot="footer">
+						<p>All rights reserved.</p>
+						<p>Copyright (c) 2019 Svelte Industries</p>
+					</svelte:fragment>
+				</Widget>
+			`);
+			expect(hasLegacySyntax).toBe(true);
+		});
+
+		it("returns `true` when legacy `<svelte:self>` element was found", ({ expect }) => {
+			const { hasLegacySyntax } = new Parser(`
+				{#if count > 0}
+					<p>counting down... {count}</p>
+					<svelte:self count={count - 1} />
+				{:else}
+					<p>lift-off!</p>
+				{/if}
+			`);
+			expect(hasLegacySyntax).toBe(true);
 		});
 	});
 });

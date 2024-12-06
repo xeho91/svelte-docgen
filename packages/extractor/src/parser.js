@@ -1,41 +1,44 @@
 /**
- * @import { AST } from "svelte/compiler";
+ * @import * as JS_AST from "estree";
+ * @import { AST as SVELTE_AST } from "svelte/compiler";
+ * @import { Context } from "zimmerframe";
  *
  * @import { Source } from "./util.js";
  */
 
 import { parse } from "svelte/compiler";
+import { walk } from "zimmerframe";
 
 export class Parser {
-	/** @type {AST.Root} */
+	/** @type {SVELTE_AST.Root} */
 	ast;
 	/**
 	 * Root comment with `@component` tag.
-	 * @type {AST.Comment | undefined}
+	 * @type {SVELTE_AST.Comment | undefined}
 	 */
 	componentComment;
 	/** @type {boolean} */
 	isLangTypeScript;
 	/** @type {boolean} */
-	has_legacy_syntax;
+	hasLegacySyntax;
 
 	/** @param {Source} source */
 	constructor(source) {
 		this.ast = this.#parse_code(source);
 		this.componentComment = this.#extract_description();
 		this.isLangTypeScript = this.#read_script_instance_lang_attribute();
-		this.has_legacy_syntax = this.#determine_legacy_syntax();
+		this.hasLegacySyntax = this.#determine_legacy_syntax();
 	}
 
 	/**
 	 * @param {Source} code
-	 * @returns {AST.Root}
+	 * @returns {SVELTE_AST.Root}
 	 */
 	#parse_code(code) {
 		return parse(code, { modern: true });
 	}
 
-	/** @returns {AST.Comment | undefined} */
+	/** @returns {SVELTE_AST.Comment | undefined} */
 	#extract_description() {
 		const regex = /^\s*@component/;
 		for (const node of this.ast.fragment.nodes) {
@@ -54,32 +57,38 @@ export class Parser {
 
 	/** @returns {boolean} */
 	#determine_legacy_syntax() {
-		for (const statement of this.ast.instance?.content.body ?? []) {
-			if (
-				statement.type === "ExportNamedDeclaration" &&
-				statement.declaration?.type === "VariableDeclaration" &&
-				statement.declaration.kind === "let"
-			) {
-				return true;
-			}
-			if (
-				statement.type === "LabeledStatement" &&
-				statement.label.type === "Identifier" &&
-				statement.label.name === "$"
-			) {
-				return true;
-			}
-		}
-		for (const node of this.ast.fragment.nodes) {
-			if (
-				node.type === "SlotElement" ||
-				node.type === "SvelteComponent" ||
-				node.type === "SvelteFragment" ||
-				node.type === "SvelteSelf"
-			) {
-				return true;
-			}
-		}
-		return false;
+		let found = false;
+		/** @param {Context<JS_AST.BaseNode | SVELTE_AST.BaseNode, null>} ctx */
+		const stop = (ctx) => {
+			found = true;
+			ctx.stop();
+		};
+		walk(/** @type {JS_AST.BaseNode | SVELTE_AST.BaseNode} */ (this.ast), null, {
+			// @ts-expect-error: WARN: Type incompatibility between `@types/estree` and `SVELTE_AST`
+			ExportNamedDeclaration(/** @type {JS_AST.ExportNamedDeclaration} */ node, ctx) {
+				if (node.declaration?.type === "VariableDeclaration" && node.declaration?.kind === "let") {
+					stop(ctx);
+				}
+			},
+			// @ts-expect-error: WARN: Type incompatibility between `@types/estree` and `SVELTE_AST`
+			LabeledStatement(/** @type {JS_AST.LabeledStatement} */ node, ctx) {
+				if (node.label.type === "Identifier" && node.label.name === "$") {
+					stop(ctx);
+				}
+			},
+			SlotElement(_, ctx) {
+				stop(ctx);
+			},
+			SvelteComponent(_, ctx) {
+				stop(ctx);
+			},
+			SvelteFragment(_, ctx) {
+				stop(ctx);
+			},
+			SvelteSelf(_, ctx) {
+				stop(ctx);
+			},
+		});
+		return found;
 	}
 }
