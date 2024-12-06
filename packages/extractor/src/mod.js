@@ -1,2 +1,2 @@
 export { createCacheStorage } from "./cache.js";
-export { extract } from "./extractor.js";
+export { extract } from "./extractor/mod.js";

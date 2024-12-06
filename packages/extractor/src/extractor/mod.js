@@ -1,17 +1,17 @@
 /**
  * @import { Tag } from "./component-doc.js";
- * @import { Source } from "./util.js";
+ * @import { Source } from "../util.js";
  */
 
 import path from "node:path";
 
 import ts from "typescript";
 
-import { createCacheStorage } from "./cache.js";
-import { Compiler } from "./compiler.js";
+import { createCacheStorage } from "../cache.js";
+import { Compiler } from "../compiler.js";
 import { ComponentDocExtractor } from "./component-doc.js";
-import { Options } from "./options.js";
-import { Parser } from "./parser.js";
+import { Options } from "../options.js";
+import { Parser } from "../parser.js";
 
 class Extractor {
 	/** @type {Source} */
