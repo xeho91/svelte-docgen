@@ -1,5 +1,6 @@
 /**
- * @import { SvelteFilepath, TSXFilepath } from "./util.js";
+ * @import { Options } from "./options.js";
+ * @import { Source, TSXFilepath } from "./util.js";
  */
 
 import { VERSION } from "svelte/compiler";
@@ -14,20 +15,22 @@ export class Compiler {
 	filepath;
 
 	/**
-	 * @param {SvelteFilepath} filepath
+	 * @param {Source} source
 	 * @param {Parser} parser
+	 * @param {Options} options
 	 */
-	constructor(filepath, parser) {
-		this.filepath = `${filepath}.tsx`;
-		this.tsx = this.#compile_to_tsx(parser);
+	constructor(source, parser, options) {
+		this.filepath = `${options.filepath}.tsx`;
+		this.tsx = this.#compile_to_tsx(source, parser);
 	}
 
 	/**
+	 * @param {Source} source
 	 * @param {Parser} parser
 	 * @returns {ReturnType<typeof svelte2tsx>}
 	 */
-	#compile_to_tsx(parser) {
-		return svelte2tsx(parser.code, {
+	#compile_to_tsx(source, parser) {
+		return svelte2tsx(source, {
 			filename: this.filepath,
 			isTsFile: parser.is_lang_typescript,
 			mode: "dts",

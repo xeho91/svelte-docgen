@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
 
+import { create_path_to_example_component } from "../tests/shared.js";
 import { ComponentDocExtractor } from "./component-doc.js";
 import { Parser } from "./parser.js";
-import { create_path_to_example_component } from "../tests/shared.js";
 
 describe(ComponentDocExtractor.name, () => {
 	describe("description", () => {

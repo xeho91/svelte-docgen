@@ -1,16 +1,12 @@
 /**
  * @import { AST } from "svelte/compiler";
  *
- * @import { SvelteFilepath } from "./util.js";
+ * @import { Source } from "./util.js";
  */
-
-import fs from "node:fs";
 
 import { parse } from "svelte/compiler";
 
 export class Parser {
-	/** @type {string} */
-	code;
 	/** @type {AST.Root} */
 	ast;
 	/** @type {AST.Comment | undefined} */
@@ -20,26 +16,20 @@ export class Parser {
 	/** @type {boolean} */
 	has_legacy_syntax;
 
-	/** @param {SvelteFilepath} filepath */
-	constructor(filepath) {
-		this.code = this.#read_file(filepath);
-		this.ast = this.#parse_code();
+	/** @param {Source} source */
+	constructor(source) {
+		this.ast = this.#parse_code(source);
 		this.documentation_comment = this.#extract_description();
 		this.is_lang_typescript = this.#read_script_instance_lang_attribute();
 		this.has_legacy_syntax = this.#determine_legacy_syntax();
 	}
 
 	/**
-	 * @param {SvelteFilepath} filepath
-	 * @returns {string}
+	 * @param {Source} code
+	 * @returns {AST.Root}
 	 */
-	#read_file(filepath) {
-		return fs.readFileSync(filepath, "utf-8");
-	}
-
-	/** @returns {AST.Root} */
-	#parse_code() {
-		return parse(this.code, { modern: true });
+	#parse_code(code) {
+		return parse(code, { modern: true });
 	}
 
 	/** @returns {AST.Comment | undefined} */

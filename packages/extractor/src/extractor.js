@@ -1,6 +1,6 @@
 /**
  * @import { Tag } from "./component-doc.js";
- * @import { Options, SvelteFilepath } from "./util.js";
+ * @import { Source } from "./util.js";
  */
 
 import path from "node:path";
@@ -10,33 +10,28 @@ import ts from "typescript";
 import { createCacheStorage } from "./cache.js";
 import { Compiler } from "./compiler.js";
 import { ComponentDocExtractor } from "./component-doc.js";
+import { Options } from "./options.js";
 import { Parser } from "./parser.js";
-import { validate_filepath } from "./util.js";
 
 class Extractor {
-	/** @type {SvelteFilepath} */
-	filepath;
-	/**
-	 * @type {Options}
-	 */
-	#options = {
-		cache: createCacheStorage(),
-		cwd: process.cwd(),
-	};
+	/** @type {Source} */
+	source;
+	/** @type {Options} */
+	#options;
 	/** @type {Parser} */
 	parser;
 	/** @type {Compiler} */
 	compiler;
 
 	/**
-	 * @param {SvelteFilepath} filepath
-	 * @param {Partial<Options>} options
+	 * @param {Source} source
+	 * @param {Options} options
 	 */
-	constructor(filepath, options = {}) {
-		this.filepath = filepath;
-		this.#options = { ...this.#options, ...options };
-		this.parser = new Parser(this.filepath);
-		this.compiler = new Compiler(this.filepath, this.parser);
+	constructor(source, options) {
+		this.source = source;
+		this.#options = new Options(options);
+		this.parser = new Parser(this.source);
+		this.compiler = new Compiler(this.source, this.parser, this.#options);
 	}
 
 	/** @type {ComponentDocExtractor | undefined} */
@@ -195,10 +190,10 @@ class Extractor {
 
 	/** @returns {ts.CompilerOptions} */
 	#get_ts_options() {
-		const cached = this.#cache.get(this.filepath)?.options;
+		const cached = this.#cache.get(this.source)?.options;
 		if (cached) return cached;
 		const options = this.#build_ts_options();
-		this.#cache.set(this.filepath, { options });
+		this.#cache.set(this.source, { options });
 		return options;
 	}
 
@@ -246,8 +241,8 @@ class Extractor {
 	 */
 	#find_ts_config_path() {
 		return (
-			ts.findConfigFile(this.filepath, ts.sys.fileExists) ||
-			ts.findConfigFile(this.filepath, ts.sys.fileExists, "jsconfig.json")
+			ts.findConfigFile(this.source, ts.sys.fileExists) ||
+			ts.findConfigFile(this.source, ts.sys.fileExists, "jsconfig.json")
 		);
 	}
 
@@ -421,11 +416,10 @@ class Extractor {
 }
 
 /**
- * @param {string} filepath
- * @param {ConstructorParameters<typeof Extractor>[1]} options
+ * @param {string} source
+ * @param {ConstructorParameters<typeof Options>[0]} user_options
  * @returns {Extractor}
  */
-export function extract(filepath, options) {
-	validate_filepath(filepath);
-	return new Extractor(filepath, options);
+export function extract(source, user_options) {
+	return new Extractor(source, new Options(user_options));
 }
