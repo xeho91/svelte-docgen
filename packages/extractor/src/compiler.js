@@ -1,12 +1,11 @@
 /**
  * @import { Options } from "./options.js";
+ * @import { Parser } from "./parser.js";
  * @import { Source, TSXFilepath } from "./util.js";
  */
 
 import { VERSION } from "svelte/compiler";
 import { svelte2tsx } from "svelte2tsx";
-
-import { Parser } from "./parser";
 
 export class Compiler {
 	/** @type {ReturnType<typeof svelte2tsx>} */
