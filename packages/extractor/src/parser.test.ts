@@ -1,9 +1,9 @@
 import { describe, it } from "vitest";
 
 import { Parser } from "../src/parser.js";
-import { create_path_to_example_component } from "./shared.js";
+import { create_path_to_example_component } from "../tests/shared.js";
 
-describe("Parser", () => {
+describe(Parser.name, () => {
 	describe("documentation_comment", () => {
 		it("extracts `Comment` (html) AST node with starting `@component` correctly", ({ expect }) => {
 			const filepath = create_path_to_example_component("parser", "documentation", "top.svelte");

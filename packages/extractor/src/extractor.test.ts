@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { extract } from "../src/mod.js";
-import { OPTIONS, create_path_to_example_component } from "./shared.js";
+import { extract } from "../src/extractor.js";
+import { OPTIONS, create_path_to_example_component } from "../tests/shared.js";
 
 describe("Extractor", () => {
 	describe("props", () => {
