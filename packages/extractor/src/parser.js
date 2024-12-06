@@ -9,8 +9,11 @@ import { parse } from "svelte/compiler";
 export class Parser {
 	/** @type {AST.Root} */
 	ast;
-	/** @type {AST.Comment | undefined} */
-	documentation_comment;
+	/**
+	 * Root comment with `@component` tag.
+	 * @type {AST.Comment | undefined}
+	 */
+	componentComment;
 	/** @type {boolean} */
 	is_lang_typescript;
 	/** @type {boolean} */
@@ -19,7 +22,7 @@ export class Parser {
 	/** @param {Source} source */
 	constructor(source) {
 		this.ast = this.#parse_code(source);
-		this.documentation_comment = this.#extract_description();
+		this.componentComment = this.#extract_description();
 		this.is_lang_typescript = this.#read_script_instance_lang_attribute();
 		this.has_legacy_syntax = this.#determine_legacy_syntax();
 	}

@@ -40,8 +40,8 @@ class Extractor {
 	/** @type {ComponentDocExtractor | undefined} */
 	get #component_doc_extractor() {
 		if (this.#cached_component_doc_extractor) return this.#cached_component_doc_extractor;
-		if (!this.parser.documentation_comment) return undefined;
-		this.#cached_component_doc_extractor = new ComponentDocExtractor(this.parser.documentation_comment);
+		if (!this.parser.componentComment) return undefined;
+		this.#cached_component_doc_extractor = new ComponentDocExtractor(this.parser.componentComment);
 		return this.#cached_component_doc_extractor;
 	}
 
@@ -57,7 +57,7 @@ class Extractor {
 
 	/** @returns {ComponentDocExtractor | undefined} */
 	get documentation() {
-		if (this.parser.documentation_comment) return new ComponentDocExtractor(this.parser.documentation_comment);
+		if (this.parser.componentComment) return new ComponentDocExtractor(this.parser.componentComment);
 		return undefined;
 	}
 

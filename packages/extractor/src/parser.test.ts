@@ -4,12 +4,22 @@ import { Parser } from "../src/parser.js";
 import { create_path_to_example_component } from "../tests/shared.js";
 
 describe(Parser.name, () => {
-	describe("documentation_comment", () => {
+	describe("componentComment", () => {
 		it("extracts `Comment` (html) AST node with starting `@component` correctly", ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "documentation", "top.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.documentation_comment).not.toBeUndefined();
-			expect(parsed.documentation_comment).toMatchInlineSnapshot(`
+			const { componentComment } = new Parser(`
+				<!--
+					@component
+					This is an example component description.
+				-->
+
+				<script>
+				let { name } = $props();
+				</script>
+
+				<h1>Hello {name}!</h1>
+			`);
+			expect(componentComment).not.toBeUndefined();
+			expect(componentComment).toMatchInlineSnapshot(`
 				{
 				  "data": "
 					@component
@@ -23,10 +33,20 @@ describe(Parser.name, () => {
 		});
 
 		it("it doesn't matter if the comment is at the very top or somewhere else in the fragment", ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "documentation", "anywhere.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.documentation_comment).not.toBeUndefined();
-			expect(parsed.documentation_comment).toMatchInlineSnapshot(`
+			const { componentComment } = new Parser(`
+				<script>
+				let { name } = $props();
+				</script>
+
+				<!--
+					@component
+					This is an example component description.
+				-->
+
+				<h1>Hello {name}!</h1>
+			`);
+			expect(componentComment).not.toBeUndefined();
+			expect(componentComment).toMatchInlineSnapshot(`
 				{
 				  "data": "
 					@component
@@ -40,10 +60,25 @@ describe(Parser.name, () => {
 		});
 
 		it("the first comment with `@component` tag is the one that is returned", ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "documentation", "duplications.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.documentation_comment).not.toBeUndefined();
-			expect(parsed.documentation_comment).toMatchInlineSnapshot(`
+			const { componentComment } = new Parser(`
+				<!--
+					@component
+					FIRST
+				-->
+
+				<script>
+				let { name } = $props();
+				</script>
+
+				<h1>Hello {name}!</h1>
+
+				<!--
+					@component
+					SECOND
+				-->
+			`);
+			expect(componentComment).not.toBeUndefined();
+			expect(componentComment).toMatchInlineSnapshot(`
 				{
 				  "data": "
 					@component
@@ -57,9 +92,18 @@ describe(Parser.name, () => {
 		});
 
 		it("returns `undefined` when no comment with `@component` is found", ({ expect }) => {
-			const filepath = create_path_to_example_component("parser", "documentation", "without-tag.svelte");
-			const parsed = new Parser(filepath);
-			expect(parsed.documentation_comment).toBeUndefined();
+			const { componentComment } = new Parser(`
+				<!--
+					This is an example comment
+				-->
+				<script>
+				let { name } = $props();
+				</script>
+
+				<h1>Hello {name}!</h1>
+				description
+			`);
+			expect(componentComment).toBeUndefined();
 		});
 	});
 
