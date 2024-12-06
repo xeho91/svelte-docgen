@@ -16,14 +16,14 @@ class PropAnalyzer {
 	/** @returns {boolean} */
 	get isEventHandler() {
 		if (this.#prop.type.kind !== "function") return false;
-		const is_type_from_svelte = this.#prop.type.sources?.some((f) => this.#is_filepath_from_svelte(f));
+		const is_type_from_svelte = this.#prop.type.sources?.some((f) => this.#is_source_from_svelte(f));
 		if (!is_type_from_svelte) return false;
 		return Boolean(this.#prop.type.alias?.endsWith("EventHandler"));
 	}
 
 	/** @returns {boolean} */
 	get isExtendedBySvelte() {
-		return Boolean(this.#prop.isExtended && this.#prop.sources?.some((f) => this.#is_filepath_from_svelte(f)));
+		return Boolean(this.#prop.isExtended && this.#prop.sources?.some((f) => this.#is_source_from_svelte(f)));
 	}
 
 	/** @returns {boolean} */
@@ -59,11 +59,11 @@ class PropAnalyzer {
 	}
 
 	/**
-	 * @param {string} filepath
+	 * @param {string} source
 	 * @returns {boolean}
 	 */
-	#is_filepath_from_svelte(filepath) {
-		const { dir } = path.parse(filepath);
+	#is_source_from_svelte(source) {
+		const { dir } = path.parse(source);
 		return (
 			dir.endsWith(path.join(path.sep, "node_modules", "svelte", "types")) ||
 			dir.endsWith(path.join(path.sep, "node_modules", "svelte"))
@@ -76,7 +76,7 @@ class PropAnalyzer {
 	 */
 	#is_snippet(type) {
 		if (type.kind !== "function" || type.alias !== "Snippet") return false;
-		return Boolean(type.sources?.some((f) => this.#is_filepath_from_svelte(f)));
+		return Boolean(type.sources?.some((f) => this.#is_source_from_svelte(f)));
 	}
 }
 

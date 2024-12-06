@@ -1,5 +1,6 @@
 /**
  * @import { Doc } from "./documentation.ts";
+ * @import { UserOptions } from "./options.js";
  */
 
 import { extract } from "@svelte-docgen/extractor";
@@ -7,19 +8,23 @@ import { extract } from "@svelte-docgen/extractor";
 import { get_component_doc } from "./component.js";
 import { get_events_doc } from "./events.js";
 import { get_exports_doc } from "./exports.js";
+import { Options } from "./options.js";
 import { get_props_doc } from "./props.js";
 import { get_slots_doc } from "./slots.js";
 
 class Parser {
 	/** @type {ReturnType<typeof extract>} */
 	#extractor;
+	/** @type {Options} */
+	#options;
 
 	/**
-	 * @param {string} filepath
-	 * @param {ParserOptions} options
+	 * @param {string} source
+	 * @param {Options} options
 	 */
-	constructor(filepath, options) {
-		this.#extractor = extract(filepath, options);
+	constructor(source, options) {
+		this.#options = options;
+		this.#extractor = extract(source, this.#options);
 	}
 
 	/** @returns {Doc.Component} */
@@ -31,7 +36,7 @@ class Parser {
 	get isLegacy() {
 		const has_slots = this.#extractor.slots.size > 0;
 		const has_exports = this.#extractor.events.size > 0;
-		return this.#extractor.parser.has_legacy_syntax || has_slots || has_exports;
+		return this.#extractor.parser.hasLegacySyntax || has_slots || has_exports;
 	}
 
 	/** @returns {Doc.Props} */
@@ -83,21 +88,11 @@ class Parser {
 /** @typedef {LegacyComponent | ModernComponent} ParsedComponent */
 
 /**
- * @typedef {object} ParserOptions
- */
-
-/**
- * @param {string} filepath
- * @param {Partial<ParserOptions>} options
+ * @param {string} source
+ * @param {UserOptions} user_options
  * @returns {[string, ParsedComponent]}
  */
-export function parse(filepath, options = {}) {
-	/** @type {ParserOptions} */
-	const merged_options = {
-		// TODO: Provide default options
-		...options,
-	};
-	const documentation = new Parser(filepath, merged_options);
+export function parse(source, user_options = {}) {
 	// @ts-expect-error Not worth asserting
-	return [filepath, documentation];
+	return [source, new Parser(source, new Options(user_options))];
 }

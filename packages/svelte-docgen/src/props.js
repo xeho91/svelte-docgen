@@ -33,7 +33,7 @@ export function get_prop_doc(symbol, extractor) {
 	let results = {
 		tags: get_prop_tags(symbol, extractor),
 		isBindable: extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
-		isExtended: Boolean(sources?.some((f) => f !== extractor.filepath)),
+		isExtended: Boolean(sources?.some((f) => f !== extractor.source)),
 		isOptional: is_symbol_optional(symbol),
 		type: get_type_doc({ extractor, type }),
 	};
