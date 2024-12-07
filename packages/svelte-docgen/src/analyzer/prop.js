@@ -1,5 +1,5 @@
 /**
- * @import { Doc } from "../documentation.ts";
+ * @import { Doc } from "../doc/type.ts";
  */
 
 import path from "node:path";
@@ -16,14 +16,16 @@ class PropAnalyzer {
 	/** @returns {boolean} */
 	get isEventHandler() {
 		if (this.#prop.type.kind !== "function") return false;
-		const is_type_from_svelte = this.#prop.type.sources?.some((f) => this.#is_source_from_svelte(f));
+		if (!this.#prop.type.sources) return false;
+		const is_type_from_svelte = Iterator.from(this.#prop.type.sources).some((f) => this.#is_source_from_svelte(f));
 		if (!is_type_from_svelte) return false;
 		return Boolean(this.#prop.type.alias?.endsWith("EventHandler"));
 	}
 
 	/** @returns {boolean} */
 	get isExtendedBySvelte() {
-		return Boolean(this.#prop.isExtended && this.#prop.sources?.some((f) => this.#is_source_from_svelte(f)));
+		if (!this.#prop.isExtended || !this.#prop.sources) return false;
+		return Iterator.from(this.#prop.sources).some((f) => this.#is_source_from_svelte(f));
 	}
 
 	/** @returns {boolean} */
@@ -76,7 +78,8 @@ class PropAnalyzer {
 	 */
 	#is_snippet(type) {
 		if (type.kind !== "function" || type.alias !== "Snippet") return false;
-		return Boolean(type.sources?.some((f) => this.#is_source_from_svelte(f)));
+		if (!type.sources) return false;
+		return Iterator.from(type.sources).some((f) => this.#is_source_from_svelte(f));
 	}
 }
 

@@ -9,9 +9,9 @@ import ts from "typescript";
 
 import { createCacheStorage } from "../cache.js";
 import { Compiler } from "../compiler.js";
-import { ComponentDocExtractor } from "./component-doc.js";
 import { Options } from "../options.js";
 import { Parser } from "../parser.js";
+import { ComponentDocExtractor } from "./component-doc.js";
 
 class Extractor {
 	/** @type {Source} */

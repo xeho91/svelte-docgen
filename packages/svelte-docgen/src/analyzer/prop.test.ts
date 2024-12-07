@@ -1,14 +1,25 @@
 import { describe, it } from "vitest";
 
-import { OPTIONS, create_path_to_example_component } from "../../tests/shared.ts";
-import { parse } from "../parser.js";
+import { create_options } from "../../tests/shared.ts";
+import { parse } from "../parser/mod.js";
 import { analyzeProperty } from "./prop.js";
 
 describe(analyzeProperty.name, () => {
 	describe("getter .isEventHandler", () => {
-		const filepath = create_path_to_example_component("data", "props", "event_handler.svelte");
-		const parsed = parse(filepath, OPTIONS);
-		const { props } = parsed[1];
+		const { props } = parse(
+			`
+			<script lang="ts">
+				import type { EventHandler, MouseEventHandler } from "svelte/elements";
+
+				interface Props {
+					onclick: MouseEventHandler<HTMLDivElement>;
+					onkeydown: EventHandler<KeyboardEvent, HTMLDivElement>;
+				}
+				let { ..._ }: Props = $props();
+			</script>
+			`,
+			create_options("analyze-property-event-handler.svelte"),
+		);
 
 		it("recognizes event handler when using `<Name>EventHandler` type helper", ({ expect }) => {
 			const onclick = props.get("onclick");
@@ -19,9 +30,8 @@ describe(analyzeProperty.name, () => {
 			}
 		});
 
-		it.fails("recognizes event handler when using `EventHandler` type helper", ({ expect }) => {
+		it("recognizes event handler when using `EventHandler` type helper", ({ expect }) => {
 			const onkeydown = props.get("onkeydown");
-			expect(onkeydown).toBeDefined();
 			if (onkeydown) {
 				const analyzer = analyzeProperty(onkeydown);
 				expect(analyzer.isEventHandler).toBe(true);
@@ -30,9 +40,18 @@ describe(analyzeProperty.name, () => {
 	});
 
 	describe("getter .isExtendedBySvelte", () => {
-		const filepath = create_path_to_example_component("data", "props", "extended.svelte");
-		const parsed = parse(filepath, OPTIONS);
-		const { props } = parsed[1];
+		const { props } = parse(
+			`
+			<script lang="ts">
+				import type { HTMLButtonAttributes } from "svelte/elements";
+				import type { CustomProps } from "${process.cwd()}/packages/svelte-docgen/tests/custom-extended.ts";
+
+				interface Props extends HTMLButtonAttributes, CustomProps {}
+				let { ..._ }: Props = $props();
+			</script>
+			`,
+			create_options("analyze-property-extended-by-svelte.svelte"),
+		);
 
 		it("recognizes prop extended by Svelte", ({ expect }) => {
 			const aria_hidden = props.get("aria-hidden");
@@ -55,9 +74,30 @@ describe(analyzeProperty.name, () => {
 	});
 
 	describe("getter .isSnippet & getSnippetParameters()", () => {
-		const filepath = create_path_to_example_component("data", "props", "snippet_type.svelte");
-		const parsed = parse(filepath, OPTIONS);
-		const { props } = parsed[1];
+		const { props } = parse(
+			`
+			<script lang="ts">
+				import type { Snippet } from "svelte";
+
+				type Color = "red" | "green" | "blue";
+				interface Props {
+					header?: Snippet<[string]>;
+					children: Snippet;
+					footer?: Snippet<[Color, number]>;
+					whatever: any;
+				}
+				let { footer = default_footer }: Props = $props();
+				const color = "red" satisfies Color;
+			</script>
+
+			{#snippet default_footer(color: Color, year: number)}
+				<p class:color>{\`Copyright © \${year}\`}</p>
+			{/snippet}
+
+			{@render footer(color, new Date().getFullYear())}
+			`,
+			create_options("analyze-property-snippet.svelte"),
+		);
 
 		it("recognizes simple snippet without parameters", ({ expect }) => {
 			const children = props.get("children");

@@ -1,6 +1,6 @@
 import { Options as ExtractorOptions } from "@svelte-docgen/extractor";
 
-/** @typedef {Partial<ExtractorOptions>} UserOptions */
+/** @typedef {Partial<ConstructorParameters<typeof ExtractorOptions>[0]>} UserOptions */
 
 export class Options extends ExtractorOptions {
 	/** @param {UserOptions} user_options */

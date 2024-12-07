@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { extract } from "./mod.js";
 import { create_options } from "../../tests/shared.js";
+import { extract } from "./mod.js";
 
 describe("bindings", () => {
 	it("returns empty set when no bindable props are found", ({ expect }) => {

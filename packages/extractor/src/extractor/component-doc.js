@@ -13,8 +13,8 @@ export class ComponentDocExtractor {
 	node;
 	/** @type {string | undefined} */
 	description;
-	/** @type {Tag[]} */
-	tags = [];
+	/** @type {Tag[] | undefined} */
+	tags;
 
 	/** @param {AST.Comment} comment */
 	constructor(comment) {
@@ -51,7 +51,10 @@ export class ComponentDocExtractor {
 	#wrap_latest_tag() {
 		const content = this.#latest_tag_content.join("\n").trim();
 		if (this.#latest_tag === "component") this.description = content;
-		else if (this.#latest_tag) this.tags.push({ name: this.#latest_tag, content });
+		else if (this.#latest_tag) {
+			if (!this.tags) this.tags = [];
+			this.tags.push({ name: this.#latest_tag, content });
+		}
 		this.#latest_tag = undefined;
 		this.#latest_tag_content = [];
 	}

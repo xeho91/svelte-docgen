@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { extract } from "./mod.js";
 import { create_options } from "../../tests/shared.js";
+import { extract } from "./mod.js";
 
 describe("defaults", () => {
 	it("returns empty map when no defaults for props are found", ({ expect }) => {

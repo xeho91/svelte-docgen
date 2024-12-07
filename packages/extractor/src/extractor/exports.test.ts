@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { extract } from "./mod.js";
 import { create_options } from "../../tests/shared.js";
+import { extract } from "./mod.js";
 
 describe("exports", () => {
 	it("returns empty map if no legacy exports are found", ({ expect }) => {

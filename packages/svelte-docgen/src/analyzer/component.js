@@ -1,6 +1,6 @@
 /**
- * @import { Doc } from "../documentation.ts";
- * @import { ParsedComponent } from "../parser.ts";
+ * @import { Doc } from "../doc/type.ts";
+ * @import { ParsedComponent } from "../parser/mod.ts";
  */
 
 class ComponentAnalyzer {
@@ -14,12 +14,12 @@ class ComponentAnalyzer {
 
 	/** @returns {string | undefined} */
 	get category() {
-		return this.#component.component.tags.find((t) => t.name === "category")?.content;
+		return this.#component.tags?.find((t) => t.name === "category")?.content;
 	}
 
 	/** @returns {string | undefined} */
 	get subcategory() {
-		return this.#component.component.tags.find((t) => t.name === "subcategory")?.content;
+		return this.#component.tags?.find((t) => t.name === "subcategory")?.content;
 	}
 
 	/**

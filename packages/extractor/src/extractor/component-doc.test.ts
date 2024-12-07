@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
-import { ComponentDocExtractor } from "./component-doc.js";
 import { Parser } from "../parser.js";
+import { ComponentDocExtractor } from "./component-doc.js";
 
 describe(ComponentDocExtractor.name, () => {
 	describe("description", () => {

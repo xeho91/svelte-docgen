@@ -1,4 +1,5 @@
+export { createCacheStorage } from "@svelte-docgen/extractor";
 export { analyzeComponent } from "./analyzer/component.js";
 export { analyzeProperty } from "./analyzer/prop.js";
-export { parse } from "./parser.js";
-export { TYPE_KINDS } from "./type.js";
+export { Options } from "./options.js";
+export { parse } from "./parser/mod.js";
