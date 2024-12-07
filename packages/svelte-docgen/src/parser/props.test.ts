@@ -280,9 +280,9 @@ describe("props", () => {
 			  "isBindable": false,
 			  "isExtended": true,
 			  "isOptional": true,
-			  "sources": [
+			  "sources": Set {
 			    <process-cwd>/node_modules/.pnpm/svelte@5.3.1/node_modules/svelte/elements.d.ts,
-			  ],
+			  },
 			  "tags": [],
 			  "type": {
 			    "kind": "union",
@@ -312,9 +312,9 @@ describe("props", () => {
 		`);
 		expect(disabled?.isExtended).toBe(true);
 		expect(disabled?.sources).toMatchInlineSnapshot(`
-			[
+			Set {
 			  <process-cwd>/node_modules/.pnpm/svelte@5.3.1/node_modules/svelte/elements.d.ts,
-			]
+			}
 		`);
 		if (disabled?.isExtended && disabled?.sources) {
 			expect(Iterator.from(disabled.sources).some((s) => s.endsWith("/svelte/elements.d.ts")));

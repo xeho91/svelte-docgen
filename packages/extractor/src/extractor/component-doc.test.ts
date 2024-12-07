@@ -108,7 +108,7 @@ describe(ComponentDocExtractor.name, () => {
 		});
 
 		describe("tags", () => {
-			it("returns empty array when no other tags other than `@component` are found", ({ expect }) => {
+			it("returns undefined when no other tags other than `@component` are found", ({ expect }) => {
 				const { componentComment } = new Parser(`
 					<!--
 					@component Some description
@@ -117,7 +117,7 @@ describe(ComponentDocExtractor.name, () => {
 				expect(componentComment).toBeDefined();
 				if (componentComment) {
 					const { tags } = new ComponentDocExtractor(componentComment);
-					expect(tags).toHaveLength(0);
+					expect(tags).not.toBeDefined();
 				}
 			});
 
