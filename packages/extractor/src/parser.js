@@ -1,45 +1,44 @@
 /**
- * @import { AST } from "svelte/compiler";
+ * @import * as JS_AST from "estree";
+ * @import { AST as SVELTE_AST } from "svelte/compiler";
+ * @import { Context } from "zimmerframe";
  *
- * @import { SvelteFilepath} from "./util.js";
+ * @import { Source } from "./util.js";
  */
 
-import fs from "node:fs";
-
 import { parse } from "svelte/compiler";
+import { walk } from "zimmerframe";
 
 export class Parser {
-	/** @type {string} */
-	code;
-	/** @type {AST.Root} */
+	/** @type {SVELTE_AST.Root} */
 	ast;
-	/** @type {AST.Comment | undefined} */
-	documentation_comment;
+	/**
+	 * Root comment with `@component` tag.
+	 * @type {SVELTE_AST.Comment | undefined}
+	 */
+	componentComment;
 	/** @type {boolean} */
-	is_lang_typescript;
+	isLangTypeScript;
+	/** @type {boolean} */
+	hasLegacySyntax;
 
-	/** @param {SvelteFilepath} filepath */
-	constructor(filepath) {
-		this.code = this.#read_file(filepath);
-		this.ast = this.#parse_code();
-		this.documentation_comment = this.#extract_description();
-		this.is_lang_typescript = this.#read_script_instance_lang_attribute();
+	/** @param {Source} source */
+	constructor(source) {
+		this.ast = this.#parse_code(source);
+		this.componentComment = this.#extract_description();
+		this.isLangTypeScript = this.#read_script_instance_lang_attribute();
+		this.hasLegacySyntax = this.#determine_legacy_syntax();
 	}
 
 	/**
-	 * @param {SvelteFilepath} filepath
-	 * @returns {string}
+	 * @param {Source} code
+	 * @returns {SVELTE_AST.Root}
 	 */
-	#read_file(filepath) {
-		return fs.readFileSync(filepath, "utf-8");
+	#parse_code(code) {
+		return parse(code, { modern: true });
 	}
 
-	/** @returns {AST.Root} */
-	#parse_code() {
-		return parse(this.code, { modern: true });
-	}
-
-	/** @returns {AST.Comment | undefined} */
+	/** @returns {SVELTE_AST.Comment | undefined} */
 	#extract_description() {
 		const regex = /^\s*@component/;
 		for (const node of this.ast.fragment.nodes) {
@@ -54,5 +53,42 @@ export class Parser {
 			return lang.value[0].data === "ts" || lang.value[0].data === "typescript";
 		}
 		return false;
+	}
+
+	/** @returns {boolean} */
+	#determine_legacy_syntax() {
+		let found = false;
+		/** @param {Context<JS_AST.BaseNode | SVELTE_AST.BaseNode, null>} ctx */
+		const stop = (ctx) => {
+			found = true;
+			ctx.stop();
+		};
+		walk(/** @type {JS_AST.BaseNode | SVELTE_AST.BaseNode} */ (this.ast), null, {
+			// @ts-expect-error: WARN: Type incompatibility between `@types/estree` and `SVELTE_AST`
+			ExportNamedDeclaration(/** @type {JS_AST.ExportNamedDeclaration} */ node, ctx) {
+				if (node.declaration?.type === "VariableDeclaration" && node.declaration?.kind === "let") {
+					stop(ctx);
+				}
+			},
+			// @ts-expect-error: WARN: Type incompatibility between `@types/estree` and `SVELTE_AST`
+			LabeledStatement(/** @type {JS_AST.LabeledStatement} */ node, ctx) {
+				if (node.label.type === "Identifier" && node.label.name === "$") {
+					stop(ctx);
+				}
+			},
+			SlotElement(_, ctx) {
+				stop(ctx);
+			},
+			SvelteComponent(_, ctx) {
+				stop(ctx);
+			},
+			SvelteFragment(_, ctx) {
+				stop(ctx);
+			},
+			SvelteSelf(_, ctx) {
+				stop(ctx);
+			},
+		});
+		return found;
 	}
 }
