@@ -175,7 +175,7 @@ describe(ComponentDocExtractor.name, () => {
 				if (componentComment) {
 					const { tags } = new ComponentDocExtractor(componentComment);
 					expect(tags).toHaveLength(1);
-					const customTag = tags.find((tag) => tag.name === "custom");
+					const customTag = tags?.find((tag) => tag.name === "custom");
 					expect(customTag).toBeDefined();
 					expect(customTag?.content).toMatchInlineSnapshot(`
 						"Very complex tag with {@link https://example.com}
