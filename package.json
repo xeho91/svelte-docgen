@@ -30,6 +30,7 @@
 		"serve:doc": "serve \"./docs\" ",
 		"test": "turbo run _test",
 		"_ci:test": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json",
+		"_ci:publish": "pnpm changeset publish",
 		"_ci:version": "pnpm changeset version && pnpm fix:format"
 	},
 	"devDependencies": {

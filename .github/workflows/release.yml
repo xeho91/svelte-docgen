@@ -53,4 +53,5 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
               with:
                   title: "chore(Changesets): Versioning package(s)"
+                  publish: "pnpm run _ci:publish"
                   version: "pnpm run _ci:version"
