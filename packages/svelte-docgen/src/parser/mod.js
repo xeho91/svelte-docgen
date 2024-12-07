@@ -22,6 +22,11 @@ import {
 class Parser {
 	/** @type {ReturnType<typeof extract>} */
 	#extractor;
+	/**
+	 * This is a fail-safe from looping over the same type inside constructor/fn params (e.g. `Date`)
+	 * @type {string | undefined}
+	 */
+	#latest_symbol_name;
 	/** @type {Options} */
 	#options;
 
@@ -34,28 +39,14 @@ class Parser {
 		this.#extractor = extract(source, this.#options);
 	}
 
-	/** @type {ts.TypeChecker} */
-	get #checker() {
-		return this.#extractor.checker;
-	}
-
 	/** @returns {Doc.Component['description']} */
 	get description() {
 		return this.#extractor.description;
 	}
 
-	/** @returns {Doc.Component['tags']} */
-	get tags() {
-		return this.#extractor.tags;
-	}
-
-	/** @type {boolean | undefined} */
-	#cached_is_legacy;
 	/** @returns {boolean} */
 	get isLegacy() {
-		if (typeof this.#cached_is_legacy === "boolean") return this.#cached_is_legacy;
-		this.#cached_is_legacy = this.#extractor.parser.hasLegacySyntax;
-		return this.#cached_is_legacy;
+		return this.#extractor.parser.hasLegacySyntax;
 	}
 
 	/** @returns {Doc.Events} */
@@ -101,90 +92,15 @@ class Parser {
 		);
 	}
 
-	/**
-	 * @param {ts.Type} type
-	 * @returns {Doc.Type}
-	 */
-	#get_type_doc(type) {
-		const kind = get_type_kind({ type, extractor: this.#extractor });
-		// biome-ignore format: Prettier
-		switch (kind) {
-			case "array": return this.#get_array_doc(type);
-			case "constructible": return this.#get_constructible_doc(type);
-			case "function": return this.#get_function_doc(type);
-			case "interface": return this.#get_interface_doc(type);
-			case "intersection": return this.#get_intersection_doc(type);
-			case "literal": return this.#get_literal_doc(type);
-			case "tuple": return this.#get_tuple_doc(type);
-			case "type-parameter": return this.#get_type_param_doc(type);
-			case "union": return this.#get_union_doc(type);
-			default: return { kind };
-		}
+	/** @returns {Doc.Component['tags']} */
+	get tags() {
+		return this.#extractor.tags;
 	}
 
-	/**
-	 * @param {ts.Symbol} symbol
-	 * @returns {Doc.Prop}
-	 */
-	#get_prop_doc(symbol) {
-		const type = this.#checker.getTypeOfSymbol(symbol);
-		const sources = this.#get_symbol_sources(symbol);
-		/** @type {Doc.Prop} */
-		// biome-ignore lint/style/useConst: Readability - mutation
-		let results = {
-			tags: this.#get_prop_tags(symbol),
-			isBindable: this.#extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
-			isExtended: sources ? Iterator.from(sources).some((f) => f !== this.#options.filepath) : false,
-			isOptional: is_symbol_optional(symbol),
-			type: this.#get_type_doc(type),
-		};
-		const description = this.#get_prop_description(symbol);
-		if (description) results.description = description;
-		if (results.isOptional) {
-			const initializer = this.#extractor.defaults.get(symbol.name);
-			if (initializer) {
-				const default_type = this.#checker.getTypeAtLocation(initializer);
-				results.default = this.#get_type_doc(default_type);
-			}
-		}
-		if (results.isExtended && sources) results.sources = sources;
-		return results;
+	/** @type {ts.TypeChecker} */
+	get #checker() {
+		return this.#extractor.checker;
 	}
-
-	/**
-	 * @param {ts.Symbol} symbol
-	 * @returns {string | undefined}
-	 */
-	#get_prop_description(symbol) {
-		const description = symbol.getDocumentationComment(this.#checker);
-		// TODO: Why it would be an array? Overloads? How should we handle it?
-		return description?.[0]?.text;
-	}
-
-	/**
-	 * @param {ts.Symbol} symbol
-	 * @returns {Doc.Tag[]}
-	 */
-	#get_prop_tags(symbol) {
-		return symbol.getJsDocTags(this.#checker).map((t) => {
-			/** @type {Doc.Tag} */
-			// biome-ignore lint/style/useConst: Readability - mutation
-			let results = { name: t.name, content: "" };
-			// TODO: Why it would be an array? Overloads? How should we handle it?
-			const content = t.text?.[0]?.text;
-			if (content) results.content = content;
-			return results;
-		});
-	}
-
-	/**
-	 * @param {ts.Symbol} symbol
-	 * @returns {Doc.Prop["sources"]}
-	 */
-	#get_symbol_sources(symbol) {
-		return new Set(symbol.getDeclarations()?.map((d) => remove_tsx_extension(d.getSourceFile().fileName)) ?? []);
-	}
-
 	/**
 	 * @param {ts.Type} type
 	 * @returns {Doc.ArrayType}
@@ -201,9 +117,6 @@ class Parser {
 		};
 	}
 
-	/** @type{string | undefined} */
-	#self;
-
 	/**
 	 * @param {ts.Type} type
 	 * @returns {Doc.Constructible}
@@ -214,11 +127,11 @@ class Parser {
 		const sources = this.#get_type_sources(type);
 		// TODO: Document error
 		if (!sources) throw new Error();
-		if (this.#self === name) return { kind: "constructible", name, constructors: "self", sources };
+		if (this.#latest_symbol_name === name) return { kind: "constructible", name, constructors: "self", sources };
 		/** @type {Doc.Constructible['constructors']} */
 		const constructors = get_construct_signatures(type, this.#extractor).map((s) => {
 			return s.getParameters().map((p) => {
-				this.#self = name;
+				this.#latest_symbol_name = name;
 				return this.#get_fn_param_doc(p);
 			});
 		});
@@ -231,60 +144,7 @@ class Parser {
 	}
 
 	/**
-	 * @param {ts.Type} type
-	 * @returns {Doc.Interface}
-	 */
-	#get_interface_doc(type) {
-		/** @type {Doc.Interface['members']} */
-		const members = new Map(Iterator.from(type.getProperties()).map((p) => [p.name, this.#get_member_doc(p)]));
-		/** @type {Doc.Interface} */
-		// biome-ignore lint/style/useConst: Readability - mutation
-		let results = {
-			kind: "interface",
-			members,
-		};
-		const alias = type.aliasSymbol?.name ?? this.#checker.getFullyQualifiedName(type.symbol);
-		if (alias && alias !== "__type") {
-			results.alias = alias;
-			const sources = this.#get_type_sources(type);
-			if (sources) results.sources = sources;
-		}
-		return results;
-	}
-
-	/**
 	 * @param {ts.Symbol} symbol
-	 * @returns {Doc.Member}
-	 */
-	#get_member_doc(symbol) {
-		const type = this.#checker.getTypeOfSymbol(symbol);
-		return {
-			isOptional: is_symbol_optional(symbol),
-			isReadonly: is_symbol_readonly(symbol),
-			type: this.#get_type_doc(type),
-		};
-	}
-
-	/**
-	 * @param {ts.Type} type
-	 * @returns {Doc.Intersection}
-	 */
-	#get_intersection_doc(type) {
-		// TOOD: Document error
-		if (!type.isIntersection())
-			throw new Error(`Expected intersection type, got ${this.#checker.typeToString(type)}`);
-		const types = type.types.map((t) => this.#get_type_doc(t));
-		/** @type {Doc.Intersection} */
-		// biome-ignore lint/style/useConst: Readability - mutation
-		let results = { kind: "intersection", types };
-		if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
-		const source = this.#get_type_sources(type);
-		if (source) results.sources = source;
-		return results;
-	}
-
-	/**
-	 * @param  {ts.Symbol} symbol
 	 * @returns {Doc.FnParam}
 	 */
 	#get_fn_param_doc(symbol) {
@@ -338,23 +198,42 @@ class Parser {
 
 	/**
 	 * @param {ts.Type} type
-	 * @returns {Doc.WithAlias['sources'] | Doc.WithName["sources"]}
+	 * @returns {Doc.Interface}
 	 */
-	#get_type_sources(type) {
-		/** @type {ts.Symbol | undefined} */
-		let symbol = type.getSymbol();
-		if (!symbol || symbol.name === "__type") symbol = type.aliasSymbol;
-		if (symbol) {
-			const declared_type = this.#checker.getDeclaredTypeOfSymbol(symbol);
-			const declared_type_symbol = declared_type.getSymbol() || declared_type.aliasSymbol;
-			if (declared_type_symbol) {
-				return new Set(
-					Iterator.from(declared_type_symbol.getDeclarations() ?? []).map((d) =>
-						remove_tsx_extension(d.getSourceFile().fileName),
-					),
-				);
-			}
+	#get_interface_doc(type) {
+		/** @type {Doc.Interface['members']} */
+		const members = new Map(Iterator.from(type.getProperties()).map((p) => [p.name, this.#get_member_doc(p)]));
+		/** @type {Doc.Interface} */
+		// biome-ignore lint/style/useConst: Readability - mutation
+		let results = {
+			kind: "interface",
+			members,
+		};
+		const alias = type.aliasSymbol?.name ?? this.#checker.getFullyQualifiedName(type.symbol);
+		if (alias && alias !== "__type") {
+			results.alias = alias;
+			const sources = this.#get_type_sources(type);
+			if (sources) results.sources = sources;
 		}
+		return results;
+	}
+
+	/**
+	 * @param {ts.Type} type
+	 * @returns {Doc.Intersection}
+	 */
+	#get_intersection_doc(type) {
+		// TOOD: Document error
+		if (!type.isIntersection())
+			throw new Error(`Expected intersection type, got ${this.#checker.typeToString(type)}`);
+		const types = type.types.map((t) => this.#get_type_doc(t));
+		/** @type {Doc.Intersection} */
+		// biome-ignore lint/style/useConst: Readability - mutation
+		let results = { kind: "intersection", types };
+		if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
+		const source = this.#get_type_sources(type);
+		if (source) results.sources = source;
+		return results;
 	}
 
 	/**
@@ -383,6 +262,82 @@ class Parser {
 		}
 		// TODO: Document error
 		throw new Error(`Unknown literal type: ${this.#checker.typeToString(type)}`);
+	}
+
+	/**
+	 * @param {ts.Symbol} symbol
+	 * @returns {Doc.Member}
+	 */
+	#get_member_doc(symbol) {
+		const type = this.#checker.getTypeOfSymbol(symbol);
+		return {
+			isOptional: is_symbol_optional(symbol),
+			isReadonly: is_symbol_readonly(symbol),
+			type: this.#get_type_doc(type),
+		};
+	}
+
+	/**
+	 * @param {ts.Symbol} symbol
+	 * @returns {string | undefined}
+	 */
+	#get_prop_description(symbol) {
+		const description = symbol.getDocumentationComment(this.#checker);
+		// TODO: Why it would be an array? Overloads? How should we handle it?
+		return description?.[0]?.text;
+	}
+
+	/**
+	 * @param {ts.Symbol} symbol
+	 * @returns {Doc.Prop}
+	 */
+	#get_prop_doc(symbol) {
+		const type = this.#checker.getTypeOfSymbol(symbol);
+		const sources = this.#get_symbol_sources(symbol);
+		/** @type {Doc.Prop} */
+		// biome-ignore lint/style/useConst: Readability - mutation
+		let results = {
+			tags: this.#get_prop_tags(symbol),
+			isBindable: this.#extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
+			isExtended: sources ? Iterator.from(sources).some((f) => f !== this.#options.filepath) : false,
+			isOptional: is_symbol_optional(symbol),
+			type: this.#get_type_doc(type),
+		};
+		const description = this.#get_prop_description(symbol);
+		if (description) results.description = description;
+		if (results.isOptional) {
+			const initializer = this.#extractor.defaults.get(symbol.name);
+			if (initializer) {
+				const default_type = this.#checker.getTypeAtLocation(initializer);
+				results.default = this.#get_type_doc(default_type);
+			}
+		}
+		if (results.isExtended && sources) results.sources = sources;
+		return results;
+	}
+
+	/**
+	 * @param {ts.Symbol} symbol
+	 * @returns {Doc.Tag[]}
+	 */
+	#get_prop_tags(symbol) {
+		return symbol.getJsDocTags(this.#checker).map((t) => {
+			/** @type {Doc.Tag} */
+			// biome-ignore lint/style/useConst: Readability - mutation
+			let results = { name: t.name, content: "" };
+			// TODO: Why it would be an array? Overloads? How should we handle it?
+			const content = t.text?.[0]?.text;
+			if (content) results.content = content;
+			return results;
+		});
+	}
+
+	/**
+	 * @param {ts.Symbol} symbol
+	 * @returns {Doc.Prop["sources"]}
+	 */
+	#get_symbol_sources(symbol) {
+		return new Set(symbol.getDeclarations()?.map((d) => remove_tsx_extension(d.getSourceFile().fileName)) ?? []);
 	}
 
 	/**
@@ -437,6 +392,27 @@ class Parser {
 
 	/**
 	 * @param {ts.Type} type
+	 * @returns {Doc.WithAlias['sources'] | Doc.WithName["sources"]}
+	 */
+	#get_type_sources(type) {
+		/** @type {ts.Symbol | undefined} */
+		let symbol = type.getSymbol();
+		if (!symbol || symbol.name === "__type") symbol = type.aliasSymbol;
+		if (symbol) {
+			const declared_type = this.#checker.getDeclaredTypeOfSymbol(symbol);
+			const declared_type_symbol = declared_type.getSymbol() || declared_type.aliasSymbol;
+			if (declared_type_symbol) {
+				return new Set(
+					Iterator.from(declared_type_symbol.getDeclarations() ?? []).map((d) =>
+						remove_tsx_extension(d.getSourceFile().fileName),
+					),
+				);
+			}
+		}
+	}
+
+	/**
+	 * @param {ts.Type} type
 	 * @returns {Doc.Union}
 	 */
 	#get_union_doc(type) {
@@ -455,6 +431,26 @@ class Parser {
 		const nonNullable = type.getNonNullableType();
 		if (nonNullable !== type) results.nonNullable = this.#get_type_doc(nonNullable);
 		return results;
+	}
+	/**
+	 * @param {ts.Type} type
+	 * @returns {Doc.Type}
+	 */
+	#get_type_doc(type) {
+		const kind = get_type_kind({ type, extractor: this.#extractor });
+		// biome-ignore format: Prettier
+		switch (kind) {
+			case "array": return this.#get_array_doc(type);
+			case "constructible": return this.#get_constructible_doc(type);
+			case "function": return this.#get_function_doc(type);
+			case "interface": return this.#get_interface_doc(type);
+			case "intersection": return this.#get_intersection_doc(type);
+			case "literal": return this.#get_literal_doc(type);
+			case "tuple": return this.#get_tuple_doc(type);
+			case "type-parameter": return this.#get_type_param_doc(type);
+			case "union": return this.#get_union_doc(type);
+			default: return { kind };
+		}
 	}
 }
 

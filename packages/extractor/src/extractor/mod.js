@@ -34,17 +34,6 @@ class Extractor {
 		this.compiler = new Compiler(this.source, this.parser, this.#options);
 	}
 
-	/** @type {ComponentDocExtractor | undefined} */
-	#cached_component_doc_extractor;
-
-	/** @type {ComponentDocExtractor | undefined} */
-	get #component_doc_extractor() {
-		if (this.#cached_component_doc_extractor) return this.#cached_component_doc_extractor;
-		if (!this.parser.componentComment) return undefined;
-		this.#cached_component_doc_extractor = new ComponentDocExtractor(this.parser.componentComment);
-		return this.#cached_component_doc_extractor;
-	}
-
 	/** @returns {string | undefined} */
 	get description() {
 		return this.#component_doc_extractor?.description;
@@ -163,6 +152,16 @@ class Extractor {
 	/** @returns {ReturnType<typeof createCacheStorage>} */
 	get #cache() {
 		return this.#options.cache;
+	}
+
+	/** @type {ComponentDocExtractor | undefined} */
+	#cached_component_doc_extractor;
+	/** @type {ComponentDocExtractor | undefined} */
+	get #component_doc_extractor() {
+		if (this.#cached_component_doc_extractor) return this.#cached_component_doc_extractor;
+		if (!this.parser.componentComment) return undefined;
+		this.#cached_component_doc_extractor = new ComponentDocExtractor(this.parser.componentComment);
+		return this.#cached_component_doc_extractor;
 	}
 
 	/** @type {ts.Program | undefined} */
