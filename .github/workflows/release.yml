@@ -47,7 +47,7 @@ jobs:
             # https://github.com/changesets/action
             - name: Create release Pull Request / publish to npmjs.com registry
               uses: changesets/action@v1
-              if: ${{ github.ref_name == 'main' && github.repository_owner == 'xeho91' }}
+              if: ${{ github.ref_name == 'main' && github.repository_owner == 'svelte-docgen' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
