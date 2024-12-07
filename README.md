@@ -4,12 +4,12 @@ This project is a monorepo for `svelte-docgen` packages.
 
 ## Packages
 
-| Package                                           | Description                                              |
-| ------------------------------------------------- | -------------------------------------------------------- |
-| [`svelte-docgen`](./packages/svelte-docgen)       | Core package                                             |
-| 🚧 `@svelte-docgen/cli                            | Standalone CLI                                           |
-| [`@svelte-docgen/extractor](./packages/extractor) | Extracting types from `*.svelte` files to write your own |
-| 🚧 `@svelte-docgen/server                         | Run a server which allows fetching docs on demand        |
+| Package                                            | Description                                              |
+| -------------------------------------------------- | -------------------------------------------------------- |
+| [`svelte-docgen`](./packages/svelte-docgen)        | Core package                                             |
+| 🚧 `@svelte-docgen/cli`                            | Standalone CLI                                           |
+| [`@svelte-docgen/extractor`](./packages/extractor) | Extracting types from `*.svelte` files to write your own |
+| 🚧 `@svelte-docgen/server`                         | Run a server which allows fetching docs on demand        |
 
 ---
 
