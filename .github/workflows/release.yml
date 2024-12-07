@@ -50,6 +50,7 @@ jobs:
               if: ${{ github.ref_name == 'main' && github.repository_owner == 'svelte-docgen' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
               with:
                   title: "chore(Changesets): Versioning package(s)"
                   version: "pnpm run _ci:version"
