@@ -14,7 +14,7 @@
 	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/xeho91/svelte-docgen.git",
+		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
 		"directory": "packages/svelte-docgen"
 	},
 	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",

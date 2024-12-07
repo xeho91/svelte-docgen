@@ -11,7 +11,7 @@
 		"email": "xeho91@pm.me",
 		"url": "https://github.com/xeho91"
 	},
-	"homepage": "https://github.com/xeho91/svelte-docgen",
+	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
