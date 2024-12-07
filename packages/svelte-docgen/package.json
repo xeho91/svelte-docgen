@@ -41,10 +41,6 @@
 			"types": "./types/mod.d.ts",
 			"default": "./src/mod.js"
 		},
-		"./documentation": {
-			"types": "./types/documentation.ts",
-			"default": "./src/documentation.ts"
-		},
 		"./package.json": "./package.json"
 	},
 	"types": "./types/mod.d.ts",

@@ -232,6 +232,7 @@ class Extractor {
 				...parsed.options,
 				...this.#forced_ts_options,
 			};
+			// TODO: Create a warning when tsconfig.json `compilerOptions.lib` doesn't include DOM
 		}
 		return this.#forced_ts_options;
 	}

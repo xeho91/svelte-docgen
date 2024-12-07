@@ -44,6 +44,9 @@ importers:
       serve:
         specifier: 14.2.4
         version: 14.2.4
+      svelte:
+        specifier: 'catalog:'
+        version: 5.3.1
       svelte-check:
         specifier: 4.1.1
         version: 4.1.1(picomatch@4.0.2)(svelte@5.3.1)(typescript@5.7.2)
