@@ -69,7 +69,7 @@ describe("parse", () => {
 			create_options("example.svelte"),
 		);
 		expect(parsed.isLegacy).toBe(false);
-		expect(() => parsed.events).toThrowErrorMatchingInlineSnapshot(`[Error]`);
-		expect(() => parsed.slots).toThrowErrorMatchingInlineSnapshot(`[Error]`);
+		expect(() => parsed.events).toThrowErrorMatchingInlineSnapshot("[Error]");
+		expect(() => parsed.slots).toThrowErrorMatchingInlineSnapshot("[Error]");
 	});
 });
