@@ -1,38 +1,44 @@
 /**
- * @import { GetTypeParams, Extractor } from "../shared.js"
+ * @import { GetTypeParams, Extractor } from "../shared.js";
  */
 
 import ts from "typescript";
+import * as v from "valibot";
 
 import { get_construct_signatures, is_object_type } from "../shared.js";
 
-export const TYPE_KINDS = new Set(
-	/** @type {const} */ ([
-		"any",
-		"array",
-		"bigint",
-		"boolean",
-		"constructible",
-		"function",
-		"interface",
-		"intersection",
-		"literal",
-		"never",
-		"null",
-		"number",
-		"object",
-		"string",
-		"symbol",
-		"tuple",
-		"type-parameter",
-		"undefined",
-		"union",
-		"unknown",
-		"void",
-	]),
-);
+export const BASE_TYPE_KIND = v.picklist([
+	"any",
+	"bigint",
+	"boolean",
+	"never",
+	"null",
+	"number",
+	"object",
+	"string",
+	"symbol",
+	"undefined",
+	"unknown",
+	"void",
+]);
+export const ADVANCED_TYPE_KIND = v.picklist([
+	"array",
+	"constructible",
+	"function",
+	"interface",
+	"intersection",
+	"literal",
+	"tuple",
+	"type-parameter",
+	"union",
+]);
+export const TYPE_KIND = v.picklist([
+	//
+	...BASE_TYPE_KIND.options,
+	...ADVANCED_TYPE_KIND.options,
+]);
 
-/** @typedef {typeof TYPE_KINDS extends Set<infer T> ? T : never} TypeKind */
+/** @typedef {v.InferInput<typeof TYPE_KIND>} TypeKind */
 
 /**
  * @param {GetTypeParams} params

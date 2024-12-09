@@ -10,8 +10,6 @@ export declare namespace Doc {
 		tags?: Tag[];
 	}
 
-	interface Component extends Docable {}
-
 	interface OptionalProp {
 		default?: Type;
 		isOptional: true;
@@ -69,7 +67,7 @@ export declare namespace Doc {
 	}
 
 	interface BaseType {
-		/** @see {@link TYPE_KINDS} */
+		/** @see {@link TypeKind} */
 		kind: Exclude<
 			TypeKind,
 			| "array"

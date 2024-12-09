@@ -39,7 +39,30 @@ class Parser {
 		this.#extractor = extract(source, this.#options);
 	}
 
-	/** @returns {Doc.Component['description']} */
+	/** @returns {ParsedComponent} */
+	toJSON() {
+		const { description, isLegacy, exports, props, tags } = this;
+		if (isLegacy) {
+			return /** @type {LegacyComponent} */ ({
+				description,
+				events: this.events,
+				exports,
+				isLegacy,
+				props,
+				slots: this.slots,
+				tags,
+			});
+		}
+		return /** @type {ModernComponent} */ ({
+			description,
+			exports,
+			isLegacy,
+			props,
+			tags,
+		});
+	}
+
+	/** @returns {Doc.Docable['description']} */
 	get description() {
 		return this.#extractor.description;
 	}
@@ -92,7 +115,7 @@ class Parser {
 		);
 	}
 
-	/** @returns {Doc.Component['tags']} */
+	/** @returns {Doc.Docable['tags']} */
 	get tags() {
 		return this.#extractor.tags;
 	}
@@ -457,8 +480,8 @@ class Parser {
 /**
  * @typedef LegacyComponent
  * @prop {true} isLegacy
- * @prop {Doc.Component['description']} description
- * @prop {Doc.Component['tags']} tags
+ * @prop {Doc.Docable['description']} description
+ * @prop {Doc.Docable['tags']} tags
  * @prop {Doc.Props} props
  * @prop {Doc.Exports} exports
  * @prop {Doc.Events} events
@@ -468,8 +491,8 @@ class Parser {
 /**
  * @typedef ModernComponent
  * @prop {false} isLegacy
- * @prop {Doc.Component['description']} description
- * @prop {Doc.Component['tags']} tags
+ * @prop {Doc.Docable['description']} description
+ * @prop {Doc.Docable['tags']} tags
  * @prop {Doc.Props} props
  * @prop {Doc.Exports} exports
  * @prop {never} events
