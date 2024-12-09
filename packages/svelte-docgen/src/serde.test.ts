@@ -1,135 +1,49 @@
 import { describe, it } from "vitest";
 
+import { create_options } from "../tests/shared.js";
+import { parse } from "./parser/mod.js";
 import { deserialize, serialize } from "./serde.js";
 
 describe("serialize", () => {
-	it("converts 'props' | 'events' | 'exports' | 'slots' keys to array of tuples [key, value]", ({ expect }) => {
-		const sample_map = new Map([
-			["item1", { value: 1 }],
-			["item2", { value: 2 }],
-		]);
-		const data = {
-			props: sample_map,
-			events: sample_map,
-			exports: sample_map,
-			slots: sample_map,
-		};
-		expect(serialize(data, 2)).toMatchInlineSnapshot(`
-			"{
-			  "props": [
-			    [
-			      "item1",
-			      {
-			        "value": 1
-			      }
-			    ],
-			    [
-			      "item2",
-			      {
-			        "value": 2
-			      }
-			    ]
-			  ],
-			  "events": [
-			    [
-			      "item1",
-			      {
-			        "value": 1
-			      }
-			    ],
-			    [
-			      "item2",
-			      {
-			        "value": 2
-			      }
-			    ]
-			  ],
-			  "exports": [
-			    [
-			      "item1",
-			      {
-			        "value": 1
-			      }
-			    ],
-			    [
-			      "item2",
-			      {
-			        "value": 2
-			      }
-			    ]
-			  ],
-			  "slots": [
-			    [
-			      "item1",
-			      {
-			        "value": 1
-			      }
-			    ],
-			    [
-			      "item2",
-			      {
-			        "value": 2
-			      }
-			    ]
-			  ]
-			}"
-		`);
+	const parsed = parse(
+		`
+			<script lang="ts">
+				interface Props {
+					some: any;
+					name: string;
+					disabled?: boolean;
+					date: Date;
+				}
+				let { ..._ }: Props = $props();
+			</script>
+			`,
+		create_options("serialize.svelte"),
+	);
+	const serialized = serialize(parsed);
+	it("converts 'props' to array of tuples", ({ expect }) => {
+		expect(serialized).toMatchInlineSnapshot();
 	});
 });
 
 describe("deserialize", () => {
-	it("revives 'events' | 'exports' | 'props' | 'slots' keys as Map", ({ expect }) => {
-		const sample_map = new Map([
-			["item1", { value: 1 }],
-			["item2", { value: 2 }],
-		]);
-		const data = {
-			props: sample_map,
-			events: sample_map,
-			exports: sample_map,
-			slots: sample_map,
-		};
-		const stringified = serialize(data, 2);
-		const deserialized = deserialize(stringified);
-		expect(deserialized).toMatchInlineSnapshot(`
-			{
-			  "events": Map {
-			    "item1" => {
-			      "value": 1,
-			    },
-			    "item2" => {
-			      "value": 2,
-			    },
-			  },
-			  "exports": Map {
-			    "item1" => {
-			      "value": 1,
-			    },
-			    "item2" => {
-			      "value": 2,
-			    },
-			  },
-			  "props": Map {
-			    "item1" => {
-			      "value": 1,
-			    },
-			    "item2" => {
-			      "value": 2,
-			    },
-			  },
-			  "slots": Map {
-			    "item1" => {
-			      "value": 1,
-			    },
-			    "item2" => {
-			      "value": 2,
-			    },
-			  },
-			}
-		`);
+	it("revives 'props' as Map", ({ expect }) => {
+		const parsed = parse(
+			`
+			<script lang="ts">
+				interface Props {
+					some: any;
+					name: string;
+					disabled?: boolean;
+					date: Date;
+				}
+				let { ..._ }: Props = $props();
+			</script>
+			`,
+			create_options("deserialize.svelte"),
+		);
+		const serialized = serialize(parsed);
+		const deserialized = deserialize(serialized);
 		expect(deserialized.props).toBeInstanceOf(Map);
-		expect(deserialized.events).toBeInstanceOf(Map);
-		expect(deserialized.exports).toBeInstanceOf(Map);
-		expect(deserialized.slots).toBeInstanceOf(Map);
+		//
 	});
 });

@@ -1,7 +1,7 @@
 /**
- * @module
  * Convert parsed data structures into transferable formats.
  * And restore them back to their original form.
+ * @module
  */
 
 /**
@@ -14,10 +14,10 @@ import * as v from "valibot";
  * Serialize data as stringified JSON, so it can be used for e.g. RESTful API.
  *
  * @param {ParsedComponent} data
- * @param {Parameters<typeof JSON.stringify>[2]} [ident]
+ * @param {Parameters<typeof JSON.stringify>[2]} [indent]
  * @returns {string}
  */
-export function serialize(data, ident) {
+export function serialize(data, indent) {
 	return JSON.stringify(
 		data,
 		(key, value) => {
@@ -28,7 +28,7 @@ export function serialize(data, ident) {
 				return value;
 			}
 		},
-		ident,
+		indent,
 	);
 }
 

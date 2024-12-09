@@ -4,9 +4,13 @@
 
 import ts from "typescript";
 
-/** @typedef {ReturnType<typeof extract>} Extractor */
+/**
+ * @internal
+ * @typedef {ReturnType<typeof extract>} Extractor
+ */
 
 /**
+ * @internal
  * @param {string} stringified
  * @returns {ReturnType<typeof JSON.parse>}
  */
@@ -19,6 +23,7 @@ export function parse_stringified_type(stringified) {
 }
 
 /**
+ * @internal
  * @param {ts.Type} type
  * @returns {type is ts.ObjectType}
  */
@@ -27,6 +32,7 @@ export function is_object_type(type) {
 }
 
 /**
+ * @internal
  * @param {ts.Type} type
  * @returns {type is ts.TypeReference}
  */
@@ -35,6 +41,7 @@ export function is_type_reference(type) {
 }
 
 /**
+ * @internal
  * @param {ts.Type} type
  * @returns {type is ts.TupleType}
  */
@@ -43,6 +50,7 @@ export function is_tuple_type(type) {
 }
 
 /**
+ * @internal
  * @param {ts.Symbol} symbol
  * @returns {boolean}
  */
@@ -51,6 +59,7 @@ export function is_symbol_optional(symbol) {
 }
 
 /**
+ * @internal
  * @param {string} source
  * @returns {string}
  */
@@ -59,6 +68,7 @@ export function remove_tsx_extension(source) {
 }
 
 /**
+ * @internal
  * @param {ts.Type} type
  * @returns {ts.Symbol}
  */
@@ -79,6 +89,7 @@ export function get_type_symbol(type) {
  */
 
 /**
+ * @internal
  * @param {ts.Type} type
  * @param {Extractor} extractor
  * @returns {readonly ts.Signature[]}
@@ -90,6 +101,7 @@ export function get_construct_signatures(type, extractor) {
 }
 
 /**
+ * @internal
  * @param {ts.TypeParameter} type
  * @returns {boolean}
  */
@@ -106,6 +118,7 @@ export function is_const_type_param(type) {
 }
 
 /**
+ * @internal
  * @param {ts.Symbol} symbol
  * @returns {boolean}
  */
@@ -117,17 +130,3 @@ export function is_symbol_readonly(symbol) {
 		return (modifiers & ts.ModifierFlags.Readonly) !== 0;
 	});
 }
-
-// /**
-//  * @param {ts.Symbol} symbol
-//  * @returns {boolean}
-//  */
-// export function is_symbol_optional(symbol) {
-// 	if (
-// 		symbol.valueDeclaration &&
-// 		(ts.isParameter(symbol.valueDeclaration) || ts.isPropertySignature(symbol.valueDeclaration))
-// 	) {
-// 		return symbol.valueDeclaration.questionToken !== undefined;
-// 	}
-// 	return false;
-// }
