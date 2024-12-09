@@ -16,9 +16,23 @@ export class Options {
 	constructor(user_options) {
 		this.cache = user_options.cache ?? createCacheStorage();
 		if (user_options.filepath) {
-			this.#validate_filepath(user_options.filepath);
-			this.filepath = user_options.filepath;
+			const filepath = this.#parse_filepath(user_options.filepath);
+			this.#validate_filepath(filepath);
+			this.filepath = filepath;
 		} else this.filepath = this.#random_filepath;
+	}
+
+	/**
+	 * NOTE:
+	 * User could pass a filepath as URI _(starting with "file://" protocol)_.
+	 * In this case we're interested only in pathname, because TypeScript doesn't handle URI.
+	 *
+	 * @param {string} filepath
+	 * @returns {string}
+	 */
+	#parse_filepath(filepath) {
+		if (URL.canParse(filepath)) return new URL(filepath).pathname;
+		return filepath;
 	}
 
 	/**
