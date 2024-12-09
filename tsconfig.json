@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"allowSyntheticDefaultImports": true,
 	"compilerOptions": {
 		"allowJs": true,
 		"allowImportingTsExtensions": true,
+		"allowSyntheticDefaultImports": true,
 		"checkJs": true,
 		"lib": ["DOM", "ESNext"],
 		"module": "ESNext",
