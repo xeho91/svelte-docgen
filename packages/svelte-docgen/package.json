@@ -76,7 +76,8 @@
 		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"svelte-docgen\" "
 	},
 	"dependencies": {
-		"@svelte-docgen/extractor": "workspace:*"
+		"@svelte-docgen/extractor": "workspace:*",
+		"valibot": "1.0.0-beta.9"
 	},
 	"devDependencies": {
 		"dts-buddy": "catalog:"
