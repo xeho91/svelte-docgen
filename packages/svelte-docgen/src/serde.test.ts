@@ -235,8 +235,8 @@ describe("serialize", () => {
 			                      "constructors": "self",
 			                      "sources": [
 			                        "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts",
-			                        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-			                        "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts"
+			                        "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+			                        "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts"
 			                      ]
 			                    }
 			                  ]
@@ -245,9 +245,9 @@ describe("serialize", () => {
 			            ]
 			          ],
 			          "sources": [
-			            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts",
-			            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-			            "/Users/xeho91/Nextcloud/Projects/oss/svelte-docgen/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts"
+			            "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts",
+			            "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+			            "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts"
 			          ]
 			        }
 			      }
