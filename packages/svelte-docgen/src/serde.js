@@ -1,11 +1,19 @@
 /**
+ * @module
+ * Convert parsed data structures into transferable formats.
+ * And restore them back to their original form.
+ */
+
+/**
  * @import { ParsedComponent } from "./parser/mod.js";
  */
 
 import * as v from "valibot";
 
 /**
- * @param {any} data
+ * Serialize data as stringified JSON, so it can be used for e.g. RESTful API.
+ *
+ * @param {ParsedComponent} data
  * @param {Parameters<typeof JSON.stringify>[2]} [ident]
  * @returns {string}
  */
@@ -25,6 +33,8 @@ export function serialize(data, ident) {
 }
 
 /**
+ * Revive stringified JSON data back to previous interface.
+ *
  * @param {string} stringified
  * @returns {Partial<ParsedComponent>}
  */
@@ -47,6 +57,7 @@ export function deserialize(stringified) {
  *
  * @param {unknown} input
  * @returns {input is Array<[string, unknown]>}
+ * @internal
  */
 function is_mapable(input) {
 	return v.is(
@@ -63,9 +74,9 @@ function is_mapable(input) {
 }
 
 /**
- *
  * @param {unknown} input
  * @returns {input is Array<[string]>}
+ * @internal
  */
 function is_setable(input) {
 	return v.is(v.array(v.string()), input);
