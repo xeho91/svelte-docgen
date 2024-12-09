@@ -1,8 +1,14 @@
+import path from "node:path";
+import url from "node:url";
+
 import { describe, it } from "vitest";
 
 import { create_options } from "../../tests/shared.ts";
 import { parse } from "../parser/mod.js";
 import { analyzeProperty } from "./prop.js";
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe(analyzeProperty.name, () => {
 	describe("getter .isEventHandler", () => {
@@ -44,7 +50,7 @@ describe(analyzeProperty.name, () => {
 			`
 			<script lang="ts">
 				import type { HTMLButtonAttributes } from "svelte/elements";
-				import type { CustomProps } from "${process.cwd()}/packages/svelte-docgen/tests/custom-extended.ts";
+				import type { CustomProps } from "${path.join(__dirname, "..", "..", "tests", "custom-extended.ts")}";
 
 				interface Props extends HTMLButtonAttributes, CustomProps {}
 				let { ..._ }: Props = $props();

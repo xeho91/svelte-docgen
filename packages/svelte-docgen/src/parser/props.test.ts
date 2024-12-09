@@ -1,6 +1,5 @@
 import { describe, it } from "vitest";
 
-import { extract } from "@svelte-docgen/extractor";
 import { create_options } from "../../tests/shared.js";
 import { parse } from "../mod.js";
 

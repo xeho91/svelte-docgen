@@ -20,17 +20,18 @@ export class Compiler {
 	 */
 	constructor(source, parser, options) {
 		this.filepath = `${options.filepath}.tsx`;
-		this.tsx = this.#compile_to_tsx(source, parser);
+		this.tsx = this.#compile_to_tsx(source, parser, options.filepath);
 	}
 
 	/**
 	 * @param {Source} source
 	 * @param {Parser} parser
+	 * @param {string} filepath
 	 * @returns {ReturnType<typeof svelte2tsx>}
 	 */
-	#compile_to_tsx(source, parser) {
+	#compile_to_tsx(source, parser, filepath) {
 		return svelte2tsx(source, {
-			filename: this.filepath,
+			filename: filepath,
 			isTsFile: parser.isLangTypeScript,
 			mode: "dts",
 			version: VERSION,
