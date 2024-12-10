@@ -1,0 +1,89 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@svelte-docgen/vite-plugin-svelte-docgen",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Generate documentation for Svelte component(s)",
+	"keywords": ["svelte", "documentation", "component", "props", "docgen", "vite", "plugin"],
+	"license": "MIT",
+	"author": {
+		"name": "Mateusz Kadlubowski",
+		"email": "xeho91@pm.me",
+		"url": "https://github.com/xeho91"
+	},
+	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
+		"directory": "packages/vite-plugin"
+	},
+	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/xeho91"
+		},
+		{
+			"type": "opencollective",
+			"url": "https://opencollective.com/xeho91"
+		}
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"files": ["src/", "!src/**/*.test.*", "types/"],
+	"exports": {
+		".": {
+			"types": "./types/mod.d.ts",
+			"default": "./src/mod.js"
+		},
+		"./doc": {
+			"types": "./types/mod.d.ts",
+			"default": "./src/doc/type.ts"
+		},
+		"./package.json": "./package.json"
+	},
+	"types": "./types/mod.d.ts",
+	"scripts": {
+		"build": "pnpm run \"/^build:.*/\" ",
+		"build:doc": "typedoc",
+		"build:pkg": "dts-buddy",
+		"clean": "pnpm run \"/^clean:.*/\"; rm -rf \"./**/node_modules\" ",
+		"clean:cache": "rm -rf \"./node_modules/.cache\" ",
+		"clean:doc": "rm -rf \"./docs\" ",
+		"clean:test": "rm -rf \"./coverage\" ",
+		"clean:types": "rm -rf \"./types\" ",
+		"dev": "pnpm run \"/^dev:.*/\" ",
+		"dev:doc": "typedoc --watch",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/vite-plugin\" ",
+		"fix": "pnpm run \"/^fix:.*/\" ",
+		"fix:biome": "biome check . --verbose --write",
+		"fix:format": "biome format . --verbose --write",
+		"fix:js": "biome lint . --verbose --fix --unsafe",
+		"fix:typos": "typos --verbose --write-changes",
+		"lint": "pnpm run \"/^lint:.*/\" ",
+		"lint:biome": "biome check . --verbose",
+		"lint:format": "biome format . --verbose",
+		"lint:js": "biome lint . --verbose",
+		"lint:ts": "tsc --noEmit",
+		"lint:typos": "typos --verbose",
+		"prepare": "pnpm build:pkg",
+		"serve:doc": "serve \"./docs\" ",
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/vite-plugin\" "
+	},
+	"dependencies": {
+		"svelte-docgen": "workspace:*"
+	},
+	"devDependencies": {
+		"dts-buddy": "catalog:"
+	},
+	"peerDependencies": {
+		"svelte": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:"
+	}
+}

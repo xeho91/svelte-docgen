@@ -27,7 +27,7 @@ const config = defineWorkspace([
 	{
 		test: {
 			...SHARED,
-			name: "@svelte-docgen/extractor",
+			name: "@svelte-docgen/vite-plugin",
 			root: path.resolve(__dirname, "packages", "extractor"),
 		},
 	},
