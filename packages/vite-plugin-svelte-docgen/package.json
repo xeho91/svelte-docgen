@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@svelte-docgen/vite-plugin-svelte-docgen",
+	"name": "vite-plugin-svelte-docgen",
 	"version": "0.1.0",
 	"type": "module",
 	"description": "Generate documentation for Svelte component(s)",
@@ -15,7 +15,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
-		"directory": "packages/vite-plugin"
+		"directory": "packages/vite-plugin-svelte-docgen"
 	},
 	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"funding": [
@@ -59,7 +59,7 @@
 		"clean:types": "rm -rf \"./types\" ",
 		"dev": "pnpm run \"/^dev:.*/\" ",
 		"dev:doc": "typedoc --watch",
-		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/vite-plugin\" ",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin\" ",
 		"fix": "pnpm run \"/^fix:.*/\" ",
 		"fix:biome": "biome check . --verbose --write",
 		"fix:format": "biome format . --verbose --write",
@@ -73,7 +73,7 @@
 		"lint:typos": "typos --verbose",
 		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
-		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/vite-plugin\" "
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin\" "
 	},
 	"dependencies": {
 		"svelte-docgen": "workspace:*"
