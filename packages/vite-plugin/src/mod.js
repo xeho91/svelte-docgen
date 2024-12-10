@@ -9,9 +9,9 @@ import path from "node:path";
 import MagicString from "magic-string";
 import * as compiler from "svelte/compiler";
 
+import * as docgen from "svelte-docgen";
 import { Options } from "./options.js";
 import { get_name_from_svelte_file_basename } from "./utils.js";
-import * as docgen from "svelte-docgen";
 
 const CACHE_STORAGE = docgen.createCacheStorage();
 
