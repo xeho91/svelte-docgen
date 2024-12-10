@@ -133,10 +133,6 @@ importers:
       vite:
         specifier: 'catalog:'
         version: 6.0.3(@types/node@22.10.1)(yaml@2.6.1)
-    devDependencies:
-      dts-buddy:
-        specifier: 'catalog:'
-        version: 0.5.4(typescript@5.7.2)
 
 packages:
 

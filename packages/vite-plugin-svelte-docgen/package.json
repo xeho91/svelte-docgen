@@ -51,7 +51,6 @@
 	"scripts": {
 		"build": "pnpm run \"/^build:.*/\" ",
 		"build:doc": "typedoc",
-		"build:pkg": "dts-buddy",
 		"clean": "pnpm run \"/^clean:.*/\"; rm -rf \"./**/node_modules\" ",
 		"clean:cache": "rm -rf \"./node_modules/.cache\" ",
 		"clean:doc": "rm -rf \"./docs\" ",
@@ -77,9 +76,6 @@
 	"dependencies": {
 		"magic-string": "^0.30.14",
 		"svelte-docgen": "workspace:*"
-	},
-	"devDependencies": {
-		"dts-buddy": "catalog:"
 	},
 	"peerDependencies": {
 		"svelte": "catalog:",
