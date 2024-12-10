@@ -71,7 +71,6 @@
 		"lint:js": "biome lint . --verbose",
 		"lint:ts": "tsc --noEmit",
 		"lint:typos": "typos --verbose",
-		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
 		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin\" "
 	},
