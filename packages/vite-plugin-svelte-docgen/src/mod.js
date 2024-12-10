@@ -7,9 +7,8 @@
 import path from "node:path";
 
 import MagicString from "magic-string";
-import * as compiler from "svelte/compiler";
-
 import * as docgen from "svelte-docgen";
+
 import { Options } from "./options.js";
 import { get_name_from_svelte_file_basename } from "./utils.js";
 
@@ -38,7 +37,11 @@ async function plugin(user_options) {
 			const src = new MagicString(source);
 			const filepath = path.relative(options.cwd.pathname, id);
 			const component_name = get_name_from_svelte_file_basename(path.basename(filepath));
-			const parsed = docgen.parse(source, { filepath, cache: CACHE_STORAGE });
+			const parsed = docgen.parse(source, {
+				// @ts-ignore: FIXME: Perhaps we really should change this to loose type string
+				filepath,
+				cache: CACHE_STORAGE,
+			});
 			const serialized = docgen.serialize(parsed);
 			src.append(`\n${component_name}.__docgen = ${serialized}`);
 			return {
