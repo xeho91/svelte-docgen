@@ -90,6 +90,11 @@ class Extractor {
 		const { bindings } = this.#extracted_from_render_fn;
 		// TODO: Document error
 		if (!bindings) throw new Error("bindings not found");
+		// If in legacy mode, 'bindings' is a string type
+		if (bindings.flags & ts.TypeFlags.String) {
+			return results;
+		}
+		// If there is a single binding
 		if (bindings.isStringLiteral()) {
 			// NOTE: No bindings, is empty
 			if (bindings.value === "") {
@@ -98,9 +103,7 @@ class Extractor {
 			results.add(bindings.value);
 			return results;
 		}
-		if (bindings.flags & ts.TypeFlags.String) {
-			return results;
-		}
+		// If there are multiple bindings
 		// TODO: Document error
 		if (!bindings?.isUnion()) throw new Error("bindings is not an union");
 		for (const type of bindings.types) {
