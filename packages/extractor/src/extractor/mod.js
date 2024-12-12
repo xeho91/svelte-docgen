@@ -90,12 +90,12 @@ class Extractor {
 		const { bindings } = this.#extracted_from_render_fn;
 		// TODO: Document error
 		if (!bindings) throw new Error("bindings not found");
-		// NOTE: No bindings, is empty
-		if (
-			//
-			(bindings.isStringLiteral() && bindings.value === "") ||
-			this.checker.typeToString(bindings) === "string"
-		) {
+		if (bindings.isStringLiteral()) {
+			// NOTE: No bindings, is empty
+			if (bindings.value === "") {
+				return results;
+			}
+			results.add(bindings.value);
 			return results;
 		}
 		// TODO: Document error
@@ -320,7 +320,9 @@ class Extractor {
 		//O TODO: Document it
 		if (!from_program)
 			throw new Error(`Source file could not be found by TypeScript program: ${this.compiler.filepath}`);
-		this.#cached_source_file = this.#cache.set(this.compiler.filepath, { source: from_program }).source;
+		this.#cached_source_file = this.#cache.set(this.compiler.filepath, {
+			source: from_program,
+		}).source;
 		return from_program;
 	}
 
@@ -397,20 +399,22 @@ class Extractor {
 		this.#cached_extracted_from_render_fn = {};
 		// biome-ignore format: Prettier
 		for (const prop of properties) {
-			const name = prop.getName();
-			// TODO: Add support for Svelte v4 - exports, slots, and events
-			switch (name) {
-				case "props":
-				case "bindings":
-				case "slots":
-				case "exports":
-				case "events": {
-					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
-					continue;
-				}
-				default: continue;
-			}
-		}
+      const name = prop.getName();
+      // TODO: Add support for Svelte v4 - exports, slots, and events
+      switch (name) {
+        case "props":
+        case "bindings":
+        case "slots":
+        case "exports":
+        case "events": {
+          this.#cached_extracted_from_render_fn[name] =
+            this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
+          continue;
+        }
+        default:
+          continue;
+      }
+    }
 		return this.#cached_extracted_from_render_fn;
 	}
 }
