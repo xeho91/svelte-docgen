@@ -1,4 +1,4 @@
-import { createServer, type ViteDevServer } from "vite";
+import { type ViteDevServer, createServer } from "vite";
 import { afterEach, beforeEach, describe, it } from "vitest";
 
 import plugin from "./mod.js";
