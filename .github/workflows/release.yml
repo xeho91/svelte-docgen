@@ -21,7 +21,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
     changesets:
         name: Release
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
         timeout-minutes: 1
         steps:
             # https://github.com/actions/checkout

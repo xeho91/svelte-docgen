@@ -17,7 +17,7 @@ permissions:
 jobs:
     tsc:
         name: tsc
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
         timeout-minutes: 2
         steps:
             # https://github.com/actions/checkout
