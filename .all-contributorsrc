@@ -14,8 +14,16 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/18627568?v=4",
 			"profile": "https://github.com/xeho91",
 			"contributions": ["code", "infra", "maintenance"]
+		},
+		{
+			"login": "ciscorn",
+			"name": "Taku Fukada",
+			"avatar_url": "https://avatars.githubusercontent.com/u/5351911?v=4",
+			"profile": "https://github.com/ciscorn",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
-	"linkToUsage": false
+	"linkToUsage": false,
+	"commitType": "docs"
 }
