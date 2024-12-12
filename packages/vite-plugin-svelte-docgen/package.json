@@ -41,16 +41,12 @@
 			"types": "./types/mod.d.ts",
 			"default": "./src/mod.js"
 		},
-		"./doc": {
-			"types": "./types/mod.d.ts",
-			"default": "./src/doc/type.ts"
-		},
 		"./package.json": "./package.json"
 	},
-	"types": "./types/mod.d.ts",
 	"scripts": {
 		"build": "pnpm run \"/^build:.*/\" ",
 		"build:doc": "typedoc",
+		"build:pkg": "dts-buddy && node --experimental-strip-types \"./scripts/post-build.ts\" ",
 		"clean": "pnpm run \"/^clean:.*/\"; rm -rf \"./**/node_modules\" ",
 		"clean:cache": "rm -rf \"./node_modules/.cache\" ",
 		"clean:doc": "rm -rf \"./docs\" ",
@@ -58,7 +54,7 @@
 		"clean:types": "rm -rf \"./types\" ",
 		"dev": "pnpm run \"/^dev:.*/\" ",
 		"dev:doc": "typedoc --watch",
-		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin\" ",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin-svelte-docgen\" ",
 		"fix": "pnpm run \"/^fix:.*/\" ",
 		"fix:biome": "biome check . --verbose --write",
 		"fix:format": "biome format . --verbose --write",
@@ -70,12 +66,18 @@
 		"lint:js": "biome lint . --verbose",
 		"lint:ts": "tsc --noEmit",
 		"lint:typos": "typos --verbose",
+		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
-		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin\" "
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin-svelte-docgen\" "
 	},
 	"dependencies": {
-		"magic-string": "^0.30.14",
-		"svelte-docgen": "workspace:*"
+		"esrap": "^1.2.3",
+		"svelte-docgen": "workspace:*",
+		"zimmerframe": "^1.1.2"
+	},
+	"devDependencies": {
+		"@types/estree": "^1.0.6",
+		"dts-buddy": "catalog:"
 	},
 	"peerDependencies": {
 		"svelte": "catalog:",

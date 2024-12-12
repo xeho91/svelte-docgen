@@ -1,16 +1,19 @@
 /**
+ * @import { Node, Property } from "estree";
  * @import { PluginOption } from "vite";
  *
  * @import { UserOptions } from "./options.js";
  */
 
+import fs from "node:fs";
 import path from "node:path";
+import url from "node:url";
 
-import MagicString from "magic-string";
+import { print } from "esrap";
 import * as docgen from "svelte-docgen";
+import { walk } from "zimmerframe";
 
 import { Options } from "./options.js";
-import { get_name_from_svelte_file_basename } from "./utils.js";
 
 const CACHE_STORAGE = docgen.createCacheStorage();
 
@@ -19,37 +22,90 @@ const CACHE_STORAGE = docgen.createCacheStorage();
  * @returns {Promise<PluginOption>}
  */
 async function plugin(user_options) {
+	// TODO: Decide whether there is a need for plugin options
 	const options = new Options(user_options);
-	const include = /\.(svelte)$/;
-	const { createFilter } = await import("vite");
-	const filter = createFilter(include);
 	return {
-		name: "plugin-svelte-docgen",
-		async transform(source, id) {
-			if (!filter(id)) return;
-			// TODO: This should be used in the upper scope
-			try {
-				require.resolve("typescript");
-			} catch (error) {
-				// NOTE: Prevent throwing error when TypeScript is not used in the project.
-				return;
+		name: "vite-plugin-svelte-docgen",
+		resolveId(id, importer) {
+			if (!importer) return;
+			if (id.startsWith("virtual:") && id.endsWith(".docgen.js")) {
+				// biome-ignore format: Easier to read
+				const svelte_component_filename = id
+					.replace("virtual:", "")
+					.replace(".docgen.js", ".svelte");
+				const svelte_filepath = url.pathToFileURL(path.join(path.dirname(importer), svelte_component_filename));
+				if (fs.existsSync(svelte_filepath)) {
+					return `\0virtual:${svelte_filepath.pathname}.docgen.js`;
+				}
 			}
-			const src = new MagicString(source);
-			const filepath = path.relative(options.cwd.pathname, id);
-			const component_name = get_name_from_svelte_file_basename(path.basename(filepath));
-			const parsed = docgen.parse(source, {
-				// @ts-ignore: FIXME: Perhaps we really should change this to loose type string
-				filepath,
-				cache: CACHE_STORAGE,
-			});
-			const serialized = docgen.serialize(parsed);
-			src.append(`\n${component_name}.__docgen = ${serialized}`);
-			return {
-				code: src.toString(),
-				map: src.generateMap({ hires: options.sourceMapHires, source }),
-			};
+		},
+		load(id) {
+			if (id.startsWith("\0virtual:") && id.endsWith(".docgen.js")) {
+				// biome-ignore format: Easier to read
+				const original_svelte_filepath = id
+					.replace("\0virtual:", "")
+					.replace(".docgen.js", "");
+				const svelte_filepath_url = url.pathToFileURL(original_svelte_filepath);
+				const source = fs.readFileSync(svelte_filepath_url, "utf-8");
+				const parsed = docgen.parse(source, {
+					// @ts-ignore: FIXME: Perhaps we really should change this to loose string type
+					filepath: svelte_filepath_url.pathname,
+					cache: CACHE_STORAGE,
+				});
+				const stringified = `export default /** @type {const} */(${docgen.serialize(parsed)});`;
+				const ast = transform_serialized(this.parse(stringified));
+				const { code } = print(ast);
+				return code;
+			}
 		},
 	};
+}
+
+/**
+ * @param {Node} ast
+ * @returns {Node}
+ */
+function transform_serialized(ast) {
+	return walk(ast, null, {
+		Property(node, ctx) {
+			if (
+				node.key.type === "Literal" &&
+				typeof node.key.value === "string" &&
+				node.value.type === "ArrayExpression"
+			) {
+				// Revive those keys values as Map
+				if (["events", "exports", "props", "slots"].includes(node.key.value)) {
+					return /** @type {Property} */ ({
+						...node,
+						value: {
+							type: "NewExpression",
+							callee: {
+								type: "Identifier",
+								name: "Map",
+							},
+							// NOTE: We need to visit nested nodes for further transformation
+							arguments: [ctx.visit(node.value)],
+						},
+					});
+				}
+				// Revive entry with key `sources`entry value as Set
+				if (node.key.value === "sources") {
+					return /** @type {Property} */ ({
+						...node,
+						value: {
+							type: "NewExpression",
+							callee: {
+								type: "Identifier",
+								name: "Set",
+							},
+							arguments: [node.value],
+						},
+					});
+				}
+			}
+			ctx.next();
+		},
+	});
 }
 
 export default plugin;
