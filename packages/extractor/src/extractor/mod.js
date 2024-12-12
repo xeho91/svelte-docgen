@@ -98,6 +98,9 @@ class Extractor {
 			results.add(bindings.value);
 			return results;
 		}
+		if (bindings.flags & ts.TypeFlags.String) {
+			return results;
+		}
 		// TODO: Document error
 		if (!bindings?.isUnion()) throw new Error("bindings is not an union");
 		for (const type of bindings.types) {
