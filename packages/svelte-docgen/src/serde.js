@@ -40,15 +40,17 @@ export function serialize(data, indent) {
  */
 export function deserialize(stringified) {
 	return JSON.parse(stringified, (key, value) => {
-		// biome-ignore format: Prettier
 		switch (key) {
 			case "exports":
 			case "events":
 			case "members":
 			case "props":
-			case "slots": return is_mapable(value) ? new Map(value) : value;
-			case "sources": return is_setable(value) ? new Set(value) : value;
-			default: return value;
+			case "slots":
+				return is_mapable(value) ? new Map(value) : value;
+			case "sources":
+				return is_setable(value) ? new Set(value) : value;
+			default:
+				return value;
 		}
 	});
 }

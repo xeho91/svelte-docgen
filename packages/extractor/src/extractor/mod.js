@@ -403,7 +403,6 @@ class Extractor {
 		const return_type = this.checker.getReturnTypeOfSignature(signature);
 		const properties = return_type.getProperties();
 		this.#cached_extracted_from_render_fn = {};
-		// biome-ignore format: Prettier
 		for (const prop of properties) {
 			const name = prop.getName();
 			// TODO: Add support for Svelte v4 - exports, slots, and events
@@ -413,10 +412,14 @@ class Extractor {
 				case "slots":
 				case "exports":
 				case "events": {
-					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
+					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(
+						prop,
+						this.#fn_render,
+					);
 					continue;
 				}
-				default: continue;
+				default:
+					continue;
 			}
 		}
 		return this.#cached_extracted_from_render_fn;
