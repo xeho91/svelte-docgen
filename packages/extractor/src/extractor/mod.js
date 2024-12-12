@@ -399,22 +399,20 @@ class Extractor {
 		this.#cached_extracted_from_render_fn = {};
 		// biome-ignore format: Prettier
 		for (const prop of properties) {
-      const name = prop.getName();
-      // TODO: Add support for Svelte v4 - exports, slots, and events
-      switch (name) {
-        case "props":
-        case "bindings":
-        case "slots":
-        case "exports":
-        case "events": {
-          this.#cached_extracted_from_render_fn[name] =
-            this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
-          continue;
-        }
-        default:
-          continue;
-      }
-    }
+			const name = prop.getName();
+			// TODO: Add support for Svelte v4 - exports, slots, and events
+			switch (name) {
+				case "props":
+				case "bindings":
+				case "slots":
+				case "exports":
+				case "events": {
+					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
+					continue;
+				}
+				default: continue;
+			}
+		}
 		return this.#cached_extracted_from_render_fn;
 	}
 }
