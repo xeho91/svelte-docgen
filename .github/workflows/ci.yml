@@ -49,7 +49,7 @@ jobs:
   publish_preview:
     name: Publish
     uses: ./.github/workflows/preview.yml
-    needs: [lint_biome, lint_tsc, lint_typos, test]
+    needs: [lint_biome, lint_prettier, lint_tsc, lint_typos, test]
 
   publish_typedoc:
     name: Publish

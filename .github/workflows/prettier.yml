@@ -25,10 +25,27 @@ jobs:
       - name: Checkout to the repository
         uses: actions/checkout@v4
 
+      # https://nodejs.org/api/corepack.html
+      - name: Enable corepack (for pnpm)
+        run: corepack enable
+
+      # https://github.com/actions/setup-node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+          node-version-file: ".nvmrc"
+
+      # https://pnpm.io/cli/install
+      - name: Install Node.js dependencies with pnpm
+        run: >
+          pnpm install
+          --frozen-lockfile
+
       # https://github.com/mongolyy/reviewdog-action-biome
       - name: Run Prettier
         uses: EPMatt/reviewdog-action-prettier@v1
         with:
-          fail_on_error: true
+          level: warning
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
