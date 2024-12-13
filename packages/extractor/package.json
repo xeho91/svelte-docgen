@@ -13,11 +13,17 @@
 		"extractor"
 	],
 	"license": "MIT",
-	"author": {
-		"name": "Mateusz Kadlubowski",
-		"email": "xeho91@pm.me",
-		"url": "https://github.com/xeho91"
-	},
+	"contributors": [
+		{
+			"name": "Taku Fukada",
+			"url": "https://github.com/xeho91"
+		},
+		{
+			"name": "Mateusz Kadlubowski",
+			"email": "xeho91@pm.me",
+			"url": "https://github.com/xeho91"
+		}
+	],
 	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
