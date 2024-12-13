@@ -20,7 +20,7 @@ beforeEach(async () => {
 
 describe("plugin", async () => {
 	it("it should create a virtual file with revived serialized data", async ({ expect }) => {
-		const docgen = await VITE_DEV_SERVER.ssrLoadModule("virtual:./examples/button.docgen.js");
+		const docgen = await VITE_DEV_SERVER.ssrLoadModule("./examples/button.svelte?docgen");
 		expect(docgen.default.isLegacy).toBe(false);
 		expect(docgen.default.exports).toBeInstanceOf(Map);
 		expect(docgen.default.exports.size).toBe(0);

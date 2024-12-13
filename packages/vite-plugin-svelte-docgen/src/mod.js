@@ -26,17 +26,19 @@ async function plugin(user_options) {
 	const options = new Options(user_options);
 	return {
 		name: "vite-plugin-svelte-docgen",
+		enforce: "pre",
 		resolveId(id, importer) {
 			if (!importer) return;
-			if (id.startsWith("virtual:") && id.endsWith(".docgen.js")) {
-				// biome-ignore format: Easier to read
-				const svelte_component_filename = id
-					.replace("virtual:", "")
-					.replace(".docgen.js", ".svelte");
-				const svelte_filepath = url.pathToFileURL(path.join(path.dirname(importer), svelte_component_filename));
-				if (fs.existsSync(svelte_filepath)) {
-					return `\0virtual:${svelte_filepath.pathname}.docgen.js`;
-				}
+			if (!id.endsWith(".svelte?docgen")) return;
+			const svelte_filepath = url.pathToFileURL(
+				path.join(
+					//
+					path.dirname(importer),
+					id.replace("?docgen", ""),
+				),
+			);
+			if (fs.existsSync(svelte_filepath)) {
+				return `\0virtual:${svelte_filepath.pathname}.docgen.js`;
 			}
 		},
 		load(id) {
