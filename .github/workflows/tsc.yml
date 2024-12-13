@@ -1,44 +1,44 @@
 name: tsc
 
 on:
-    workflow_call:
-    workflow_dispatch:
+  workflow_call:
+  workflow_dispatch:
 
 defaults:
-    run:
-        shell: bash
+  run:
+    shell: bash
 
 env:
-    CI: true
+  CI: true
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    tsc:
-        name: tsc
-        runs-on: macos-latest
-        timeout-minutes: 2
-        steps:
-            # https://github.com/actions/checkout
-            - uses: actions/checkout@v4
+  tsc:
+    name: tsc
+    runs-on: macos-latest
+    timeout-minutes: 2
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
 
-            # https://nodejs.org/api/corepack.html
-            - name: Enable corepack (for pnpm)
-              run: corepack enable
+      # https://nodejs.org/api/corepack.html
+      - name: Enable corepack (for pnpm)
+        run: corepack enable
 
-            # https://github.com/actions/setup-node
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  cache: pnpm
-                  node-version-file: ".nvmrc"
+      # https://github.com/actions/setup-node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+          node-version-file: ".nvmrc"
 
-            # https://pnpm.io/cli/install
-            - name: Install Node.js dependencies with pnpm
-              run: >
-                  pnpm install
-                  --frozen-lockfile
+      # https://pnpm.io/cli/install
+      - name: Install Node.js dependencies with pnpm
+        run: >
+          pnpm install
+          --frozen-lockfile
 
-            - name: Lint with TypeScript type-checker using Turbo
-              run: pnpm turbo run "lint:ts"
+      - name: Lint with TypeScript type-checker using Turbo
+        run: pnpm turbo run "lint:ts"

@@ -1,4 +1,4 @@
-name: Typos
+name: Prettier
 
 on:
   workflow_call:
@@ -10,24 +10,25 @@ defaults:
 
 env:
   CI: true
-  CARGO_TERM_COLOR: always
 
 permissions:
   contents: read
   pull-requests: write
 
 jobs:
-  typos:
-    name: Typos
+  biome:
+    name: Prettier
     runs-on: macos-latest
+    timeout-minutes: 1
     steps:
       # https://github.com/actions/checkout
       - name: Checkout to the repository
         uses: actions/checkout@v4
 
-      # https://github.com/reviewdog/action-typos
-      - name: Spell check with `typos`
-        uses: reviewdog/action-typos@v1
+      # https://github.com/mongolyy/reviewdog-action-biome
+      - name: Run Prettier
+        uses: EPMatt/reviewdog-action-prettier@v1
         with:
+          fail_on_error: true
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
