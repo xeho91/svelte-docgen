@@ -93,12 +93,12 @@ Tags can be repetive, e.g. <code>@example</code>.</p>
 and including the native ones are recognized as well!
 Whether the prop is bindable, this information is provided via <code>isBindable</code> boolean flag.</p>
 <pre><code class="svelte"><script lang="ts">
- interface Props {
-  value?: number;
- }
- let {
-  value = $bindable(0), /* 👈 It recognizes! */
- }: Props = $props();
+  interface Props {
+    value?: number;
+  }
+  let {
+    value = $bindable(0), // 👈 It recognizes!
+  }: Props = $props();
 </script>
 </code><button type="button">Copy</button></pre>
 
@@ -109,34 +109,34 @@ These are following conditions to consider prop(s) as event handler(s):</p>
 <li><code>&lt;Name&gt;EventHandler</code> or <code>EventHandler</code> type helpers from <code>&quot;svelte/elements&quot;</code> were used.</li>
 </ol>
 <pre><code class="svelte"><script lang="ts">
- import { MouseEventHandler } from "svelte/elements";
+  import { MouseEventHandler } from "svelte/elements";
 
- interface Props {
-  onclick?: MouseEventHandler;
-  onkeyup?: EventHandlerL<KeyboardEvent>;
- }
- let { onclick, onkeyup }: Props = $props();
+  interface Props {
+    onclick?: MouseEventHandler;
+    onkeyup?: EventHandlerL<KeyboardEvent>;
+  }
+  let { onclick, onkeyup }: Props = $props();
 </script>
 </code><button type="button">Copy</button></pre>
 
 <a id="extended" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Extended<a href="#extended" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Properties extended to the props interface or type are included.
 And more than that. <strong>It also recognizes if the prop was extended by providing <code>isExtended</code> boolean flag!</strong></p>
 <pre><code class="svelte"><script lang="ts">
- import { HTMLButtonAttributes } from "svelte/elements";
+  import { HTMLButtonAttributes } from "svelte/elements";
 
- interface Props extends HTMLButtonAttributes {} /* 👈 They are included too! */
- let { disabled, "aria-hidden": aria_hidden, ...rest }: Props = $props();
+  interface Props extends HTMLButtonAttributes {} /* 👈 They are included too! */
+  let { disabled, "aria-hidden": aria_hidden, ...rest }: Props = $props();
 </script>
 </code><button type="button">Copy</button></pre>
 
 <a id="snippets" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Snippets<a href="#snippets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>We provide an analyzer to see if the provided component property is a <a href="https://svelte.dev/docs/svelte/snippet" target="_blank" class="external">snippet</a>.
 This is determined whether the prop was typed with <a href="https://svelte.dev/docs/svelte/snippet#Typing-snippets" target="_blank" class="external"><code>Snippet</code></a> type helper.</p>
 <pre><code class="svelte"><script lang="ts">
-import type { Snippet } from "svelte";
-interface Props {
- children: Snippet;
- footer?: Snippet<[string, number]>
-}
+  import type { Snippet } from "svelte";
+  interface Props {
+    children: Snippet;
+    footer?: Snippet<[string, number]>;
+  }
 </script>
 </code><button type="button">Copy</button></pre>
 
@@ -151,7 +151,7 @@ And also, we provide a function helpet to make an easier access to get snippet p
 <li>
 <p><code>exports</code> - exported constant variables inside the <strong>instance</strong> script tag, example:</p>
 <pre><code class="svelte"><script>
-    export const ID = "svelte-docgen"; // 👈 in Svelte prior to `v4` you could do it
+  export const ID = "svelte-docgen"; // 👈 in Svelte prior to `v4` you could do it
 </script>
 </code><button type="button">Copy</button></pre>
 
