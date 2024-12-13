@@ -238,9 +238,10 @@ If you don't have time, but you need this project to work, or resolve an existin
 
 ---
 
-## Author
+## Authors
 
-Mateusz "[xeho91](https://github.com/xeho91)" Kadlubowski
+- Taku "[ciscorn](https://github.com/ciscorn)" Fukada
+- Mateusz "[xeho91](https://github.com/xeho91)" Kadlubowski
 
 > [!TIP]
 > It can be you too! See [annoucement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
