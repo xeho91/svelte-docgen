@@ -2,9 +2,9 @@ import { describe, it } from "vitest";
 
 import { create_options } from "../tests/shared.js";
 import { parse } from "./parser/mod.js";
-import { deserialize, serialize } from "./serde.js";
+import { decode, encode } from "./codec.js";
 
-describe("serialize", () => {
+describe("encode", () => {
 	const parsed = parse(
 		`
 			<script lang="ts">
@@ -19,9 +19,9 @@ describe("serialize", () => {
 			`,
 		create_options("serialize.svelte"),
 	);
-	const serialized = serialize(parsed, 2);
+	const encoded = encode(parsed, 2);
 	it("converts 'props' to array of tuples", ({ expect }) => {
-		expect(serialized).toMatchInlineSnapshot(
+		expect(encoded).toMatchInlineSnapshot(
 			`
 			{
 			  "exports": [],
@@ -259,7 +259,7 @@ describe("serialize", () => {
 	});
 });
 
-describe("deserialize", () => {
+describe("decode", () => {
 	it("revives 'props' as Map", ({ expect }) => {
 		const parsed = parse(
 			`
@@ -275,9 +275,9 @@ describe("deserialize", () => {
 			`,
 			create_options("deserialize.svelte"),
 		);
-		const serialized = serialize(parsed);
-		const deserialized = deserialize(serialized);
-		expect(deserialized.props).toBeInstanceOf(Map);
+		const encoded = encode(parsed);
+		const decoded = decode(encoded);
+		expect(decoded.props).toBeInstanceOf(Map);
 		//
 	});
 });

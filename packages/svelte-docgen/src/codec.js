@@ -17,7 +17,7 @@ import * as v from "valibot";
  * @param {Parameters<typeof JSON.stringify>[2]} [indent]
  * @returns {string}
  */
-export function serialize(data, indent) {
+export function encode(data, indent) {
 	return JSON.stringify(
 		data,
 		(key, value) => {
@@ -38,7 +38,7 @@ export function serialize(data, indent) {
  * @param {string} stringified
  * @returns {Partial<ComponentDocgen>}
  */
-export function deserialize(stringified) {
+export function decode(stringified) {
 	return JSON.parse(stringified, (key, value) => {
 		// biome-ignore format: Prettier
 		switch (key) {
