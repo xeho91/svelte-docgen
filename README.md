@@ -113,12 +113,12 @@ Whether the prop is bindable, this information is provided via `isBindable` bool
 
 ```svelte
 <script lang="ts">
- interface Props {
-  value?: number;
- }
- let {
-  value = $bindable(0), /* 👈 It recognizes! */
- }: Props = $props();
+  interface Props {
+    value?: number;
+  }
+  let {
+    value = $bindable(0), // 👈 It recognizes!
+  }: Props = $props();
 </script>
 ```
 
@@ -132,13 +132,13 @@ These are following conditions to consider prop(s) as event handler(s):
 
 ```svelte
 <script lang="ts">
- import { MouseEventHandler } from "svelte/elements";
+  import { MouseEventHandler } from "svelte/elements";
 
- interface Props {
-  onclick?: MouseEventHandler;
-  onkeyup?: EventHandlerL<KeyboardEvent>;
- }
- let { onclick, onkeyup }: Props = $props();
+  interface Props {
+    onclick?: MouseEventHandler;
+    onkeyup?: EventHandlerL<KeyboardEvent>;
+  }
+  let { onclick, onkeyup }: Props = $props();
 </script>
 ```
 
@@ -149,10 +149,10 @@ And more than that. **It also recognizes if the prop was extended by providing `
 
 ```svelte
 <script lang="ts">
- import { HTMLButtonAttributes } from "svelte/elements";
+  import { HTMLButtonAttributes } from "svelte/elements";
 
- interface Props extends HTMLButtonAttributes {} /* 👈 They are included too! */
- let { disabled, "aria-hidden": aria_hidden, ...rest }: Props = $props();
+  interface Props extends HTMLButtonAttributes {} /* 👈 They are included too! */
+  let { disabled, "aria-hidden": aria_hidden, ...rest }: Props = $props();
 </script>
 ```
 
@@ -163,11 +163,11 @@ This is determined whether the prop was typed with [`Snippet`](https://svelte.de
 
 ```svelte
 <script lang="ts">
-import type { Snippet } from "svelte";
-interface Props {
- children: Snippet;
- footer?: Snippet<[string, number]>
-}
+  import type { Snippet } from "svelte";
+  interface Props {
+    children: Snippet;
+    footer?: Snippet<[string, number]>;
+  }
 </script>
 ```
 
@@ -183,7 +183,7 @@ Our parser provides this information via `isSnippet` boolean flag.
 
   ```svelte
   <script>
-      export const ID = "svelte-docgen"; // 👈 in Svelte prior to `v4` you could do it
+    export const ID = "svelte-docgen"; // 👈 in Svelte prior to `v4` you could do it
   </script>
   ```
 

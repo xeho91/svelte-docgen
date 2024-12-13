@@ -11,11 +11,7 @@
 		"ignoreUnknown": true
 	},
 	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab",
-		"indentWidth": 4,
-		"lineEnding": "lf",
-		"lineWidth": 120
+		"enabled": false
 	},
 	"linter": {
 		"enabled": true,
