@@ -97,7 +97,7 @@ Whether the prop is bindable, this information is provided via <code>isBindable<
     value?: number;
   }
   let {
-    value = $bindable(0), /* 👈 It recognizes! */
+    value = $bindable(0), // 👈 It recognizes!
   }: Props = $props();
 </script>
 </code><button type="button">Copy</button></pre>
@@ -135,7 +135,7 @@ This is determined whether the prop was typed with <a href="https://svelte.dev/d
   import type { Snippet } from "svelte";
   interface Props {
     children: Snippet;
-    footer?: Snippet<[string, number]>
+    footer?: Snippet<[string, number]>;
   }
 </script>
 </code><button type="button">Copy</button></pre>
