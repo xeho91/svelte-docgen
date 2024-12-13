@@ -1,13 +1,13 @@
 /**
  * @import { Doc } from "../doc/type.ts";
- * @import { ParsedComponent } from "../parser/mod.ts";
+ * @import { ComponentDocgen } from "../parser/mod.ts";
  */
 
 class ComponentAnalyzer {
-	/** @type {ParsedComponent} */
+	/** @type {ComponentDocgen} */
 	#component;
 
-	/** @param {ParsedComponent} component */
+	/** @param {ComponentDocgen} component */
 	constructor(component) {
 		this.#component = component;
 	}
@@ -40,7 +40,7 @@ class ComponentAnalyzer {
 }
 
 /**
- * @param {ParsedComponent} component
+ * @param {ComponentDocgen} component
  * @returns {ComponentAnalyzer}
  */
 export function analyzeComponent(component) {

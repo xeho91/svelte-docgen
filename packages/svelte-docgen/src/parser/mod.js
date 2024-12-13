@@ -39,7 +39,7 @@ class Parser {
 		this.#extractor = extract(source, this.#options);
 	}
 
-	/** @returns {ParsedComponent} */
+	/** @returns {ComponentDocgen} */
 	toJSON() {
 		const { description, isLegacy, exports, props, tags } = this;
 		if (isLegacy) {
@@ -499,12 +499,12 @@ class Parser {
  * @prop {never} slots
  */
 
-/** @typedef {LegacyComponent | ModernComponent} ParsedComponent */
+/** @typedef {LegacyComponent | ModernComponent} ComponentDocgen */
 
 /**
  * @param {string} source
  * @param {UserOptions} user_options
- * @returns {ParsedComponent}
+ * @returns {ComponentDocgen}
  */
 export function parse(source, user_options = {}) {
 	// @ts-expect-error WARN: Didn't want to use type casting here

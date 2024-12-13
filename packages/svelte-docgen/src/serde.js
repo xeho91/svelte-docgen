@@ -5,7 +5,7 @@
  */
 
 /**
- * @import { ParsedComponent } from "./parser/mod.js";
+ * @import { ComponentDocgen } from "./parser/mod.js";
  */
 
 import * as v from "valibot";
@@ -13,7 +13,7 @@ import * as v from "valibot";
 /**
  * Serialize data as stringified JSON, so it can be used for e.g. RESTful API.
  *
- * @param {ParsedComponent} data
+ * @param {ComponentDocgen} data
  * @param {Parameters<typeof JSON.stringify>[2]} [indent]
  * @returns {string}
  */
@@ -36,7 +36,7 @@ export function serialize(data, indent) {
  * Revive stringified JSON data back to previous interface.
  *
  * @param {string} stringified
- * @returns {Partial<ParsedComponent>}
+ * @returns {Partial<ComponentDocgen>}
  */
 export function deserialize(stringified) {
 	return JSON.parse(stringified, (key, value) => {
