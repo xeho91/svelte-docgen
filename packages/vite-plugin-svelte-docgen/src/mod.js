@@ -43,7 +43,7 @@ async function plugin(user_options) {
 		},
 		load(id) {
 			if (id.startsWith("\0virtual:") && id.endsWith(".docgen.js")) {
-				// biome-ignore format: Easier to read
+				/* prettier-ignore */
 				const original_svelte_filepath = id
 					.replace("\0virtual:", "")
 					.replace(".docgen.js", "");
