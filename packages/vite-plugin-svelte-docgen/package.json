@@ -3,14 +3,28 @@
 	"name": "vite-plugin-svelte-docgen",
 	"version": "0.0.0",
 	"type": "module",
-	"description": "Generate documentation for Svelte component(s)",
-	"keywords": ["svelte", "documentation", "component", "props", "docgen", "vite", "plugin"],
+	"description": "Allows creating virtual modules with docgen data for targetted Svelte component(s) - on demand.",
+	"keywords": [
+		"svelte",
+		"documentation",
+		"component",
+		"props",
+		"docgen",
+		"vite",
+		"plugin"
+	],
 	"license": "MIT",
-	"author": {
-		"name": "Mateusz Kadlubowski",
-		"email": "xeho91@pm.me",
-		"url": "https://github.com/xeho91"
-	},
+	"contributors": [
+		{
+			"name": "Taku Fukada",
+			"url": "https://github.com/ciscorn"
+		},
+		{
+			"name": "Mateusz Kadlubowski",
+			"email": "xeho91@pm.me",
+			"url": "https://github.com/xeho91"
+		}
+	],
 	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
@@ -35,7 +49,11 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"files": ["src/", "!src/**/*.test.*", "types/"],
+	"files": [
+		"src/",
+		"!src/**/*.test.*",
+		"types/"
+	],
 	"exports": {
 		".": {
 			"types": "./types/mod.d.ts",
