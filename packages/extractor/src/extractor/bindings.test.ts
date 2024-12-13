@@ -18,7 +18,26 @@ describe("bindings", () => {
 		expect(bindings).toHaveLength(0);
 	});
 
-	it("returns set with names of bindable props", ({ expect }) => {
+	it("returns set with name of a single bindable prop", ({ expect }) => {
+		const source = `
+			<script lang="ts">
+				interface Props {
+					id: string;
+					value?: string;
+				}
+				let {
+					id,
+					value = $bindable(),
+				}: Props = $props();
+			</script>
+			<input {id} bind:value />
+		`;
+		const { bindings } = extract(source, create_options("single-bindings.svelte"));
+		expect(bindings).toHaveLength(1);
+		expect(bindings).toContain("value");
+	});
+
+	it("returns set with names of multiple bindable props", ({ expect }) => {
 		const source = `
 			<script lang="ts">
 				interface Props {
@@ -34,7 +53,7 @@ describe("bindings", () => {
 			</script>
 			<input {id} bind:value bind:borderBoxSize />
 		`;
-		const { bindings } = extract(source, create_options("some-bindings.svelte"));
+		const { bindings } = extract(source, create_options("multiple-bindings.svelte"));
 		expect(bindings).toHaveLength(2);
 		expect(bindings).toContain("value");
 		expect(bindings).toContain("borderBoxSize");

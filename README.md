@@ -5,10 +5,10 @@ This project is a monorepo for `svelte-docgen` packages.
 > [!TIP]
 >
 > 📣 **This project is attempting to compete at [SvelteHack 2024](https://hack.sveltesociety.dev/2024)!**
-> See [annoucement](#11).
+> See [annoucement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
 
 > [!WARNING]
-> This project is still a work in progress. [See roadmap for `v1`](#5).
+> This project is still a work in progress. [See roadmap for `v1`](https://github.com/svelte-docgen/svelte-docgen/issues/5).
 
 ## Acknowledgements
 
@@ -19,12 +19,12 @@ This project is a monorepo for `svelte-docgen` packages.
 
 ## Packages
 
-| Package                                            | Description                                              |
-| -------------------------------------------------- | -------------------------------------------------------- |
-| [`svelte-docgen`](./packages/svelte-docgen)        | Core package                                             |
-| `@svelte-docgen/cli` [🚧 Tracking](#9)             | Standalone CLI                                           |
-| [`@svelte-docgen/extractor`](./packages/extractor) | Extracting types from `*.svelte` files to write your own |
-| `@svelte-docgen/server` [🚧 Tracking](#6)          | Run a server which allows fetching docs on demand        |
+| Package                                                                                        | Description                                              |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| [`svelte-docgen`](./packages/svelte-docgen)                                                    | Core package                                             |
+| `@svelte-docgen/cli` [🚧 Tracking](https://github.com/svelte-docgen/svelte-docgen/issues/9)    | Standalone CLI                                           |
+| [`@svelte-docgen/extractor`](./packages/extractor)                                             | Extracting types from `*.svelte` files to write your own |
+| `@svelte-docgen/server` [🚧 Tracking](https://github.com/svelte-docgen/svelte-docgen/issues/6) | Run a server which allows fetching docs on demand        |
 
 ---
 
@@ -113,12 +113,12 @@ Whether the prop is bindable, this information is provided via `isBindable` bool
 
 ```svelte
 <script lang="ts">
- interface Props {
-  value?: number;
- }
- let {
-  value = $bindable(0), /* 👈 It recognizes! */
- }: Props = $props();
+  interface Props {
+    value?: number;
+  }
+  let {
+    value = $bindable(0), // 👈 It recognizes!
+  }: Props = $props();
 </script>
 ```
 
@@ -132,13 +132,13 @@ These are following conditions to consider prop(s) as event handler(s):
 
 ```svelte
 <script lang="ts">
- import { MouseEventHandler } from "svelte/elements";
+  import { MouseEventHandler } from "svelte/elements";
 
- interface Props {
-  onclick?: MouseEventHandler;
-  onkeyup?: EventHandlerL<KeyboardEvent>;
- }
- let { onclick, onkeyup }: Props = $props();
+  interface Props {
+    onclick?: MouseEventHandler;
+    onkeyup?: EventHandlerL<KeyboardEvent>;
+  }
+  let { onclick, onkeyup }: Props = $props();
 </script>
 ```
 
@@ -149,10 +149,10 @@ And more than that. **It also recognizes if the prop was extended by providing `
 
 ```svelte
 <script lang="ts">
- import { HTMLButtonAttributes } from "svelte/elements";
+  import { HTMLButtonAttributes } from "svelte/elements";
 
- interface Props extends HTMLButtonAttributes {} /* 👈 They are included too! */
- let { disabled, "aria-hidden": aria_hidden, ...rest }: Props = $props();
+  interface Props extends HTMLButtonAttributes {} /* 👈 They are included too! */
+  let { disabled, "aria-hidden": aria_hidden, ...rest }: Props = $props();
 </script>
 ```
 
@@ -163,11 +163,11 @@ This is determined whether the prop was typed with [`Snippet`](https://svelte.de
 
 ```svelte
 <script lang="ts">
-import type { Snippet } from "svelte";
-interface Props {
- children: Snippet;
- footer?: Snippet<[string, number]>
-}
+  import type { Snippet } from "svelte";
+  interface Props {
+    children: Snippet;
+    footer?: Snippet<[string, number]>;
+  }
 </script>
 ```
 
@@ -183,7 +183,7 @@ Our parser provides this information via `isSnippet` boolean flag.
 
   ```svelte
   <script>
-      export const ID = "svelte-docgen"; // 👈 in Svelte prior to `v4` you could do it
+    export const ID = "svelte-docgen"; // 👈 in Svelte prior to `v4` you could do it
   </script>
   ```
 
@@ -191,7 +191,7 @@ Our parser provides this information via `isSnippet` boolean flag.
 - `slots` - legacy props and their props are supported as well.
 
 > [!CAUTION]
-> Currently we don't recognize yet whether slots are optional or not. [Tracking issue](#10).
+> Currently we don't recognize yet whether slots are optional or not. [Tracking issue](https://github.com/svelte-docgen/svelte-docgen/issues/10).
 
 ### Other
 
@@ -218,7 +218,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/xeho91"><img src="https://avatars.githubusercontent.com/u/18627568?v=4?s=50" width="50px;" alt="Mateusz Kadlubowski"/><br /><sub><b>Mateusz Kadlubowski</b></sub></a><br /><a href="https://github.com/xeho91/svelte-docgen/commits?author=xeho91" title="Code">💻</a> <a href="#infra-xeho91" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-xeho91" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/xeho91"><img src="https://avatars.githubusercontent.com/u/18627568?v=4?s=50" width="50px;" alt="Mateusz Kadlubowski"/><br /><sub><b>Mateusz Kadlubowski</b></sub></a><br /><a href="https://github.com/svelte-docgen/svelte-docgen/commits?author=xeho91" title="Code">💻</a> <a href="#infra-xeho91" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-xeho91" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ciscorn"><img src="https://avatars.githubusercontent.com/u/5351911?v=4?s=50" width="50px;" alt="Taku Fukada"/><br /><sub><b>Taku Fukada</b></sub></a><br /><a href="https://github.com/svelte-docgen/svelte-docgen/commits?author=ciscorn" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -242,7 +243,7 @@ If you don't have time, but you need this project to work, or resolve an existin
 Mateusz "[xeho91](https://github.com/xeho91)" Kadlubowski
 
 > [!TIP]
-> It can be you too! See [annoucement](#11).
+> It can be you too! See [annoucement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
 
 ## License
 

@@ -90,14 +90,20 @@ class Extractor {
 		const { bindings } = this.#extracted_from_render_fn;
 		// TODO: Document error
 		if (!bindings) throw new Error("bindings not found");
-		// NOTE: No bindings, is empty
-		if (
-			//
-			(bindings.isStringLiteral() && bindings.value === "") ||
-			this.checker.typeToString(bindings) === "string"
-		) {
+		// If in legacy mode, 'bindings' is a string type
+		if (bindings.flags & ts.TypeFlags.String) {
 			return results;
 		}
+		// If there is a single binding
+		if (bindings.isStringLiteral()) {
+			// NOTE: No bindings, is empty
+			if (bindings.value === "") {
+				return results;
+			}
+			results.add(bindings.value);
+			return results;
+		}
+		// If there are multiple bindings
 		// TODO: Document error
 		if (!bindings?.isUnion()) throw new Error("bindings is not an union");
 		for (const type of bindings.types) {
@@ -320,7 +326,9 @@ class Extractor {
 		//O TODO: Document it
 		if (!from_program)
 			throw new Error(`Source file could not be found by TypeScript program: ${this.compiler.filepath}`);
-		this.#cached_source_file = this.#cache.set(this.compiler.filepath, { source: from_program }).source;
+		this.#cached_source_file = this.#cache.set(this.compiler.filepath, {
+			source: from_program,
+		}).source;
 		return from_program;
 	}
 
@@ -395,7 +403,6 @@ class Extractor {
 		const return_type = this.checker.getReturnTypeOfSignature(signature);
 		const properties = return_type.getProperties();
 		this.#cached_extracted_from_render_fn = {};
-		// biome-ignore format: Prettier
 		for (const prop of properties) {
 			const name = prop.getName();
 			// TODO: Add support for Svelte v4 - exports, slots, and events
@@ -405,10 +412,14 @@ class Extractor {
 				case "slots":
 				case "exports":
 				case "events": {
-					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(prop, this.#fn_render);
+					this.#cached_extracted_from_render_fn[name] = this.checker.getTypeOfSymbolAtLocation(
+						prop,
+						this.#fn_render,
+					);
 					continue;
 				}
-				default: continue;
+				default:
+					continue;
 			}
 		}
 		return this.#cached_extracted_from_render_fn;

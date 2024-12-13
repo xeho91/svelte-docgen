@@ -461,18 +461,27 @@ class Parser {
 	 */
 	#get_type_doc(type) {
 		const kind = get_type_kind({ type, extractor: this.#extractor });
-		// biome-ignore format: Prettier
 		switch (kind) {
-			case "array": return this.#get_array_doc(type);
-			case "constructible": return this.#get_constructible_doc(type);
-			case "function": return this.#get_function_doc(type);
-			case "interface": return this.#get_interface_doc(type);
-			case "intersection": return this.#get_intersection_doc(type);
-			case "literal": return this.#get_literal_doc(type);
-			case "tuple": return this.#get_tuple_doc(type);
-			case "type-parameter": return this.#get_type_param_doc(type);
-			case "union": return this.#get_union_doc(type);
-			default: return { kind };
+			case "array":
+				return this.#get_array_doc(type);
+			case "constructible":
+				return this.#get_constructible_doc(type);
+			case "function":
+				return this.#get_function_doc(type);
+			case "interface":
+				return this.#get_interface_doc(type);
+			case "intersection":
+				return this.#get_intersection_doc(type);
+			case "literal":
+				return this.#get_literal_doc(type);
+			case "tuple":
+				return this.#get_tuple_doc(type);
+			case "type-parameter":
+				return this.#get_type_param_doc(type);
+			case "union":
+				return this.#get_union_doc(type);
+			default:
+				return { kind };
 		}
 	}
 }
