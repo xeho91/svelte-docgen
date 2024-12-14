@@ -74,11 +74,7 @@ async function plugin(user_options) {
 			// https://rollupjs.org/plugin-development/#resolveid
 			if (!importer) return;
 			if (!source.endsWith(".svelte?docgen")) return;
-			const resolution = await this.resolve(
-				source.replace(/\?docgen$/, ""),
-				importer,
-				options,
-			);
+			const resolution = await this.resolve(source.replace(/\?docgen$/, ""), importer, options);
 			if (resolution) {
 				return `\0virtual:${resolution.id}.docgen.js`;
 			}
