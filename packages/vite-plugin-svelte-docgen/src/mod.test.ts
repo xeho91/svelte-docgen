@@ -29,16 +29,16 @@ describe("plugin", async () => {
 	});
 
 	it("should handle both relative paths to importer and absolute paths from the project root", async ({ expect }) => {
-		const expected = `\x00virtual:${path.resolve(__dirname, "../examples/button.svelte")}.docgen.js`
+		const expected = `\x00virtual:${path.resolve(__dirname, "../examples/button.svelte")}.docgen.js`;
 		// relative
 		expect(
-			(await VITE_DEV_SERVER.pluginContainer.resolveId("../examples/button.svelte?docgen", __filename))?.id
-		).toBe(expected)
+			(await VITE_DEV_SERVER.pluginContainer.resolveId("../examples/button.svelte?docgen", __filename))?.id,
+		).toBe(expected);
 		// absolute
 		expect(
-			(await VITE_DEV_SERVER.pluginContainer.resolveId("/examples/button.svelte?docgen", __filename))?.id
+			(await VITE_DEV_SERVER.pluginContainer.resolveId("/examples/button.svelte?docgen", __filename))?.id,
 		).toBe(expected);
-	})
+	});
 });
 
 afterEach(async () => {
