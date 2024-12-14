@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 function main(): void {
 	const types_filepath = url.pathToFileURL(path.join(__dirname, "..", "types", "mod.d.ts"));
 	const content = `
-declare module "virtual:*.docgen.js" {
+declare module "*.svelte?docgen" {
 	import type { parse } from "svelte-docgen";
 	const content: ReturnType<typeof parse>;
 	export default content;
