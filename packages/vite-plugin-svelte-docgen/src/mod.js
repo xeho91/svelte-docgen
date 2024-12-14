@@ -6,7 +6,6 @@
  */
 
 import fs from "node:fs";
-import path from "node:path";
 import url from "node:url";
 
 import { print } from "esrap";
@@ -23,21 +22,17 @@ const CACHE_STORAGE = docgen.createCacheStorage();
  */
 async function plugin(user_options) {
 	// TODO: Decide whether there is a need for plugin options
-	const options = new Options(user_options);
+	// const user_options = new Options(user_options);
 	return {
 		name: "vite-plugin-svelte-docgen",
 		enforce: "pre",
-		resolveId(id, importer) {
+		async resolveId(source, importer, options) {
+			// https://rollupjs.org/plugin-development/#resolveid
 			if (!importer) return;
-			if (!id.endsWith(".svelte?docgen")) return;
-			const svelte_filepath = url.pathToFileURL(
-				path.join(
-					//
-					path.dirname(importer),
-					id.replace("?docgen", ""),
-				),
-			);
-			if (fs.existsSync(svelte_filepath)) {
+			if (!source.endsWith(".svelte?docgen")) return;
+			const resolution = await this.resolve(source.replace(/\?docgen$/, ""), importer, options);
+			if (resolution) {
+				const svelte_filepath = url.pathToFileURL(resolution.id);
 				return `\0virtual:${svelte_filepath.pathname}.docgen.js`;
 			}
 		},
