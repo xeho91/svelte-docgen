@@ -36,17 +36,11 @@ import pluginSvelteDocgen from "vite-plugin-svelte-docgen";
 export default defineConfig({
   plugins: [
     // 👇 Add to plugins list - there's no strict requirement on the order
-    pluginSvelteDocgen({
-      /* Plugin options */
-    }),
+    pluginSvelteDocgen(),
   ],
   // ...
 });
 ```
-
-#### Options
-
-🚧
 
 ### TypeScript
 

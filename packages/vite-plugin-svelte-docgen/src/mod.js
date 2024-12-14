@@ -5,8 +5,6 @@
 
 /**
  * @import { PluginOption } from "vite";
- *
- * @import { UserOptions } from "./options.js";
  */
 
 import fs from "node:fs";
@@ -15,7 +13,6 @@ import url from "node:url";
 import { print } from "esrap";
 import * as docgen from "svelte-docgen";
 
-import { Options } from "./options.js";
 import { transform_encoded } from "./transform.js";
 
 const CACHE_STORAGE = docgen.createCacheStorage();
@@ -61,10 +58,9 @@ const CACHE_STORAGE = docgen.createCacheStorage();
  * //                                                              👆 Add this query parameter
  * ```
  *
- * @param {UserOptions} [user_options] Optional, @see {@link UserOptions}
  * @returns {Promise<PluginOption>}
  */
-async function plugin(user_options) {
+async function plugin() {
 	// TODO: Decide whether there is a need for plugin options
 	// const user_options = new Options(user_options);
 	return {
