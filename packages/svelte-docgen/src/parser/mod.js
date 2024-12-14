@@ -126,7 +126,7 @@ class Parser {
 	}
 	/**
 	 * @param {ts.Type} type
-	 * @returns {Doc.ArrayType}
+	 * @returns {Doc.Array}
 	 */
 	#get_array_doc(type) {
 		const index_info = this.#checker.getIndexInfoOfType(type, ts.IndexKind.Number);

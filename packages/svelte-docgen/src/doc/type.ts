@@ -38,17 +38,7 @@ export declare namespace Doc {
 	type Props = Map<string, Prop>;
 	type Slots = Map<string, Props>;
 
-	type Type =
-		| BaseType
-		| ArrayType
-		| Constructible
-		| Fn
-		| Interface
-		| Intersection
-		| Literal
-		| Tuple
-		| TypeParam
-		| Union;
+	type Type = Scalar | Array | Constructible | Fn | Interface | Intersection | Literal | Tuple | TypeParam | Union;
 
 	interface WithAlias {
 		alias?: string;
@@ -66,7 +56,7 @@ export declare namespace Doc {
 		sources: Set<string>;
 	}
 
-	interface BaseType {
+	interface Scalar {
 		/** @see {@link TypeKind} */
 		kind: Exclude<
 			TypeKind,
@@ -82,7 +72,7 @@ export declare namespace Doc {
 		>;
 	}
 
-	interface ArrayType {
+	interface Array {
 		kind: "array";
 		isReadonly: boolean;
 		element: Type;
@@ -91,7 +81,7 @@ export declare namespace Doc {
 	interface Constructible extends WithName {
 		kind: "constructible";
 		name: string;
-		constructors: Array<FnParam[]> | "self";
+		constructors: globalThis.Array<FnParam[]> | "self";
 	}
 
 	interface OptionalFnParam {

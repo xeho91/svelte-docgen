@@ -54,7 +54,7 @@ describe("Array", () => {
 			}
 		`);
 		expect(letters?.type.kind).toBe("array");
-		expect((letters?.type as Doc.ArrayType).isReadonly).toBe(false);
+		expect((letters?.type as Doc.Array).isReadonly).toBe(false);
 	});
 
 	it("recognizes 'readonly'", ({ expect }) => {
@@ -91,6 +91,6 @@ describe("Array", () => {
 			}
 		`);
 		expect(numbers?.type.kind).toBe("array");
-		expect((numbers?.type as Doc.ArrayType).isReadonly).toBe(true);
+		expect((numbers?.type as Doc.Array).isReadonly).toBe(true);
 	});
 });
