@@ -92,7 +92,7 @@ const componentDocgen = await import("./path/to/Component.svelte?docgen");
 //                                                               👆 Add this query parameter
 ```
 
-> [!IMPORANT]
+> [!IMPORTANT]
 > In case you're seeing a TypeScript error like this one:
 >
 > ```txt
@@ -102,7 +102,7 @@ const componentDocgen = await import("./path/to/Component.svelte?docgen");
 > You have missed the [TypeScript setup part](#typescript).
 
 > [!TIP]
-
+>
 > Yes, you can use it inside the Svelte component as well, just like so:
 >
 > ```svelte

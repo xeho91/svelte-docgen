@@ -1,4 +1,9 @@
 /**
+ * Related to plugin options.
+ * @module
+ */
+
+/**
  * User options for Vite's plugin.
  *
  * @typedef {{}} UserOptions

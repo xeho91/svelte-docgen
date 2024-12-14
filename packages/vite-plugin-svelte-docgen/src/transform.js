@@ -1,4 +1,9 @@
 /**
+ * Related to AST transformation.
+ * @module
+ */
+
+/**
  * @import AST from "estree";
  */
 

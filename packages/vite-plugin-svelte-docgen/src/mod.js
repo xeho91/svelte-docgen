@@ -1,4 +1,9 @@
 /**
+ * Main module to be used from user perspective.
+ * @module
+ */
+
+/**
  * @import { PluginOption } from "vite";
  *
  * @import { UserOptions } from "./options.js";
