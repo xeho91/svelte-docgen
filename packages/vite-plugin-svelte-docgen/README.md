@@ -20,7 +20,11 @@ This package depends on the following packages _(peer dependencies)_ to be exist
 - `typescript`
 - `vite`
 
+---
+
 ## Setup
+
+### Vite
 
 Inside your [Vite config](https://vite.dev/config/):
 
@@ -38,6 +42,29 @@ export default defineConfig({
   ],
   // ...
 });
+```
+
+### TypeScript
+
+There are two ways on how you can improve TypeScript experience.
+
+#### Via `tsconfig.json`
+
+```jsonc
+{
+  "compilerOptions": {
+    // ... other options
+    "types": [, /* other types */ "vite-plugin-svelte-docgen"],
+  },
+}
+```
+
+#### Using triple-slash directive
+
+Either in global `.d.ts` file or each individual JavaScript/TypeScript file, add at the top:
+
+```js
+/// <reference types="vite-plugin-svelte-docgen" />
 ```
 
 ### Options
@@ -64,6 +91,15 @@ import componentDocgen from "./path/to/Component.svelte?docgen";
 const componentDocgen = await import("./path/to/Component.svelte?docgen");
 //                                                               👆 Add this query parameter
 ```
+
+> [!IMPORANT]
+> In case you're seeing a TypeScript error like this one:
+>
+> ```txt
+> Cannot find module './path/to/Component.svelte?docgen' or its corresponding type declarations. [2307]
+> ```
+>
+> You have missed the [TypeScript setup part](#typescript).
 
 > [!TIP]
 
