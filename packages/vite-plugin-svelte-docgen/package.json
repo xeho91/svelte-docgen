@@ -32,16 +32,6 @@
 		"directory": "packages/vite-plugin-svelte-docgen"
 	},
 	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
-	"funding": [
-		{
-			"type": "github",
-			"url": "https://github.com/sponsors/xeho91"
-		},
-		{
-			"type": "opencollective",
-			"url": "https://opencollective.com/xeho91"
-		}
-	],
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
