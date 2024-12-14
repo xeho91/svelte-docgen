@@ -44,6 +44,10 @@ export default defineConfig({
 });
 ```
 
+#### Options
+
+🚧
+
 ### TypeScript
 
 There are two ways on how you can improve TypeScript experience.
@@ -66,10 +70,6 @@ Either in global `.d.ts` file or each individual JavaScript/TypeScript file, add
 ```js
 /// <reference types="vite-plugin-svelte-docgen" />
 ```
-
-### Options
-
-🚧
 
 ---
 
