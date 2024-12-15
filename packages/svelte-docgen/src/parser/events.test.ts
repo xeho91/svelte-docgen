@@ -68,7 +68,7 @@ describe("events", () => {
 			                      "alias": "NonNullable",
 			                      "kind": "intersection",
 			                      "sources": Set {
-			                        <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts,
+			                        <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es5.d.ts,
 			                      },
 			                      "types": [
 			                        {
@@ -176,7 +176,7 @@ describe("events", () => {
 			                },
 			              },
 			              "sources": Set {
-			                <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.dom.d.ts,
+			                <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.dom.d.ts,
 			              },
 			            },
 			            "types": [
@@ -196,7 +196,7 @@ describe("events", () => {
 			                        "alias": "NonNullable",
 			                        "kind": "intersection",
 			                        "sources": Set {
-			                          <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts,
+			                          <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es5.d.ts,
 			                        },
 			                        "types": [
 			                          {
@@ -304,7 +304,7 @@ describe("events", () => {
 			                  },
 			                },
 			                "sources": Set {
-			                  <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.dom.d.ts,
+			                  <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.dom.d.ts,
 			                },
 			              },
 			            ],
@@ -315,7 +315,7 @@ describe("events", () => {
 			    "kind": "constructible",
 			    "name": "CustomEvent",
 			    "sources": Set {
-			      <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.dom.d.ts,
+			      <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.dom.d.ts,
 			    },
 			  },
 			  "on:increment" => {
@@ -323,7 +323,7 @@ describe("events", () => {
 			    "kind": "constructible",
 			    "name": "CustomEvent",
 			    "sources": Set {
-			      <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.dom.d.ts,
+			      <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.dom.d.ts,
 			    },
 			  },
 			}

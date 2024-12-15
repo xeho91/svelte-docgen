@@ -234,7 +234,7 @@ describe("serialize", () => {
 			                      "name": "Date",
 			                      "constructors": "self",
 			                      "sources": [
-			                        "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts",
+			                        "<process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es5.d.ts",
 			                        "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
 			                        "<process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts"
 			                      ]
