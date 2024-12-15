@@ -230,9 +230,9 @@ describe("Constructible", () => {
 			              "kind": "constructible",
 			              "name": "Date",
 			              "sources": Set {
-			                <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts,
-			                <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
-			                <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts,
+			                <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es5.d.ts,
+			                <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
+			                <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2020.date.d.ts,
 			              },
 			            },
 			          ],
@@ -243,9 +243,9 @@ describe("Constructible", () => {
 			  "kind": "constructible",
 			  "name": "Date",
 			  "sources": Set {
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es5.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2020.date.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es5.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2020.date.d.ts,
 			  },
 			}
 		`);
@@ -355,8 +355,8 @@ describe("Constructible", () => {
 			                        "kind": "constructible",
 			                        "name": "Iterator",
 			                        "sources": Set {
-			                          <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
-			                          <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
+			                          <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			                          <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
 			                        },
 			                      },
 			                    },
@@ -366,7 +366,7 @@ describe("Constructible", () => {
 			              },
 			            },
 			            "sources": Set {
-			              <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			              <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
 			            },
 			          },
 			          "types": [
@@ -395,8 +395,8 @@ describe("Constructible", () => {
 			                          "kind": "constructible",
 			                          "name": "Iterator",
 			                          "sources": Set {
-			                            <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
-			                            <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
+			                            <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			                            <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
 			                          },
 			                        },
 			                      },
@@ -406,7 +406,7 @@ describe("Constructible", () => {
 			                },
 			              },
 			              "sources": Set {
-			                <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			                <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
 			              },
 			            },
 			          ],
@@ -417,9 +417,9 @@ describe("Constructible", () => {
 			  "kind": "constructible",
 			  "name": "Map",
 			  "sources": Set {
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.collection.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.collection.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
 			  },
 			}
 		`);
@@ -505,8 +505,8 @@ describe("Constructible", () => {
 			                        "kind": "constructible",
 			                        "name": "Iterator",
 			                        "sources": Set {
-			                          <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
-			                          <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
+			                          <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			                          <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
 			                        },
 			                      },
 			                    },
@@ -516,7 +516,7 @@ describe("Constructible", () => {
 			              },
 			            },
 			            "sources": Set {
-			              <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			              <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
 			            },
 			          },
 			          "types": [
@@ -545,8 +545,8 @@ describe("Constructible", () => {
 			                          "kind": "constructible",
 			                          "name": "Iterator",
 			                          "sources": Set {
-			                            <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
-			                            <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
+			                            <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			                            <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.esnext.iterator.d.ts,
 			                          },
 			                        },
 			                      },
@@ -556,7 +556,7 @@ describe("Constructible", () => {
 			                },
 			              },
 			              "sources": Set {
-			                <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			                <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
 			              },
 			            },
 			          ],
@@ -567,10 +567,10 @@ describe("Constructible", () => {
 			  "kind": "constructible",
 			  "name": "Set",
 			  "sources": Set {
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.collection.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
-			    <process-cwd>/node_modules/.pnpm/typescript@5.7.2/node_modules/typescript/lib/lib.esnext.collection.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.collection.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.iterable.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts,
+			    <process-cwd>/node_modules/.pnpm/typescript@<semver>/node_modules/typescript/lib/lib.esnext.collection.d.ts,
 			  },
 			}
 		`);
