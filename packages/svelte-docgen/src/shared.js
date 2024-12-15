@@ -130,3 +130,19 @@ export function is_symbol_readonly(symbol) {
 		return (modifiers & ts.ModifierFlags.Readonly) !== 0;
 	});
 }
+
+/**
+ * @internal
+ * @param {ts.Declaration[]} declarations
+ * @returns {Set<string>}
+ */
+export function get_sources(declarations) {
+	return new Set(
+		declarations.map((d) =>
+			/* prettier-ignore */
+			d.getSourceFile().fileName
+				.replace(".tsx", "")
+				.replace(process.cwd(), ""),
+		),
+	);
+}
