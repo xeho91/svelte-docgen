@@ -10,13 +10,6 @@ This project is a monorepo for `svelte-docgen` packages.
 > [!WARNING]
 > This project is still a work in progress. [See roadmap for `v1`](https://github.com/svelte-docgen/svelte-docgen/issues/5).
 
-## Acknowledgements
-
-> [!NOTE]
->
-> **Inspired by work of [@ciscorn](https://github.com/ciscorn) who worked on [PR for Storybook](https://github.com/storybookjs/storybook/pull/28492)**.\
-> It was a great starting point for this project and I decided to make it more flexible and extensible.
-
 ## Packages
 
 | Package                                                                                        | Description                                              |
