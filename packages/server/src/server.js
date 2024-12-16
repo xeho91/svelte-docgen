@@ -6,7 +6,6 @@ import { deserialize } from "svelte-docgen";
 
 import { APP } from "./app.js";
 
-
 /**
  * @typedef Options
  * @prop {number} [port=3000]

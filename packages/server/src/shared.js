@@ -27,13 +27,10 @@ export function parse_source(params) {
 		filepath,
 		cache: CACHE_STORAGE,
 	});
-	return fields.reduce(
-		(results, key) => {
-			results[key] = parsed[key];
-			return results;
-		},
-		/** @type {Pick<Parsed, T>} */ ({}),
-	);
+	return fields.reduce((results, key) => {
+		results[key] = parsed[key];
+		return results;
+	}, /** @type {Pick<Parsed, T>} */ ({}));
 }
 
 /** @param {ReturnType<typeof parse_source>} data */
