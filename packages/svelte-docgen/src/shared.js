@@ -145,11 +145,11 @@ export function is_symbol_readonly(symbol) {
  * It also trims `.tsx` extension for the filepaths with `*.svelte` - internally is appended to make it work with
  * TypeScript Compiler API {@link https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API}.
  *
- * @param {ts.Declaration[]} declarations
+ * @param {ts.Declaration[]} declarations Passed from {@link ts.Symbol} or {@link ts.Type}
+ * @param {URL} root_path_url {@link get_root_path_url}
  * @returns {Set<string>}
  */
-export function get_sources(declarations) {
-	const root_path_url = get_root_path_url();
+export function get_sources(declarations, root_path_url) {
 	return new Set(
 		declarations.map((d) => {
 			/* prettier-ignore */
@@ -169,7 +169,7 @@ export function get_sources(declarations) {
  * @returns {URL} URI with path of either monorepo root or a basename of nearest `package.json` file.
  * @throws {Error} If it cannot find nearest `package.json` file if project isn't a monorepo.
  */
-function get_root_path_url() {
+export function get_root_path_url() {
 	let directory = path.resolve(process.cwd());
 	const { root } = path.parse(directory);
 	/** @type {string | undefined} */
