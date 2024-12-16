@@ -1,4 +1,4 @@
-name: Biome
+name: ESLint
 
 on:
   workflow_call:
@@ -16,8 +16,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  biome:
-    name: Biome
+  eslint:
+    name: ESLint
     runs-on: macos-latest
     timeout-minutes: 1
     steps:
@@ -25,10 +25,10 @@ jobs:
       - name: Checkout to the repository
         uses: actions/checkout@v4
 
-      # https://github.com/mongolyy/reviewdog-action-biome
-      - name: Run Biome to review
-        uses: mongolyy/reviewdog-action-biome@v1
+      # https://github.com/reviewdog/action-eslint
+      - name: Run ESLint to review
+        uses: reviewdog/action-eslint@v1
         with:
-          fail_on_error: true
+          fail_level: warning
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review

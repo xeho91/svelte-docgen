@@ -1,5 +1,5 @@
 /**
- * @import { Doc } from "../doc/type.ts";
+ * @import * as Doc from "../doc/type.ts";
  * @import { ParsedComponent } from "../parser/mod.ts";
  */
 

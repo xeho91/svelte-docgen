@@ -1,13 +1,13 @@
 /**
  * @import { Tag } from "./component-doc.js";
  * @import { Source } from "../util.js";
+ * @import { createCacheStorage } from "../cache.js";
  */
 
 import path from "node:path";
 
 import ts from "typescript";
 
-import { createCacheStorage } from "../cache.js";
 import { Compiler } from "../compiler.js";
 import { Options } from "../options.js";
 import { Parser } from "../parser.js";

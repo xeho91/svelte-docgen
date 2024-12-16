@@ -18,7 +18,7 @@ import { walk } from "zimmerframe";
  * ## Solution
  *
  * This function takes the AST of stringified encoded _(as valid JSON format)_ data.
- * Then it looks for the speicfic object keys,
+ * Then it looks for the specific object keys,
  * and wrap their encoded entries _(as arrays)_ like so:
  * - `new Map(<value>)`,
  * -  or `new Set(<value>)`.

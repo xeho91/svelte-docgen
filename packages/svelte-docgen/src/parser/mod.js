@@ -1,5 +1,5 @@
 /**
- * @import { Doc } from "../doc/type.ts";
+ * @import * as Doc from "../doc/type.ts";
  * @import { UserOptions } from "../options.js";
  */
 
@@ -178,7 +178,6 @@ class Parser {
 		const type = this.#checker.getTypeOfSymbol(symbol);
 		const isOptional = symbol.valueDeclaration.questionToken !== undefined;
 		/** @type {Doc.FnParam} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let data = {
 			name: symbol.name,
 			isOptional,
@@ -246,7 +245,7 @@ class Parser {
 	 * @returns {Doc.Intersection}
 	 */
 	#get_intersection_doc(type) {
-		// TOOD: Document error
+		// TODO: Document error
 		if (!type.isIntersection())
 			throw new Error(`Expected intersection type, got ${this.#checker.typeToString(type)}`);
 		const types = type.types.map((t) => this.#get_type_doc(t));
