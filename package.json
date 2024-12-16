@@ -20,7 +20,6 @@
 		"serve:doc": "serve \"./docs\" ",
 		"typos": "typos --verbose",
 		"typos:fix": "typos --verbose --write-changes",
-		"dev:test": "pnpm vitest watch --passWithNoTests --typecheck --ui",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
 		"_ci:test": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json",
