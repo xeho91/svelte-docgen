@@ -1,16 +1,17 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "@svelte-docgen/extractor",
-	"version": "0.1.0",
+	"name": "vite-plugin-svelte-docgen",
+	"version": "0.0.0",
 	"type": "module",
-	"description": "Extractor for svelte-docgen",
+	"description": "Allows creating virtual modules with docgen data for targetted Svelte component(s) - on demand.",
 	"keywords": [
 		"svelte",
 		"documentation",
 		"component",
 		"props",
 		"docgen",
-		"extractor"
+		"vite",
+		"plugin"
 	],
 	"license": "MIT",
 	"contributors": [
@@ -25,13 +26,6 @@
 			"url": "https://github.com/ciscorn"
 		}
 	],
-	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
-		"directory": "packages/extractor"
-	},
-	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"funding": [
 		{
 			"type": "github",
@@ -42,6 +36,13 @@
 			"url": "https://opencollective.com/svelte-docgen"
 		}
 	],
+	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
+		"directory": "packages/vite-plugin-svelte-docgen"
+	},
+	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
@@ -65,7 +66,7 @@
 	"scripts": {
 		"build": "pnpm run \"/^build:.*/\" ",
 		"build:doc": "typedoc",
-		"build:pkg": "dts-buddy",
+		"build:pkg": "dts-buddy && node --experimental-strip-types \"./scripts/post-build.ts\" ",
 		"clean": "pnpm run \"/^clean:.*/\"; rm -rf \"./**/node_modules\" ",
 		"clean:cache": "rm -rf \"./node_modules/.cache\" ",
 		"clean:doc": "rm -rf \"./docs\" ",
@@ -73,32 +74,34 @@
 		"clean:types": "rm -rf \"./types\" ",
 		"dev": "pnpm run \"/^dev:.*/\" ",
 		"dev:doc": "typedoc --watch",
-		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/extractor\" ",
+		"dev:test": "pnpm vitest watch --passWithNoTests --ui --open=false --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin-svelte-docgen\" ",
 		"fix": "pnpm run \"/^fix:.*/\" ",
 		"fix:biome": "biome check . --verbose --write",
-		"fix:format": "prettier format . --verbose --write",
+		"fix:format": "biome format . --verbose --write",
 		"fix:js": "biome lint . --verbose --fix --unsafe",
 		"fix:typos": "typos --verbose --write-changes",
 		"lint": "pnpm run \"/^lint:.*/\" ",
 		"lint:biome": "biome check . --verbose",
-		"lint:format": "prettier format . --verbose",
+		"lint:format": "biome format . --verbose",
 		"lint:js": "biome lint . --verbose",
 		"lint:ts": "tsc --noEmit",
 		"lint:typos": "typos --verbose",
 		"prepare": "pnpm build:pkg",
 		"serve:doc": "serve \"./docs\" ",
-		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"@svelte-docgen/extractor\" "
+		"test": "vitest run --passWithNoTests --workspace \"../../vitest.workspace.ts\" --project \"vite-plugin-svelte-docgen\" "
 	},
 	"dependencies": {
-		"@types/estree": "^1.0.6",
-		"svelte2tsx": "^0.7.26",
+		"esrap": "^1.2.3",
+		"svelte-docgen": "workspace:*",
 		"zimmerframe": "^1.1.2"
 	},
 	"devDependencies": {
+		"@types/estree": "^1.0.6",
 		"dts-buddy": "catalog:"
 	},
 	"peerDependencies": {
 		"svelte": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"vite": "catalog:"
 	}
 }

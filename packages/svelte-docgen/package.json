@@ -12,11 +12,18 @@
 		"docgen"
 	],
 	"license": "MIT",
-	"author": {
-		"name": "Mateusz Kadlubowski",
-		"email": "xeho91@pm.me",
-		"url": "https://github.com/xeho91"
-	},
+	"contributors": [
+		{
+			"name": "Mateusz Kadlubowski",
+			"email": "xeho91@pm.me",
+			"url": "https://github.com/xeho91"
+		},
+		{
+			"name": "Taku Fukada",
+			"email": "naninunenor@gmail.com",
+			"url": "https://github.com/ciscorn"
+		}
+	],
 	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
@@ -27,11 +34,11 @@
 	"funding": [
 		{
 			"type": "github",
-			"url": "https://github.com/sponsors/xeho91"
+			"url": "https://github.com/sponsors/svelte-docgen"
 		},
 		{
 			"type": "opencollective",
-			"url": "https://opencollective.com/xeho91"
+			"url": "https://opencollective.com/svelte-docgen"
 		}
 	],
 	"publishConfig": {
