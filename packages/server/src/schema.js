@@ -4,8 +4,8 @@
 
 import * as v from "valibot";
 
-/** @typedef {ReturnType<typeof parse>} Parsed */
-/** @typedef {keyof Parsed} Fields */
+/** @typedef {ReturnType<typeof parse>} ParsedComponent */
+/** @typedef {keyof ParsedComponent} Fields */
 
 const FIELDS = /** @type {Fields[]} */ (["description", "isLegacy", "events", "exports", "props", "slots", "tags"]);
 
