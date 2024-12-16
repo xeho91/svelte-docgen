@@ -202,7 +202,6 @@ class Parser {
 			};
 		});
 		/** @type {Doc.Fn} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = {
 			kind: "function",
 			calls,
@@ -226,7 +225,6 @@ class Parser {
 		/** @type {Doc.Interface['members']} */
 		const members = new Map(Iterator.from(type.getProperties()).map((p) => [p.name, this.#get_member_doc(p)]));
 		/** @type {Doc.Interface} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = {
 			kind: "interface",
 			members,
@@ -250,7 +248,6 @@ class Parser {
 			throw new Error(`Expected intersection type, got ${this.#checker.typeToString(type)}`);
 		const types = type.types.map((t) => this.#get_type_doc(t));
 		/** @type {Doc.Intersection} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = { kind: "intersection", types };
 		if (type.aliasSymbol) results.alias = type.aliasSymbol.name;
 		const source = this.#get_type_sources(type);
@@ -317,7 +314,6 @@ class Parser {
 		const type = this.#checker.getTypeOfSymbol(symbol);
 		const sources = this.#get_symbol_sources(symbol);
 		/** @type {Doc.Prop} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = {
 			tags: this.#get_prop_tags(symbol),
 			isBindable: this.#extractor.bindings.has(symbol.name) || symbol.name.startsWith("bind:"),
@@ -345,7 +341,6 @@ class Parser {
 	#get_prop_tags(symbol) {
 		return symbol.getJsDocTags(this.#checker).map((t) => {
 			/** @type {Doc.Tag} */
-			// biome-ignore lint/style/useConst: Readability - mutation
 			let results = { name: t.name, content: "" };
 			// TODO: Why it would be an array? Overloads? How should we handle it?
 			const content = t.text?.[0]?.text;
@@ -376,7 +371,6 @@ class Parser {
 		const isReadonly = type.target.readonly;
 		const elements = this.#checker.getTypeArguments(type).map((t) => this.#get_type_doc(t));
 		/** @type {Doc.Tuple} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = {
 			kind: "tuple",
 			isReadonly,
@@ -400,7 +394,6 @@ class Parser {
 			throw new Error(`Expected type parameter, got ${this.#checker.typeToString(type)}`);
 		const constraint = type.getConstraint();
 		/** @type {Doc.TypeParam} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = {
 			kind: "type-parameter",
 			name: type.symbol.name,
@@ -442,7 +435,6 @@ class Parser {
 		if (!type.isUnion()) throw new Error(`Expected union type, got ${this.#checker.typeToString(type)}`);
 		const types = type.types.map((t) => this.#get_type_doc(t));
 		/** @type {Doc.Union} */
-		// biome-ignore lint/style/useConst: Readability - mutation
 		let results = {
 			kind: "union",
 			types,
