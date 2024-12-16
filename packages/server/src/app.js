@@ -18,6 +18,10 @@ APP.post(
 				const { read_filepath_source_with_bun } = await import("./bun.js");
 				source = read_filepath_source_with_bun(body.filepath);
 			}
+			if (typeof globalThis.Deno !== "undefined") {
+				const { read_filepath_source_with_deno } = await import("./deno.js");
+				source = read_filepath_source_with_deno(body.filepath);
+			}
 			if (typeof process !== "undefined" && process.versions && process.versions.node) {
 				const { read_filepath_source_with_node } = await import("./node.js");
 				source = read_filepath_source_with_node(body.filepath);

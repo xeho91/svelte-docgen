@@ -98,6 +98,8 @@
 		"svelte-docgen": "workspace:*"
 	},
 	"devDependencies": {
-		"@types/bun": "^1.1.14"
+		"@types/bun": "^1.1.14",
+		"@types/deno": "^2.0.0",
+		"@types/node": "22.10.1"
 	}
 }

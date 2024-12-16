@@ -127,6 +127,12 @@ importers:
       '@types/bun':
         specifier: ^1.1.14
         version: 1.1.14
+      '@types/deno':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@types/node':
+        specifier: 22.10.1
+        version: 22.10.1
 
   packages/svelte-docgen:
     dependencies:
@@ -780,6 +786,9 @@ packages:
 
   '@types/bun@1.1.14':
     resolution: {integrity: sha512-opVYiFGtO2af0dnWBdZWlioLBoxSdDO5qokaazLhq8XQtGZbY4pY3/JxY8Zdf/hEwGubbp7ErZXoN1+h2yesxA==}
+
+  '@types/deno@2.0.0':
+    resolution: {integrity: sha512-O9/jRVlq93kqfkl4sYR5N7+Pz4ukzXVIbMnE/VgvpauNHsvjQ9iBVnJ3X0gAvMa2khcoFD8DSO7mQVCuiuDMPg==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -2654,6 +2663,8 @@ snapshots:
   '@types/bun@1.1.14':
     dependencies:
       bun-types: 1.1.37
+
+  '@types/deno@2.0.0': {}
 
   '@types/estree@1.0.6': {}
 
