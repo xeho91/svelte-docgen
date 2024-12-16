@@ -280,7 +280,7 @@ describe("props", () => {
 			  "isExtended": true,
 			  "isOptional": true,
 			  "sources": Set {
-			    <process-cwd>/node_modules/.pnpm/svelte@<semver>/node_modules/svelte/elements.d.ts,
+			    /node_modules/.pnpm/svelte@<semver>/node_modules/svelte/elements.d.ts,
 			  },
 			  "tags": [],
 			  "type": {
@@ -312,7 +312,7 @@ describe("props", () => {
 		expect(disabled?.isExtended).toBe(true);
 		expect(disabled?.sources).toMatchInlineSnapshot(`
 			Set {
-			  <process-cwd>/node_modules/.pnpm/svelte@<semver>/node_modules/svelte/elements.d.ts,
+			  /node_modules/.pnpm/svelte@<semver>/node_modules/svelte/elements.d.ts,
 			}
 		`);
 		if (disabled?.isExtended && disabled?.sources) {
