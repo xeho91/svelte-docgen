@@ -340,11 +340,11 @@ describe("Constructible", () => {
 			            "alias": "Iterable",
 			            "kind": "interface",
 			            "members": Map {
-			              "__@iterator@88" => {
+			              "__@iterator@19" => {
 			                "isOptional": false,
 			                "isReadonly": false,
 			                "type": {
-			                  "alias": "__@iterator@88",
+			                  "alias": "__@iterator@19",
 			                  "calls": [
 			                    {
 			                      "parameters": [],
@@ -380,11 +380,11 @@ describe("Constructible", () => {
 			              "alias": "Iterable",
 			              "kind": "interface",
 			              "members": Map {
-			                "__@iterator@88" => {
+			                "__@iterator@19" => {
 			                  "isOptional": false,
 			                  "isReadonly": false,
 			                  "type": {
-			                    "alias": "__@iterator@88",
+			                    "alias": "__@iterator@19",
 			                    "calls": [
 			                      {
 			                        "parameters": [],
@@ -490,11 +490,11 @@ describe("Constructible", () => {
 			            "alias": "Iterable",
 			            "kind": "interface",
 			            "members": Map {
-			              "__@iterator@88" => {
+			              "__@iterator@19" => {
 			                "isOptional": false,
 			                "isReadonly": false,
 			                "type": {
-			                  "alias": "__@iterator@88",
+			                  "alias": "__@iterator@19",
 			                  "calls": [
 			                    {
 			                      "parameters": [],
@@ -530,11 +530,11 @@ describe("Constructible", () => {
 			              "alias": "Iterable",
 			              "kind": "interface",
 			              "members": Map {
-			                "__@iterator@88" => {
+			                "__@iterator@19" => {
 			                  "isOptional": false,
 			                  "isReadonly": false,
 			                  "type": {
-			                    "alias": "__@iterator@88",
+			                    "alias": "__@iterator@19",
 			                    "calls": [
 			                      {
 			                        "parameters": [],
