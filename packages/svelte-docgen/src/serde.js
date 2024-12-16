@@ -36,7 +36,7 @@ export function serialize(data, indent) {
  * Revive stringified JSON data back to previous interface.
  *
  * @param {string} stringified
- * @returns {Partial<ParsedComponent>}
+ * @returns {ParsedComponent}
  */
 export function deserialize(stringified) {
 	return JSON.parse(stringified, (key, value) => {
