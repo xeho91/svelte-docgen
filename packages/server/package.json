@@ -96,5 +96,8 @@
 	},
 	"peerDependencies": {
 		"svelte-docgen": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.1.14"
 	}
 }

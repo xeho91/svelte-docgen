@@ -1,3 +1,5 @@
+/// <reference types="@types/node" />
+
 import fs from "node:fs";
 import url from "node:url";
 

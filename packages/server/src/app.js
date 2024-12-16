@@ -14,6 +14,10 @@ APP.post(
 		const body = ctx.req.valid("json");
 		let { fields, filepath, source } = body;
 		if (!source) {
+			if (typeof globalThis.Bun !== "undefined") {
+				const { read_filepath_source_with_bun } = await import("./bun.js");
+				source = read_filepath_source_with_bun(body.filepath);
+			}
 			if (typeof process !== "undefined" && process.versions && process.versions.node) {
 				const { read_filepath_source_with_node } = await import("./node.js");
 				source = read_filepath_source_with_node(body.filepath);
