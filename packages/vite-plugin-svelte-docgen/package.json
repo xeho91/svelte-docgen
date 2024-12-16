@@ -16,13 +16,14 @@
 	"license": "MIT",
 	"contributors": [
 		{
-			"name": "Taku Fukada",
-			"url": "https://github.com/ciscorn"
-		},
-		{
 			"name": "Mateusz Kadlubowski",
 			"email": "xeho91@pm.me",
 			"url": "https://github.com/xeho91"
+		},
+		{
+			"name": "Taku Fukada",
+			"email": "naninunenor@gmail.com",
+			"url": "https://github.com/ciscorn"
 		}
 	],
 	"funding": [
