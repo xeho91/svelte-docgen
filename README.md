@@ -12,12 +12,13 @@ This project is a monorepo for `svelte-docgen` packages.
 
 ## Packages
 
-| Package                                                                                        | Description                                              |
-| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| [`svelte-docgen`](./packages/svelte-docgen)                                                    | Core package                                             |
-| `@svelte-docgen/cli` [🚧 Tracking](https://github.com/svelte-docgen/svelte-docgen/issues/9)    | Standalone CLI                                           |
-| [`@svelte-docgen/extractor`](./packages/extractor)                                             | Extracting types from `*.svelte` files to write your own |
-| `@svelte-docgen/server` [🚧 Tracking](https://github.com/svelte-docgen/svelte-docgen/issues/6) | Run a server which allows fetching docs on demand        |
+| Package                                                                                        | Description                                                                                           |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [`svelte-docgen`](./packages/svelte-docgen)                                                    | Core package                                                                                          |
+| `@svelte-docgen/cli` [🚧 Tracking](https://github.com/svelte-docgen/svelte-docgen/issues/9)    | Standalone CLI                                                                                        |
+| [`@svelte-docgen/extractor`](./packages/extractor)                                             | Extracting types from `*.svelte` files to write your own                                              |
+| `@svelte-docgen/server` [🚧 Tracking](https://github.com/svelte-docgen/svelte-docgen/issues/6) | Run a server which allows fetching docs on demand                                                     |
+| [`vite-plugin-svelte-docgen`](./packages/vite-plugin-svelte-docgen)                            | [Vite](https://github.com/vitejs/vite) plugin which creates virtual files for your stories on demand. |
 
 ---
 

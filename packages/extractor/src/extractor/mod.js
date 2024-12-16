@@ -247,8 +247,8 @@ class Extractor {
 	 */
 	#find_ts_config_path() {
 		return (
-			ts.findConfigFile(this.source, ts.sys.fileExists) ||
-			ts.findConfigFile(this.source, ts.sys.fileExists, "jsconfig.json")
+			ts.findConfigFile(this.compiler.filepath, ts.sys.fileExists) ||
+			ts.findConfigFile(this.compiler.filepath, ts.sys.fileExists, "jsconfig.json")
 		);
 	}
 
