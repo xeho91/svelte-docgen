@@ -423,7 +423,8 @@ class Parser {
 		if (symbol) {
 			const declared_type = this.#checker.getDeclaredTypeOfSymbol(symbol);
 			const declared_type_symbol = declared_type.getSymbol() || declared_type.aliasSymbol;
-			if (declared_type_symbol) return get_sources(declared_type_symbol.getDeclarations() ?? [], this.#root_path_url);
+			if (declared_type_symbol)
+				return get_sources(declared_type_symbol.getDeclarations() ?? [], this.#root_path_url);
 		}
 	}
 
