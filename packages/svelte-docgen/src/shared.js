@@ -149,12 +149,11 @@ export function is_symbol_readonly(symbol) {
  * @returns {Set<string>}
  */
 export function get_sources(declarations) {
+	const root_path_url = get_root_path_url();
 	return new Set(
 		declarations.map((d) => {
-			const filename = d.getSourceFile().fileName;
-			const root_path_url = get_root_path_url();
 			/* prettier-ignore */
-			return filename
+			return d.getSourceFile().fileName
 				.replace(".tsx", "")
 				.replace(root_path_url.pathname, "");
 		}),
