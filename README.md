@@ -228,7 +228,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ### Support
 
-If you don't have time, but you need this project to work, or resolve an existing issue, consider sponsorship.
+If you don't have time, but you need this project to work, or resolve an existing issue, consider [sponsorship](https://github.com/sponsors/svelte-docgen).
 
 ---
 
