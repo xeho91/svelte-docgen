@@ -25,6 +25,16 @@
 			"url": "https://github.com/xeho91"
 		}
 	],
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/svelte-docgen"
+		},
+		{
+			"type": "opencollective",
+			"url": "https://opencollective.com/svelte-docgen"
+		}
+	],
 	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
 	"repository": {
 		"type": "git",
