@@ -152,11 +152,11 @@ export function get_sources(declarations) {
 	return new Set(
 		declarations.map((d) => {
 			const filename = d.getSourceFile().fileName;
-			const root = get_root_path();
+			const root_path_url = get_root_path_url();
 			/* prettier-ignore */
 			return filename
 				.replace(".tsx", "")
-				.replace(root.pathname, "");
+				.replace(root_path_url.pathname, "");
 		}),
 	);
 }
@@ -170,7 +170,7 @@ export function get_sources(declarations) {
  * @returns {URL} URI with path of either monorepo root or a basename of nearest `package.json` file.
  * @throws {Error} If it cannot find nearest `package.json` file if project isn't a monorepo.
  */
-function get_root_path() {
+function get_root_path_url() {
 	let directory = path.resolve(process.cwd());
 	const { root } = path.parse(directory);
 	/** @type {string | undefined} */
