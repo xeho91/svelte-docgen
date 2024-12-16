@@ -16,13 +16,24 @@
 	"license": "MIT",
 	"contributors": [
 		{
-			"name": "Taku Fukada",
-			"url": "https://github.com/ciscorn"
-		},
-		{
 			"name": "Mateusz Kadlubowski",
 			"email": "xeho91@pm.me",
 			"url": "https://github.com/xeho91"
+		},
+		{
+			"name": "Taku Fukada",
+			"email": "naninunenor@gmail.com",
+			"url": "https://github.com/ciscorn"
+		}
+	],
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/svelte-docgen"
+		},
+		{
+			"type": "opencollective",
+			"url": "https://opencollective.com/svelte-docgen"
 		}
 	],
 	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
