@@ -132,6 +132,10 @@ export function is_symbol_readonly(symbol) {
 }
 
 /**
+ * Creates a Set with stringified **relative** paths of declaration file(s) where the type was declared.
+ * In order to make it relative, it trims out {@link process.cwd} from the path.
+ * It also trims `.tsx` extension for the filepaths with `*.svelte` - internally is appended to make it work with
+ * TypeScript compiler API.
  * @internal
  * @param {ts.Declaration[]} declarations
  * @returns {Set<string>}
