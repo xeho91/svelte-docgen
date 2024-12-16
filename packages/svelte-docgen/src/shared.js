@@ -2,6 +2,10 @@
  * @import { extract } from "@svelte-docgen/extractor";
  */
 
+import fs from "node:fs";
+import path from "node:path";
+import url from "node:url";
+
 import ts from "typescript";
 
 /**
@@ -132,21 +136,67 @@ export function is_symbol_readonly(symbol) {
 }
 
 /**
- * Creates a Set with stringified **relative** paths of declaration file(s) where the type was declared.
- * In order to make it relative, it trims out {@link process.cwd} from the path.
- * It also trims `.tsx` extension for the filepaths with `*.svelte` - internally is appended to make it work with
- * TypeScript compiler API.
  * @internal
+ * Creates a Set with stringified **relative** paths of declaration file(s) where the type was declared.
+ *
+ * In order to make it relative, it trims out _root_ from the path. Also for security resons to prevent exposing the
+ * full path to third-parties: https://github.com/svelte-docgen/svelte-docgen/issues/29
+ *
+ * It also trims `.tsx` extension for the filepaths with `*.svelte` - internally is appended to make it work with
+ * TypeScript Compiler API {@link https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API}.
+ *
  * @param {ts.Declaration[]} declarations
  * @returns {Set<string>}
  */
 export function get_sources(declarations) {
 	return new Set(
-		declarations.map((d) =>
+		declarations.map((d) => {
+			const filename = d.getSourceFile().fileName;
+			const root = get_root_path();
 			/* prettier-ignore */
-			d.getSourceFile().fileName
+			return filename
 				.replace(".tsx", "")
-				.replace(process.cwd(), ""),
-		),
+				.replace(root.pathname, "");
+		}),
 	);
+}
+
+/**
+ * @internal
+ * Find the _root_ path of the project.
+ * It covers monorepo case _(based on existence of `pnpm-workspace.yaml` or field `package.json#workspaces`)_.
+ * Field `package.json#workspaces` is also case for: npm, yarn, Deno, and Bun.
+ *
+ * @returns {URL} URI with path of either monorepo root or a basename of nearest `package.json` file.
+ * @throws {Error} If it cannot find nearest `package.json` file if project isn't a monorepo.
+ */
+function get_root_path() {
+	let directory = path.resolve(process.cwd());
+	const { root } = path.parse(directory);
+	/** @type {string | undefined} */
+	let package_json_filepath;
+	while (directory && directory !== root) {
+		try {
+			const pnpm_workspace_filepath = path.join(directory, "pnpm-workspace.yaml");
+			const stats = fs.statSync(pnpm_workspace_filepath, { throwIfNoEntry: false });
+			if (stats?.isFile()) return url.pathToFileURL(directory);
+		} catch {
+			/** Is okay, do nothing. Check for other possibilities. */
+		}
+		try {
+			package_json_filepath = path.join(directory, "package.json");
+			const stats = fs.statSync(package_json_filepath, { throwIfNoEntry: false });
+			if (stats?.isFile()) {
+				const content = fs.readFileSync(package_json_filepath, "utf-8");
+				if (JSON.parse(content).workspaces) return url.pathToFileURL(directory);
+			}
+		} catch {
+			/** Is okay, do nothing. Check parent up. */
+		}
+		// NOTE: This goes root up
+		directory = path.dirname(directory);
+	}
+	if (package_json_filepath) return url.pathToFileURL(path.dirname(package_json_filepath));
+	// TODO: Document error
+	throw new Error("Could not determine the the root path.");
 }
