@@ -184,7 +184,7 @@ class Parser {
 			isOptional,
 			type: this.#get_type_doc(type),
 		};
-		if (data.isOptional && symbol.valueDeclaration.initializer) {
+		if (symbol.valueDeclaration.initializer) {
 			const default_ = this.#checker.getTypeAtLocation(symbol.valueDeclaration.initializer);
 			data.default = this.#get_type_doc(default_);
 		}
@@ -328,12 +328,10 @@ class Parser {
 		};
 		const description = this.#get_prop_description(symbol);
 		if (description) results.description = description;
-		if (results.isOptional) {
-			const initializer = this.#extractor.defaults.get(symbol.name);
-			if (initializer) {
-				const default_type = this.#checker.getTypeAtLocation(initializer);
-				results.default = this.#get_type_doc(default_type);
-			}
+		const initializer = this.#extractor.defaults.get(symbol.name);
+		if (initializer) {
+			const default_type = this.#checker.getTypeAtLocation(initializer);
+			results.default = this.#get_type_doc(default_type);
 		}
 		if (results.isExtended && sources) results.sources = sources;
 		return results;

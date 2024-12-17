@@ -22,11 +22,13 @@ describe("props", () => {
 				interface Props {
 					value?: number;
 					group?: string[];
+					presence: boolean | undefined;
 					disabled?: boolean;
 				}
 				let {
 					value = $bindable(0),
 					group = $bindable<string[]>([]),
+					presence = $bindable(false),
 				}: Props = $props();
 			</script>
 			`,
@@ -90,6 +92,38 @@ describe("props", () => {
 			          },
 			          "isReadonly": false,
 			          "kind": "array",
+			        },
+			      ],
+			    },
+			  },
+			  "presence" => {
+			    "default": {
+			      "kind": "literal",
+			      "subkind": "boolean",
+			      "value": false,
+			    },
+			    "isBindable": true,
+			    "isExtended": false,
+			    "isOptional": false,
+			    "tags": [],
+			    "type": {
+			      "kind": "union",
+			      "nonNullable": {
+			        "kind": "boolean",
+			      },
+			      "types": [
+			        {
+			          "kind": "undefined",
+			        },
+			        {
+			          "kind": "literal",
+			          "subkind": "boolean",
+			          "value": false,
+			        },
+			        {
+			          "kind": "literal",
+			          "subkind": "boolean",
+			          "value": true,
 			        },
 			      ],
 			    },
