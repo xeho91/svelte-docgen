@@ -168,7 +168,7 @@ describe("props", () => {
 		expect(disabled?.isBindable).toBe(false);
 	});
 
-	it("recognizes optional props and their defaults", ({ expect }) => {
+	it("recognizes optional props and default values", ({ expect }) => {
 		const { props } = parse(
 			`
 			<script lang="ts">
@@ -176,8 +176,9 @@ describe("props", () => {
 					name?: string;
 					id: number;
 					location?: string;
+					balance: number | undefined;
 				}
-				let { location = "terminal" }: Props = $props();
+				let { location = "terminal", balance = 0 }: Props = $props();
 			</script>
 			`,
 			create_options("optional-props.svelte"),
@@ -234,6 +235,31 @@ describe("props", () => {
 			        },
 			        {
 			          "kind": "string",
+			        },
+			      ],
+			    },
+			  },
+			  "balance" => {
+			    "default": {
+			      "kind": "literal",
+			      "subkind": "number",
+			      "value": 0,
+			    },
+			    "isBindable": false,
+			    "isExtended": false,
+			    "isOptional": false,
+			    "tags": [],
+			    "type": {
+			      "kind": "union",
+			      "nonNullable": {
+			        "kind": "number",
+			      },
+			      "types": [
+			        {
+			          "kind": "undefined",
+			        },
+			        {
+			          "kind": "number",
 			        },
 			      ],
 			    },
