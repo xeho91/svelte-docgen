@@ -7,10 +7,15 @@ import { deserialize } from "svelte-docgen";
 import { APP } from "./app.js";
 
 /**
+ * Server options with sensible defaults.
+ *
  * @typedef Options
  * @prop {number} [port=3000]
  */
 
+/**
+ * Extendable class for creating a server. Should not be used by end-user directly.
+ */
 export class Server {
 	/** @type {number} */
 	port;
@@ -21,6 +26,8 @@ export class Server {
 	}
 
 	/**
+	 * Create a `POST` request to the `@svelte-docgen/server`.
+	 *
 	 * @param {BodySchema} body
 	 * @returns {Promise<Response>}
 	 */

@@ -1,10 +1,17 @@
-import { Hono } from "hono";
+/**
+ * @import { Fields, ParsedComponent } from "./schema.js";
+ */
+
 import { vValidator } from "@hono/valibot-validator";
-import { serialize } from "svelte-docgen";
+import { createCacheStorage } from "@svelte-docgen/extractor";
+import { Hono } from "hono";
+import { parse, serialize } from "svelte-docgen";
 
 import { BODY_SCHEMA } from "./schema.js";
-import { parse_source } from "./shared.js";
 
+/**
+ * {@link Hono} instance.
+ */
 const APP = new Hono();
 
 APP.post(
@@ -15,23 +22,71 @@ APP.post(
 		const body = ctx.req.valid("json");
 		let { fields, filepath, source } = body;
 		if (!source) {
-			if (typeof globalThis.Bun !== "undefined") {
-				const { read_filepath_source_with_bun } = await import("./bun.js");
-				source = read_filepath_source_with_bun(body.filepath);
-			} else if (typeof globalThis.Deno !== "undefined") {
-				const { read_filepath_source_with_deno } = await import("./deno.js");
-				source = read_filepath_source_with_deno(body.filepath);
-			} else if (typeof process !== "undefined" && process.versions && process.versions.node) {
-				const { read_filepath_source_with_node } = await import("./node.js");
-				source = read_filepath_source_with_node(body.filepath);
-			} else {
-				// TODO: Document error & add more runtimes (Deno, Bun) support
-				throw new Error("Unsupported runtime");
-			}
+			let module;
+			const runtime_name = get_runtime_name();
+			if (runtime_name === "bun") module = await import("./bun.js");
+			if (runtime_name === "deno") module = await import("./deno.js");
+			if (runtime_name === "node") module = await import("./node.js");
+			if (!module) throw new Error("Unsupported runtime");
+			const { read_file_sync } = module;
+			source = read_file_sync(body.filepath);
 		}
 		const data = parse_source({ filepath, fields, source });
 		return ctx.json(serialize(data));
 	},
 );
+
+/**
+ * @internal
+ * Cache storage for parsing source code of `*.svelte files.
+ * @see {@link createCacheStorage}
+ */
+export const CACHE_STORAGE = createCacheStorage();
+
+/**
+ * @internal
+ * @template {Fields} T
+ * @typedef SourceParams
+ * @prop {string} filepath
+ * @prop {string} source
+ * @prop {T[]} fields;
+ */
+
+/**
+ * @internal
+ * Parse source code with `svelte-docgen` parser to return generated documentation data with handpicked fields.
+ *
+ * @template {Fields} T
+ * @param {SourceParams<T>} params
+ * @returns {Pick<ParsedComponent, T>}
+ */
+function parse_source(params) {
+	const { fields, filepath, source } = params;
+	const parsed = parse(source, {
+		// @ts-expect-error TODO: Perhaps is best to just accept string type?
+		filepath,
+		cache: CACHE_STORAGE,
+	});
+	// TODO: Move this feature to parser instead, we could speed up its job a little bit.
+	return fields.reduce((results, key) => {
+		results[key] = parsed[key];
+		return results;
+	}, /** @type {Pick<ParsedComponent, T>} */ ({}));
+}
+
+/**
+ * @internal
+ * Get the supported JavaScript runtime name.
+ *
+ * @returns {"bun" | "deno" | "node"}
+ */
+function get_runtime_name() {
+	if (typeof globalThis.Bun !== "undefined") return "bun";
+	if (typeof globalThis.Deno !== "undefined") return "deno";
+	if (typeof process !== "undefined" && process.versions && process.versions.node) {
+		return "node";
+	}
+	throw new Error("Unsupported runtime.");
+}
 
 export { APP };

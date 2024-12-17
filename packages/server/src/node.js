@@ -22,7 +22,7 @@ export class NodeServer extends Server {
  * @param {string} filepath
  * @returns {string}
  */
-export function read_filepath_source_with_node(filepath) {
+export function read_file_sync(filepath) {
 	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
 	return fs.readFileSync(path_url, "utf-8");
 }

@@ -19,7 +19,7 @@ export class BunServer extends Server {
  * @param {string} filepath
  * @returns {string}
  */
-export function read_filepath_source_with_bun(filepath) {
+export function read_file_sync(filepath) {
 	const path_url = URL.canParse(filepath) ? new URL(filepath) : Bun.pathToFileURL(filepath);
 	// TODO: In the initial research, I couldn't find a synchronous way to read file. `Bun.file()` is async
 	return fs.readFileSync(path_url, "utf-8");

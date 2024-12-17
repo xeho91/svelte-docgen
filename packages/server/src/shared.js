@@ -2,9 +2,10 @@
  * @import { Fields, ParsedComponent } from "./schema.js";
  */
 
+import { createCacheStorage } from "@svelte-docgen/extractor";
 import { parse } from "svelte-docgen";
 
-import { CACHE_STORAGE } from "./cache.js";
+export const CACHE_STORAGE = createCacheStorage();
 
 /**
  * @template {Fields} T
@@ -30,4 +31,23 @@ export function parse_source(params) {
 		results[key] = parsed[key];
 		return results;
 	}, /** @type {Pick<ParsedComponent, T>} */ ({}));
+}
+
+/**
+ * @internal
+ * Supported runtime name.
+ * @typedef {"bun" | "deno" | "node"} RuntimeName
+ */
+/**
+ * @internal
+ * Get the supported JavaScript runtime name.
+ * @returns {RuntimeName}
+ */
+export function get_runtime_name() {
+	if (typeof globalThis.Bun !== "undefined") return "bun";
+	if (typeof globalThis.Deno !== "undefined") return "deno";
+	if (typeof process !== "undefined" && process.versions && process.versions.node) {
+		return "node";
+	}
+	throw new Error("Unsupported runtime.");
 }
