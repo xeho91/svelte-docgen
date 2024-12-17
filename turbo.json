@@ -11,13 +11,7 @@
 			"inputs": ["$TURBO_DEFAULT$", "src/**"],
 			"outputs": ["./docs"]
 		},
-		"lint": {
-			"cache": true
-		},
-		"lint:svelte": {
-			"cache": true
-		},
-		"lint:ts": {
+		"check": {
 			"cache": true
 		},
 		"//#_test": {

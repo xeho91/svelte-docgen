@@ -46,7 +46,7 @@ export function deserialize(stringified) {
 			case "members":
 			case "props":
 			case "slots":
-				return is_mapable(value) ? new Map(value) : value;
+				return is_mappable(value) ? new Map(value) : value;
 			case "sources":
 				return is_setable(value) ? new Set(value) : value;
 			default:
@@ -61,7 +61,7 @@ export function deserialize(stringified) {
  * @returns {input is Array<[string, unknown]>}
  * @internal
  */
-function is_mapable(input) {
+function is_mappable(input) {
 	return v.is(
 		v.array(
 			v.tuple([

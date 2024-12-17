@@ -1,13 +1,13 @@
 /**
  * @import { Tag } from "./component-doc.js";
  * @import { Source } from "../util.js";
+ * @import { createCacheStorage } from "../cache.js";
  */
 
 import path from "node:path";
 
 import ts from "typescript";
 
-import { createCacheStorage } from "../cache.js";
 import { Compiler } from "../compiler.js";
 import { Options } from "../options.js";
 import { Parser } from "../parser.js";
@@ -60,7 +60,6 @@ class Extractor {
 
 	/** @returns {Map<string, ts.BindingElement>} */
 	get defaults() {
-		// biome-ignore lint/style/useConst: Readability: mutation
 		let results = new Map();
 		if (this.#props_obj) {
 			for (const binding of this.#props_obj?.elements ?? []) {
@@ -85,7 +84,6 @@ class Extractor {
 
 	/** @returns {Set<string>} */
 	get bindings() {
-		// biome-ignore lint/style/useConst: Readability: mutation
 		let results = new Set();
 		const { bindings } = this.#extracted_from_render_fn;
 		// TODO: Document error
