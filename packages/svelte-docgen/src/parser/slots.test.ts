@@ -20,7 +20,7 @@ describe("slots", () => {
 		expect(slots.size).toBe(0);
 	});
 
-	it("returns map wtih available slots (legacy)", ({ expect }) => {
+	it("returns map with available slots (legacy)", ({ expect }) => {
 		const { slots, isLegacy } = parse(
 			`
 			<script>

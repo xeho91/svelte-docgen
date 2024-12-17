@@ -1,5 +1,5 @@
 /**
- * @import { Doc } from "../doc/type.ts";
+ * @import * as Doc from "../doc/type.ts";
  */
 
 import path from "node:path";

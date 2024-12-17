@@ -15,9 +15,7 @@ export default {
 	},
 	print: (value) => {
 		if (typeof value === "string") {
-			return value
-				.replace(new RegExp(ROOT_PATH, "g"), "<process-cwd>")
-				.replace(REGEX_PACKAGE_VERSION, "$<package>@<semver>");
+			return value.replaceAll(ROOT_PATH, "<process-cwd>").replace(REGEX_PACKAGE_VERSION, "$<package>@<semver>");
 		}
 		return "";
 	},
