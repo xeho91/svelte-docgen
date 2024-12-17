@@ -49,7 +49,11 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"files": ["src/", "!src/**/*.test.*", "types/"],
+	"files": [
+		"src/",
+		"!src/**/*.test.*",
+		"types/"
+	],
 	"exports": {
 		"./bun": {
 			"types": "./types/bun.d.ts",
