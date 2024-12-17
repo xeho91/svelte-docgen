@@ -41,4 +41,4 @@ jobs:
           --frozen-lockfile
 
       - name: Lint with TypeScript type-checker using Turbo
-        run: pnpm turbo run "lint:ts"
+        run: pnpm turbo run check

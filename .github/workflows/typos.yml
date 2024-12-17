@@ -29,5 +29,6 @@ jobs:
       - name: Spell check with `typos`
         uses: reviewdog/action-typos@v1
         with:
+          fail_level: warning
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
