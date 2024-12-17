@@ -34,6 +34,7 @@ export default ts.config(
 	},
 	{
 		rules: {
+			// Allows variable names prefixed with _ to remain unused
 			"@typescript-eslint/no-unused-vars": [
 				"error",
 				{
