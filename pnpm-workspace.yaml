@@ -8,4 +8,5 @@ catalog:
   "dts-buddy": "^0.5.0"
   "svelte": "^5.3.0"
   "typescript": "^5.7.0"
+  "valibot": "1.0.0-beta.9"
   "vite": "^6.0.0"
