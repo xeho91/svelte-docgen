@@ -51,9 +51,17 @@
 	},
 	"files": ["src/", "!src/**/*.test.*", "types/"],
 	"exports": {
-		".": {
-			"types": "./types/mod.d.ts",
-			"default": "./src/mod.js"
+		"./bun": {
+			"types": "./types/bun.d.ts",
+			"default": "./src/bun.js"
+		},
+		"./deno": {
+			"types": "./types/deno.d.ts",
+			"default": "./src/deno.js"
+		},
+		"./node": {
+			"types": "./types/node.d.ts",
+			"default": "./src/node.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -85,12 +93,13 @@
 		"hono": "^4.6.13",
 		"valibot": "catalog:"
 	},
-	"peerDependencies": {
-		"svelte-docgen": "workspace:*"
-	},
 	"devDependencies": {
 		"@types/bun": "^1.1.14",
 		"@types/deno": "^2.0.0",
-		"@types/node": "22.10.1"
+		"@types/node": "22.10.1",
+		"dts-buddy": "catalog:"
+	},
+	"peerDependencies": {
+		"svelte-docgen": "workspace:*"
 	}
 }
