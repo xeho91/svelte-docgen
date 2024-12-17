@@ -1,5 +1,11 @@
 /**
- * @import { Fields, ParsedComponent } from "./schema.js";
+ * Related to {@link Hono} instance.
+ * @module
+ * @internal
+ */
+
+/**
+ * @import { ParsedComponent } from "./schema.js";
  */
 
 import { vValidator } from "@hono/valibot-validator";
@@ -10,6 +16,7 @@ import { parse, serialize } from "svelte-docgen";
 import { BODY_SCHEMA } from "./schema.js";
 
 /**
+ * @internal
  * {@link Hono} instance.
  */
 const APP = new Hono();
@@ -31,7 +38,7 @@ APP.post(
 			const { read_file_sync } = module;
 			source = read_file_sync(body.filepath);
 		}
-		const data = parse_source({ filepath, fields, source });
+		const data = parse_source({ filepath, keys: fields, source });
 		return ctx.json(serialize(data));
 	},
 );
@@ -44,34 +51,39 @@ APP.post(
 export const CACHE_STORAGE = createCacheStorage();
 
 /**
- * @internal
- * @template {Fields} T
+ * Generic parameters for {@link parse_source}
+ *
+ * @template {keyof ParsedComponent} T
  * @typedef SourceParams
  * @prop {string} filepath
  * @prop {string} source
- * @prop {T[]} fields;
+ * @prop {T[]} keys
  */
 
 /**
  * @internal
- * Parse source code with `svelte-docgen` parser to return generated documentation data with handpicked fields.
+ * Parse source code with `svelte-docgen` parser to return generated documentation data with handpicked object entries
+ * (based on `keys`) by end-user.
  *
- * @template {Fields} T
+ * @template {keyof ParsedComponent} T
  * @param {SourceParams<T>} params
  * @returns {Pick<ParsedComponent, T>}
  */
 function parse_source(params) {
-	const { fields, filepath, source } = params;
+	const { keys, filepath, source } = params;
 	const parsed = parse(source, {
 		// @ts-expect-error TODO: Perhaps is best to just accept string type?
 		filepath,
 		cache: CACHE_STORAGE,
 	});
 	// TODO: Move this feature to parser instead, we could speed up its job a little bit.
-	return fields.reduce((results, key) => {
-		results[key] = parsed[key];
-		return results;
-	}, /** @type {Pick<ParsedComponent, T>} */ ({}));
+	return keys.reduce(
+		(results, key) => {
+			results[key] = parsed[key];
+			return results;
+		},
+		/** @type {Pick<ParsedComponent, T>} */ ({}),
+	);
 }
 
 /**
@@ -83,7 +95,11 @@ function parse_source(params) {
 function get_runtime_name() {
 	if (typeof globalThis.Bun !== "undefined") return "bun";
 	if (typeof globalThis.Deno !== "undefined") return "deno";
-	if (typeof process !== "undefined" && process.versions && process.versions.node) {
+	if (
+		typeof process !== "undefined" &&
+		process.versions &&
+		process.versions.node
+	) {
 		return "node";
 	}
 	throw new Error("Unsupported runtime.");

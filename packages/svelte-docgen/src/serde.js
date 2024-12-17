@@ -13,7 +13,8 @@ import * as v from "valibot";
 /**
  * Serialize data as stringified JSON, so it can be used for e.g. RESTful API.
  *
- * @param {Partial<ParsedComponent | Pick<ParsedComponent, keyof ParsedComponent>>} data
+ * @template {keyof ParsedComponent} T
+ * @param {Pick<ParsedComponent, T>} data
  * @param {Parameters<typeof JSON.stringify>[2]} [indent]
  * @returns {string}
  */
@@ -35,8 +36,9 @@ export function serialize(data, indent) {
 /**
  * Revive stringified JSON data back to previous interface.
  *
+ * @template {keyof ParsedComponent} T
  * @param {string} stringified
- * @returns {Partial<ParsedComponent>}
+ * @returns {Pick<ParsedComponent, T>}
  */
 export function deserialize(stringified) {
 	return JSON.parse(stringified, (key, value) => {
