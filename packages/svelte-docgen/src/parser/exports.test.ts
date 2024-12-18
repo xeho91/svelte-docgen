@@ -15,7 +15,7 @@ describe("exports", () => {
 		expect(exports.size).toBe(0);
 	});
 
-	// FIXME: Tracking issue: https://github.com/xeho91/svelte-docgen/issues/4
+	// FIXME: Tracking issue: https://github.com/svelte-docgen/svelte-docgen/issues/4
 	it.fails("returns filled object when component has defined some in module script", ({ expect }) => {
 		const { exports } = parse(
 			`

@@ -63,6 +63,11 @@ describe("Constructible", () => {
 			        },
 			      },
 			      {
+			        "default": {
+			          "kind": "literal",
+			          "subkind": "string",
+			          "value": "hello",
+			        },
 			        "isOptional": false,
 			        "name": "baz",
 			        "type": {

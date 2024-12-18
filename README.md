@@ -242,6 +242,6 @@ If you don't have time, but you need this project to work, or resolve an existin
 
 ## License
 
-![Project License](https://img.shields.io/github/license/xeho91/svelte-ast-print?style=for-the-badge)
+![Project License](https://img.shields.io/github/license/svelte-docgen/svelte-docgen?style=for-the-badge)
 
 This project is licensed under the [MIT License](./LICENSE.md).

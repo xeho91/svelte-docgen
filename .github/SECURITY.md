@@ -8,7 +8,7 @@ Any advisory or issue will is welcome.
 If you have found a security issue, or have any concerns/doubts - please get in touch with maintainers.
 
 The recommended way is to **create GitHub's Security Advisory** in this project repository
-_(in the **[Security](https://github.com/xeho91/svelte-docgen/security)** tab/pane)_.
+_(in the **[Security](https://github.com/svelte-docgen/svelte-docgen/security)** tab/pane)_.
 
 > [!CAUTION]
 >
