@@ -56,16 +56,16 @@
 	],
 	"exports": {
 		"./bun": {
-			"types": "./types/bun.d.ts",
-			"default": "./src/bun.js"
+			"types": "./types/mod.d.ts",
+			"default": "./src/bun/mod.js"
 		},
 		"./deno": {
-			"types": "./types/deno.d.ts",
-			"default": "./src/deno.js"
+			"types": "./types/mod.d.ts",
+			"default": "./src/deno/mod.js"
 		},
 		"./node": {
-			"types": "./types/node.d.ts",
-			"default": "./src/node.js"
+			"types": "./types/mod.d.ts",
+			"default": "./src/node/mod.js"
 		},
 		"./package.json": "./package.json"
 	},

@@ -35,10 +35,10 @@ const PARSED_COMPONENT_FIELDS = /** @type {(keyof ParsedComponent)[]} */ ([
  * @internal
  * Array with keyof ParsedComponent. Assigned to separate variable for ease of reusability / readabality.
  */
-export const BODY_SCHEMA = v.object({
+export const REQUEST_SCHEMA = v.object({
 	filepath: v.pipe(v.string(), v.endsWith(".svelte")),
 	source: v.optional(v.string()),
-	fields: v.array(v.picklist(PARSED_COMPONENT_FIELDS)),
+	keys: v.optional(v.array(v.picklist(PARSED_COMPONENT_FIELDS))),
 });
 
 /**

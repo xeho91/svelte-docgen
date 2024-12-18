@@ -1,7 +1,7 @@
 /// <reference types="@types/node" />
 
 /**
- * @import { RuntimeServer } from "./server.js";
+ * @import { RuntimeServer } from "../server.js";
  */
 
 import fs from "node:fs";
@@ -9,11 +9,11 @@ import url from "node:url";
 
 import { serve } from "@hono/node-server";
 
-import { APP } from "./app.js";
-import { Server } from "./server.js";
+import { APP } from "../app.js";
+import { Server } from "../server.js";
 
 /**
- * @typedef {Parameters<typeof serve>[0]} UserOptions
+ * @typedef {Omit<Parameters<typeof serve>[0], "fetch">} UserOptions
  */
 
 /**
@@ -26,15 +26,16 @@ class Options {
 	 */
 	port = 3000;
 
-	/** @param {Partial<Options>} user_options */
+	/** @param {Partial<UserOptions>} user_options */
 	constructor(user_options) {
 		Object.assign(this, user_options);
 	}
 }
 
-/**
- * @implements {RuntimeServer}
- */
+// FIXME: Uncommenting below JSDoc comment breaks `dts-buddy`, need to create an issue with reproduction
+// /**
+//  * @implements {RuntimeServer}
+//  */
 export class NodeServer extends Server {
 	/** @type {Options} */
 	options;
@@ -58,6 +59,7 @@ export class NodeServer extends Server {
 	/** @returns {void} */
 	shutdown() {
 		this.instance?.close();
+		this.instance = undefined;
 	}
 }
 
@@ -66,16 +68,6 @@ export class NodeServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath)
-		? new URL(filepath)
-		: url.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
 	return fs.readFileSync(path_url, "utf-8");
-}
-
-/**
- * @param {UserOptions} options
- * @returns {NodeServer}
- */
-export default function create_server(options) {
-	return new NodeServer(options);
 }

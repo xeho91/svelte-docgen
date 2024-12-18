@@ -1,13 +1,13 @@
 /// <reference types="@types/bun" />
 
 /**
- * @import { RuntimeServer } from "./server.js";
+ * @import { RuntimeServer } from "../server.js";
  */
 
 import fs from "node:fs";
 
-import { APP } from "./app.js";
-import { Server } from "./server.js";
+import { APP } from "../app.js";
+import { Server } from "../server.js";
 
 /**
  * @typedef UserOptions
@@ -30,10 +30,11 @@ class Options {
 	}
 }
 
-/**
- * @implements {RuntimeServer}
- */
-class BunServer extends Server {
+// FIXME: Uncommenting below JSDoc comment breaks `dts-buddy`, need to create an issue with reproduction
+// /**
+//  * @implements {RuntimeServer}
+//  */
+export class BunServer extends Server {
 	/**
 	 * @type {Options}
 	 */
@@ -68,17 +69,7 @@ class BunServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath)
-		? new URL(filepath)
-		: Bun.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath) ? new URL(filepath) : Bun.pathToFileURL(filepath);
 	// TODO: In the initial research, I couldn't find a synchronous way to read file. `Bun.file()` is async
 	return fs.readFileSync(path_url, "utf-8");
-}
-
-/**
- * @param {UserOptions} options
- * @returns {BunServer}
- */
-export default function create_server(options) {
-	return new BunServer(options);
 }
