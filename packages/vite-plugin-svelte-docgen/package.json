@@ -86,7 +86,6 @@
 	},
 	"dependencies": {
 		"esrap": "^1.2.3",
-		"svelte-docgen": "workspace:*",
 		"zimmerframe": "^1.1.2"
 	},
 	"devDependencies": {
@@ -95,6 +94,7 @@
 	},
 	"peerDependencies": {
 		"svelte": "catalog:",
+		"svelte-docgen": "workspace:*",
 		"typescript": "catalog:",
 		"vite": "catalog:"
 	}
