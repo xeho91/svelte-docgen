@@ -72,8 +72,6 @@ export class NodeServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath)
-		? new URL(filepath)
-		: url.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
 	return fs.readFileSync(path_url, "utf-8");
 }

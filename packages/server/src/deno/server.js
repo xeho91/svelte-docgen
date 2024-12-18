@@ -66,11 +66,7 @@ export class DenoServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath)
-		? new URL(filepath)
-		: url.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
 	// FIXME: Conflict between Web API URL and Node URL type
-	return Deno.readTextFileSync(
-		/** @type {Parameters<typeof Deno.readTextFileSync>[0]}} */ (path_url),
-	);
+	return Deno.readTextFileSync(/** @type {Parameters<typeof Deno.readTextFileSync>[0]}} */ (path_url));
 }
