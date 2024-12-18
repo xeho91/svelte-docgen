@@ -10,13 +10,14 @@ import { get_type_kind } from "../doc/kind.js";
 import { Options } from "../options.js";
 import {
 	get_construct_signatures,
+	get_root_path_url,
+	get_sources,
 	get_type_symbol,
 	is_const_type_param,
 	is_symbol_optional,
 	is_symbol_readonly,
 	is_tuple_type,
 	is_type_reference,
-	remove_tsx_extension,
 } from "../shared.js";
 
 class Parser {
@@ -29,6 +30,11 @@ class Parser {
 	#latest_symbol_name;
 	/** @type {Options} */
 	#options;
+	/**
+	 * Cached root path url, so we don't need to call it every time.
+	 * @type {URL}
+	 */
+	#root_path_url;
 
 	/**
 	 * @param {string} source
@@ -37,6 +43,7 @@ class Parser {
 	constructor(source, options) {
 		this.#options = options;
 		this.#extractor = extract(source, this.#options);
+		this.#root_path_url = get_root_path_url();
 	}
 
 	/** @returns {ParsedComponent} */
@@ -312,7 +319,7 @@ class Parser {
 	 */
 	#get_prop_doc(symbol) {
 		const type = this.#checker.getTypeOfSymbol(symbol);
-		const sources = this.#get_symbol_sources(symbol);
+		const sources = get_sources(symbol.getDeclarations() ?? [], this.#root_path_url);
 		/** @type {Doc.Prop} */
 		let results = {
 			tags: this.#get_prop_tags(symbol),
@@ -345,14 +352,6 @@ class Parser {
 			if (content) results.content = content;
 			return results;
 		});
-	}
-
-	/**
-	 * @param {ts.Symbol} symbol
-	 * @returns {Doc.Prop["sources"]}
-	 */
-	#get_symbol_sources(symbol) {
-		return new Set(symbol.getDeclarations()?.map((d) => remove_tsx_extension(d.getSourceFile().fileName)) ?? []);
 	}
 
 	/**
@@ -414,13 +413,8 @@ class Parser {
 		if (symbol) {
 			const declared_type = this.#checker.getDeclaredTypeOfSymbol(symbol);
 			const declared_type_symbol = declared_type.getSymbol() || declared_type.aliasSymbol;
-			if (declared_type_symbol) {
-				return new Set(
-					Iterator.from(declared_type_symbol.getDeclarations() ?? []).map((d) =>
-						remove_tsx_extension(d.getSourceFile().fileName),
-					),
-				);
-			}
+			if (declared_type_symbol)
+				return get_sources(declared_type_symbol.getDeclarations() ?? [], this.#root_path_url);
 		}
 	}
 
