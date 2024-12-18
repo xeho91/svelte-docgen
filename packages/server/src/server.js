@@ -44,3 +44,7 @@ export class Server {
  * @prop {() => void} start Start the HTTP server.
  * @prop {() => void} shutdown Gracefully shutdown the HTTP server.
  */
+
+export const DEFAULTS = /** @type {const} */ ({
+	port: 5555,
+});

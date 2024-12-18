@@ -33,39 +33,73 @@ This package depends on the following packages _(peer dependencies)_ to be exist
 Depending on what runtime you want to use, the API for each of them should remain the same.
 
 ```js
-import server from "@svelte-docgen/<runtime-name>";
+import createServer from "@svelte-docgen/<runtime-name>";
 
-/** Start the server. */
-server.serve();
+const server = createServer();
 
-/** Send a request for specific `*.svelte` component file. */
-server.request({
-  /* options */
+server.start();
+// Implement your own logic to create requests...
+// Below is an example for a single one:
+const data = await server.request({
+  filepath: "./path/to/Component.svelte",
 });
+server.shutdown();
 ```
 
 ### Bun
 
 ```js
-import server from "@svelte-docgen/bun";
+import createServer from "@svelte-docgen/bun";
+
+const server = createServer(/* options */);
 ```
+
+#### Options
+
+Refer to [`Bun.serve()`](https://bun.sh/docs/api/http) documentation.
+Only omit the field `fetch` request handler.
 
 ### Deno
 
 ```js
-import server from "@svelte-docgen/deno";
+import createServer from "@svelte-docgen/deno";
+
+const server = createServer(/* options */);
 ```
+
+#### Options
+
+Refer to [`Deno.serve()`](https://docs.deno.com/api/deno/~/Deno.serve) documentation.
 
 ### Node
 
 ```js
-import server from "@svelte-docgen/node";
+import createServer from "@svelte-docgen/node";
+
+const server = createServer(/* options */);
 ```
 
-### Options
+#### Options
+
+Refer to options of [Hono `serve()`](https://hono.dev/docs/getting-started/nodejs#_1-setup) documentation.
+Only omit the field `fetch` request handler.
+
+### Methods
+
+#### `start()`
+
+This allows you to start _(server)_ the HTTP server instance.
+
+#### `request()`
+
+##### Options
 
 | Name       | Required? | Description                                                                                                                                    |
 | ---------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `filepath` | **yes**   | Path to the `*.svelte` component file.                                                                                                         |
 | `source`   | _no_      | Svelte component source code. You can read the component file by yourself, so the server will skip attempt to read the source - synchronously. |
 | `keys`     | _no_      | Pick specific keys from the `ParsedComponent` to be generated.                                                                                 |
+
+#### `shutdown()`
+
+Gracefully shutdown the HTTP server instance.

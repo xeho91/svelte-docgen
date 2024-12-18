@@ -7,7 +7,7 @@
 import fs from "node:fs";
 
 import { APP } from "../app.js";
-import { Server } from "../server.js";
+import { DEFAULTS, Server } from "../server.js";
 
 /**
  * @typedef UserOptions
@@ -22,7 +22,7 @@ class Options {
 	/**
 	 * @type {number}
 	 */
-	port = 3000;
+	port = DEFAULTS.port;
 
 	/** @param {Partial<Options>} user_options */
 	constructor(user_options) {
@@ -69,7 +69,9 @@ export class BunServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath) ? new URL(filepath) : Bun.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath)
+		? new URL(filepath)
+		: Bun.pathToFileURL(filepath);
 	// TODO: In the initial research, I couldn't find a synchronous way to read file. `Bun.file()` is async
 	return fs.readFileSync(path_url, "utf-8");
 }

@@ -10,7 +10,7 @@ import url from "node:url";
 import { serve } from "@hono/node-server";
 
 import { APP } from "../app.js";
-import { Server } from "../server.js";
+import { DEFAULTS, Server } from "../server.js";
 
 /**
  * @typedef {Omit<Parameters<typeof serve>[0], "fetch">} UserOptions
@@ -24,7 +24,7 @@ class Options {
 	/**
 	 * @type {number}
 	 */
-	port = 3000;
+	port = DEFAULTS.port;
 
 	/** @param {Partial<UserOptions>} user_options */
 	constructor(user_options) {
@@ -68,6 +68,8 @@ export class NodeServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath)
+		? new URL(filepath)
+		: url.pathToFileURL(filepath);
 	return fs.readFileSync(path_url, "utf-8");
 }
