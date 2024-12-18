@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.4",
-		"@sveltejs/adapter-vercel": "^5.5.2",
+		"@sveltejs/adapter-cloudflare": "^4.8.0",
 		"@sveltejs/kit": "^2.12.1",
 		"@sveltejs/vite-plugin-svelte": "^5.0.2",
 		"@sveltepress/theme-default": "^5.0.5",
