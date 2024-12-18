@@ -5,7 +5,8 @@ types/
 node_modules/
 
 # Documentation output (auto-generated)
-docs/
+/docs/
+/packages/**/docs/
 
 # Logs
 pnpm-debug.log*
