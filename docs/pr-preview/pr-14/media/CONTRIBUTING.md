@@ -1,7 +1,7 @@
 # Contribution guide
 
 Contributions of any kind is welcome. There are several ways on how you can do it.\
-Keep in mind that this project has [Code of Conduct](https://github.com/xeho91/svelte-ast-print?tab=coc-ov-file).
+Keep in mind that this project has [Code of Conduct](https://github.com/svelte-docgen/svelte-docgen?tab=coc-ov-file).
 
 ## Development
 
