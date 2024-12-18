@@ -5,7 +5,7 @@ This project is a monorepo for `svelte-docgen` packages.
 > [!TIP]
 >
 > 📣 **This project is attempting to compete at [SvelteHack 2024](https://hack.sveltesociety.dev/2024)!**
-> See [annoucement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
+> See [announcement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
 
 > [!WARNING]
 > This project is still a work in progress. [See roadmap for `v1`](https://github.com/svelte-docgen/svelte-docgen/issues/5).
@@ -75,14 +75,14 @@ It extracts the description right after the `@component` tag.
 
 Like in JSDoc, tags are supported too!
 Every line starting with `@<tag-name>` will be extracted as separate tag.
-It's content can be empty, mutli-line or with markdown. Just like [description](#description)!
+It's content can be empty, multi-line or with markdown. Just like [description](#description)!
 [Example](./examples/component-documentation/tags.svelte).
 
 > [!IMPORTANT]
 > The root comment with tags needs to have `@component` tag too!
 
 > [!TIP]
-> Tags can be repetive, e.g. `@example`.
+> Tags can be repetitive, e.g. `@example`.
 
 ### Legacy or modern?
 
@@ -238,10 +238,10 @@ If you don't have time, but you need this project to work, or resolve an existin
 - Taku "[ciscorn](https://github.com/ciscorn)" Fukada
 
 > [!TIP]
-> It can be you too! See [annoucement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
+> It can be you too! See [announcement](https://github.com/svelte-docgen/svelte-docgen/discussions/11).
 
 ## License
 
-![Project License](https://img.shields.io/github/license/xeho91/svelte-ast-print?style=for-the-badge)
+![Project License](https://img.shields.io/github/license/svelte-docgen/svelte-docgen?style=for-the-badge)
 
 This project is licensed under the [MIT License](./LICENSE.md).

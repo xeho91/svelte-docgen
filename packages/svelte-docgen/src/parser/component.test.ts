@@ -121,7 +121,7 @@ describe("tags", () => {
 				\`\`\`
 			-->
 			`,
-			create_options("parser-component-tags-repetive.svelte"),
+			create_options("parser-component-tags-repetitive.svelte"),
 		);
 		expect(tags).toBeDefined();
 		expect(tags?.filter((t) => t.name === "example")).toHaveLength(2);

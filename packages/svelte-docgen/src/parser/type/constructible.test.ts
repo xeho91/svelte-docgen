@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
 import { create_options } from "../../../tests/shared.js";
-import type { Doc } from "../../doc/type.js";
+import type * as Doc from "../../doc/type.js";
 import { parse } from "../mod.js";
 
 describe("Constructible", () => {
@@ -63,6 +63,11 @@ describe("Constructible", () => {
 			        },
 			      },
 			      {
+			        "default": {
+			          "kind": "literal",
+			          "subkind": "string",
+			          "value": "hello",
+			        },
 			        "isOptional": false,
 			        "name": "baz",
 			        "type": {
@@ -340,11 +345,11 @@ describe("Constructible", () => {
 			            "alias": "Iterable",
 			            "kind": "interface",
 			            "members": Map {
-			              "__@iterator@88" => {
+			              "__@iterator@21" => {
 			                "isOptional": false,
 			                "isReadonly": false,
 			                "type": {
-			                  "alias": "__@iterator@88",
+			                  "alias": "__@iterator@21",
 			                  "calls": [
 			                    {
 			                      "parameters": [],
@@ -380,11 +385,11 @@ describe("Constructible", () => {
 			              "alias": "Iterable",
 			              "kind": "interface",
 			              "members": Map {
-			                "__@iterator@88" => {
+			                "__@iterator@21" => {
 			                  "isOptional": false,
 			                  "isReadonly": false,
 			                  "type": {
-			                    "alias": "__@iterator@88",
+			                    "alias": "__@iterator@21",
 			                    "calls": [
 			                      {
 			                        "parameters": [],
@@ -490,11 +495,11 @@ describe("Constructible", () => {
 			            "alias": "Iterable",
 			            "kind": "interface",
 			            "members": Map {
-			              "__@iterator@88" => {
+			              "__@iterator@21" => {
 			                "isOptional": false,
 			                "isReadonly": false,
 			                "type": {
-			                  "alias": "__@iterator@88",
+			                  "alias": "__@iterator@21",
 			                  "calls": [
 			                    {
 			                      "parameters": [],
@@ -530,11 +535,11 @@ describe("Constructible", () => {
 			              "alias": "Iterable",
 			              "kind": "interface",
 			              "members": Map {
-			                "__@iterator@88" => {
+			                "__@iterator@21" => {
 			                  "isOptional": false,
 			                  "isReadonly": false,
 			                  "type": {
-			                    "alias": "__@iterator@88",
+			                    "alias": "__@iterator@21",
 			                    "calls": [
 			                      {
 			                        "parameters": [],

@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
 import { create_options } from "../../../tests/shared.js";
-import type { Doc } from "../../doc/type.js";
+import type * as Doc from "../../doc/type.js";
 import { parse } from "../mod.js";
 
 describe("Fn", () => {
@@ -14,7 +14,7 @@ describe("Fn", () => {
 					void: () => void;
 					returning: () => string;
 					parametized: (foo: string, bar?: Baz) => boolean;
-					spreaded: (...spread: any) => null;
+					spread: (...spread: any) => null;
 					aliased: Aliased;
 				}
 				let { ..._ }: Props = $props();
@@ -120,9 +120,9 @@ describe("Fn", () => {
 		`);
 		expect(parametized?.type.kind).toBe("function");
 
-		const spreaded = props.get("spreaded");
-		expect(spreaded).toBeDefined();
-		expect(spreaded?.type).toMatchInlineSnapshot(`
+		const spread = props.get("spread");
+		expect(spread).toBeDefined();
+		expect(spread?.type).toMatchInlineSnapshot(`
 			{
 			  "calls": [
 			    {
@@ -143,7 +143,7 @@ describe("Fn", () => {
 			  "kind": "function",
 			}
 		`);
-		expect(spreaded?.type.kind).toBe("function");
+		expect(spread?.type.kind).toBe("function");
 	});
 
 	it("recognizes aliased type", ({ expect }) => {
