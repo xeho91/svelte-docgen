@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 import { describe, it } from "vitest";
 
 import { APP } from "./app.js";
-import type { BodySchema, ParsedComponent } from "./schema.js";
+import type { RequestOptions, ParsedComponent } from "./schema.js";
 
 describe("POST /", () => {
 	it("returns 200 on a valid request", async ({ expect }) => {
@@ -21,7 +21,7 @@ describe("POST /", () => {
 		const body = {
 			filepath: filepath.toJSON(),
 			keys,
-		} satisfies BodySchema<(typeof keys)[number]>;
+		} satisfies RequestOptions<(typeof keys)[number]>;
 		const response = await APP.request("/", {
 			method: "POST",
 			body: JSON.stringify(body),

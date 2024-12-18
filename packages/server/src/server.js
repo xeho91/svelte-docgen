@@ -1,47 +1,46 @@
 /**
- * Extendable class for creating a HTTP server for a specific runtime.
+ * Extendable class for creating a HTTP server for a supported JavaScript runtime.
  * @module
  * @internal
  */
 
 /**
- * @import { BodySchema, ParsedComponent } from "./schema.js";
+ * @import { RequestOptions, ParsedComponent } from "./schema.js";
  */
 
 import { deserialize } from "svelte-docgen";
 
 import { APP } from "./app.js";
 
-/**
- * Server options with sensible defaults.
- *
- * @typedef Options
- * @prop {number} [port=3000]
- */
-
 export class Server {
-	/** @type {number} */
-	port;
-
-	/** @param {Options} options */
-	constructor(options) {
-		this.port = options.port ?? 3000;
-	}
-
 	/**
 	 * Create a `POST` request to the `@svelte-docgen/server`, with response handling and data deserialization.
 	 *
 	 * @template {keyof ParsedComponent} T
-	 * @param {BodySchema<T>} body
+	 * @param {RequestOptions<T>} options {@link RequestOptions}
 	 * @returns {Promise<Pick<ParsedComponent, T>>}
 	 */
-	async request(body) {
+	async request(options) {
+		// TODO: Add a fail-safe error or other solution when `this.instance` - created by sub-classes is undefined.
+		// End-user will likely need to be informed about running `this.start()` method first.
 		const response = await APP.request("/", {
 			method: "POST",
-			body: JSON.stringify(body),
+			body: JSON.stringify(options),
 			headers: new Headers({ "Content-Type": "application/json" }),
 		});
 		const data = await response.json();
 		return deserialize(data);
 	}
 }
+
+/**
+ * @internal
+ * Because `abstract class` is TypeScript feature, we can deliver similar pattern by defining an interface which
+ * sub-classes can implement.
+ *
+ * @typedef RuntimeServer
+ * @prop {any} options HTTP server options.
+ * @prop {any | undefined} instance HTTP server served instance - created when called {@link RuntimeServer.start}
+ * @prop {() => void} start Start the HTTP server.
+ * @prop {() => void} shutdown Gracefully shutdown the HTTP server.
+ */
