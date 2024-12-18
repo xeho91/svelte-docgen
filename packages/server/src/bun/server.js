@@ -10,12 +10,11 @@ import { APP } from "../app.js";
 import { DEFAULTS, Server } from "../server.js";
 
 /**
- * @typedef UserOptions
- * @prop {number} [port]
+ * @typedef {Omit<Parameters<typeof Bun.serve>[0], "fetch">} UserOptions
  */
 
 /**
- * Options instance for Deno HTTP server with sensible defaults.
+ * Options for Bun HTTP server with sensible defaults.
  */
 class Options {
 	// TODO: Add more sensible defaults
@@ -24,7 +23,7 @@ class Options {
 	 */
 	port = DEFAULTS.port;
 
-	/** @param {Partial<Options>} user_options */
+	/** @param {Partial<UserOptions>} user_options */
 	constructor(user_options) {
 		Object.assign(this, user_options);
 	}
@@ -44,10 +43,10 @@ export class BunServer extends Server {
 	 */
 	instance;
 
-	/** @param {Partial<UserOptions>} options */
-	constructor(options) {
+	/** @param {Partial<UserOptions>} user_options */
+	constructor(user_options) {
 		super();
-		this.options = new Options(options);
+		this.options = new Options(user_options);
 	}
 
 	/** @returns {void} */
@@ -69,7 +68,9 @@ export class BunServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath) ? new URL(filepath) : Bun.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath)
+		? new URL(filepath)
+		: Bun.pathToFileURL(filepath);
 	// TODO: In the initial research, I couldn't find a synchronous way to read file. `Bun.file()` is async
 	return fs.readFileSync(path_url, "utf-8");
 }

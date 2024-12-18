@@ -15,7 +15,7 @@ import { DEFAULTS, Server } from "../server.js";
  */
 
 /**
- * Options instance for Deno HTTP server with sensible defaults.
+ * Options for Deno HTTP server with sensible defaults.
  */
 class Options {
 	// TODO: Add more sensible defaults
@@ -35,9 +35,13 @@ class Options {
 //  * @implements {RuntimeServer}
 //  */
 export class DenoServer extends Server {
-	/** @type {Options} */
+	/**
+	 * @type {Options}
+	 */
 	options;
-	/** @type {ReturnType<typeof Deno.serve> | undefined} */
+	/**
+	 * @type {ReturnType<typeof Deno.serve> | undefined}
+	 */
 	instance;
 
 	/** @param {Partial<UserOptions>} user_options */
@@ -62,7 +66,11 @@ export class DenoServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath)
+		? new URL(filepath)
+		: url.pathToFileURL(filepath);
 	// FIXME: Conflict between Web API URL and Node URL type
-	return Deno.readTextFileSync(/** @type {Parameters<typeof Deno.readTextFileSync>[0]}} */ (path_url));
+	return Deno.readTextFileSync(
+		/** @type {Parameters<typeof Deno.readTextFileSync>[0]}} */ (path_url),
+	);
 }

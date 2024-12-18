@@ -17,7 +17,7 @@ import { DEFAULTS, Server } from "../server.js";
  */
 
 /**
- * Options instance for Node HTTP server with sensible defaults.
+ * Options for Node.js HTTP server with sensible defaults.
  */
 class Options {
 	// TODO: Add more sensible defaults
@@ -37,9 +37,13 @@ class Options {
 //  * @implements {RuntimeServer}
 //  */
 export class NodeServer extends Server {
-	/** @type {Options} */
+	/**
+	 * @type {Options}
+	 */
 	options;
-	/** @type {ReturnType<typeof serve> | undefined} */
+	/**
+	 * @type {ReturnType<typeof serve> | undefined}
+	 */
 	instance;
 
 	/** @param {Partial<UserOptions>} user_options */
@@ -68,6 +72,8 @@ export class NodeServer extends Server {
  * @returns {string}
  */
 export function read_file_sync(filepath) {
-	const path_url = URL.canParse(filepath) ? new URL(filepath) : url.pathToFileURL(filepath);
+	const path_url = URL.canParse(filepath)
+		? new URL(filepath)
+		: url.pathToFileURL(filepath);
 	return fs.readFileSync(path_url, "utf-8");
 }
