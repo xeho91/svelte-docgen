@@ -2,9 +2,9 @@ import { describe, it } from "vitest";
 
 import { create_options } from "../tests/shared.js";
 import { parse } from "./parser/mod.js";
-import { deserialize, serialize } from "./serde.js";
+import { decode, encode } from "./codec.js";
 
-describe("serialize", () => {
+describe("encode()", () => {
 	const parsed = parse(
 		`
 			<script lang="ts">
@@ -17,11 +17,13 @@ describe("serialize", () => {
 				let { ..._ }: Props = $props();
 			</script>
 			`,
-		create_options("serialize.svelte"),
+		create_options("encode.svelte"),
 	);
-	const serialized = serialize(parsed, 2);
+	const encoded = encode(parsed, {
+		indent: 2,
+	});
 	it("converts 'props' to array of tuples", ({ expect }) => {
-		expect(serialized).toMatchInlineSnapshot(
+		expect(encoded).toMatchInlineSnapshot(
 			`
 			{
 			  "exports": [],
@@ -257,9 +259,36 @@ describe("serialize", () => {
 		`,
 		);
 	});
+
+	it("allows picking data keys", ({ expect }) => {
+		const parsed = parse(
+			`
+			<script lang="ts">
+				interface Props {
+					some: any;
+					name: string;
+					disabled?: boolean;
+					date: Date;
+				}
+				let { ..._ }: Props = $props();
+			</script>
+			`,
+			create_options("encode.svelte"),
+		);
+		const encoded = encode(parsed, {
+			indent: 2,
+			keys: ["isLegacy", "exports"],
+		});
+		expect(encoded).toMatchInlineSnapshot(`
+			"{
+			  "isLegacy": false,
+			  "exports": []
+			}"
+		`);
+	});
 });
 
-describe("deserialize", () => {
+describe("decode()", () => {
 	it("revives 'props' as Map", ({ expect }) => {
 		const parsed = parse(
 			`
@@ -273,11 +302,10 @@ describe("deserialize", () => {
 				let { ..._ }: Props = $props();
 			</script>
 			`,
-			create_options("deserialize.svelte"),
+			create_options("decode.svelte"),
 		);
-		const serialized = serialize(parsed);
-		const deserialized = deserialize(serialized);
-		expect(deserialized.props).toBeInstanceOf(Map);
-		//
+		const encoded = encode(parsed);
+		const decoded = decode(encoded);
+		expect(decoded.props).toBeInstanceOf(Map);
 	});
 });
