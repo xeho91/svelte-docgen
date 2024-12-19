@@ -1,15 +1,16 @@
 {
 	"$schema": "https://json.schemastore.org/package",
-	"name": "svelte-docgen",
-	"version": "0.1.0",
+	"name": "@svelte-docgen/server",
+	"version": "0.0.0",
 	"type": "module",
-	"description": "Generate documentation for Svelte component(s)",
+	"description": "Allows creating virtual modules with docgen data for targetted Svelte component(s) - on demand.",
 	"keywords": [
 		"svelte",
 		"documentation",
 		"component",
 		"props",
-		"docgen"
+		"docgen",
+		"server"
 	],
 	"license": "MIT",
 	"contributors": [
@@ -24,13 +25,6 @@
 			"url": "https://github.com/ciscorn"
 		}
 	],
-	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
-		"directory": "packages/svelte-docgen"
-	},
-	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"funding": [
 		{
 			"type": "github",
@@ -41,6 +35,13 @@
 			"url": "https://opencollective.com/svelte-docgen"
 		}
 	],
+	"homepage": "https://github.com/svelte-docgen/svelte-docgen",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/svelte-docgen/svelte-docgen.git",
+		"directory": "packages/vite-plugin-svelte-docgen"
+	},
+	"bugs": "https://github.com/svelte-docgen/svelte-docgen/issues",
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
@@ -54,13 +55,17 @@
 		"types/"
 	],
 	"exports": {
-		".": {
+		"./bun": {
 			"types": "./types/mod.d.ts",
-			"default": "./src/mod.js"
+			"default": "./src/bun/mod.js"
 		},
-		"./doc": {
+		"./deno": {
 			"types": "./types/mod.d.ts",
-			"default": "./src/doc/type.ts"
+			"default": "./src/deno/mod.js"
+		},
+		"./node": {
+			"types": "./types/mod.d.ts",
+			"default": "./src/node/mod.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -87,14 +92,18 @@
 		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
-		"@svelte-docgen/extractor": "workspace:*",
+		"@hono/node-server": "^1.13.7",
+		"@hono/valibot-validator": "^0.5.1",
+		"hono": "^4.6.13",
 		"valibot": "catalog:"
 	},
 	"devDependencies": {
+		"@types/bun": "^1.1.14",
+		"@types/deno": "^2.0.0",
+		"@types/node": "22.10.1",
 		"dts-buddy": "catalog:"
 	},
 	"peerDependencies": {
-		"svelte": "catalog:",
-		"typescript": "catalog:"
+		"svelte-docgen": "workspace:*"
 	}
 }

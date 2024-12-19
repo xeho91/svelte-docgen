@@ -44,4 +44,15 @@ export default ts.config(
 			],
 		},
 	},
+	{
+		name: "@svelte-docgen/server",
+		files: ["packages/server/src/**/*"],
+		languageOptions: {
+			globals: {
+				...globals.node,
+				Bun: "readonly",
+				Deno: "readonly",
+			},
+		},
+	},
 );

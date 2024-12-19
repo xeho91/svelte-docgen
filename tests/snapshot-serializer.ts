@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 import type { SnapshotSerializer } from "vitest";
 
 const ROOT_PATH = path.join(__dirname, "..");
-const REGEX_PACKAGE_VERSION = /(?<package>[\w-]+)@(?<semver>\d+\.\d+\.\d+)/;
+const REGEX_PACKAGE_VERSION = /(?<package>[\w-]+)@(?<semver>\d+\.\d+\.\d+)/g;
 
 export default {
 	test: (value) => {
@@ -15,7 +15,9 @@ export default {
 	},
 	print: (value) => {
 		if (typeof value === "string") {
-			return value.replaceAll(ROOT_PATH, "<process-cwd>").replace(REGEX_PACKAGE_VERSION, "$<package>@<semver>");
+			return value
+				.replaceAll(ROOT_PATH, "<process-cwd>")
+				.replaceAll(REGEX_PACKAGE_VERSION, "$<package>@<semver>");
 		}
 		return "";
 	},
