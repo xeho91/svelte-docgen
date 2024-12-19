@@ -19,7 +19,9 @@ describe("encode()", () => {
 			`,
 		create_options("encode.svelte"),
 	);
-	const encoded = encode(parsed, 2);
+	const encoded = encode(parsed, {
+		indent: 2,
+	});
 	it("converts 'props' to array of tuples", ({ expect }) => {
 		expect(encoded).toMatchInlineSnapshot(
 			`
@@ -256,6 +258,33 @@ describe("encode()", () => {
 			}
 		`,
 		);
+	});
+
+	it("allows picking data keys", ({ expect }) => {
+		const parsed = parse(
+			`
+			<script lang="ts">
+				interface Props {
+					some: any;
+					name: string;
+					disabled?: boolean;
+					date: Date;
+				}
+				let { ..._ }: Props = $props();
+			</script>
+			`,
+			create_options("encode.svelte"),
+		);
+		const encoded = encode(parsed, {
+			indent: 2,
+			keys: ["isLegacy", "exports"],
+		});
+		expect(encoded).toMatchInlineSnapshot(`
+			"{
+			  "isLegacy": false,
+			  "exports": []
+			}"
+		`);
 	});
 });
 
