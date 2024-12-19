@@ -29,13 +29,10 @@ export function encode(data, options = {}) {
 	let prepared_data = data;
 	if (options.keys) {
 		// NOTE: This prevents `toJSON()` be called, because by default it would call all of the getters.
-		prepared_data = options.keys.reduce(
-			(results, key) => {
-				results[key] = data[key];
-				return results;
-			},
-			/** @type {ParsedComponent} */ ({}),
-		);
+		prepared_data = options.keys.reduce((results, key) => {
+			results[key] = data[key];
+			return results;
+		}, /** @type {Pick<ParsedComponent, T>} */ ({}));
 	}
 	return JSON.stringify(
 		prepared_data,
