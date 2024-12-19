@@ -72,11 +72,7 @@ export const CACHE_STORAGE = createCacheStorage();
 function get_runtime_name() {
 	if (typeof globalThis.Bun !== "undefined") return "bun";
 	if (typeof globalThis.Deno !== "undefined") return "deno";
-	if (
-		typeof process !== "undefined" &&
-		process.versions &&
-		process.versions.node
-	) {
+	if (typeof process !== "undefined" && process.versions && process.versions.node) {
 		return "node";
 	}
 	throw new Error("Unsupported runtime.");
