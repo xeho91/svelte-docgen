@@ -5,13 +5,24 @@ types/
 node_modules/
 
 # Documentation output (auto-generated)
-docs/
+/docs/
+/packages/**/docs/
+
+# Applications
+.output/
+.vercel/
+.netlify/
+.wrangler/
+.svelte-kit/
+.sveltepress/
+build/
 
 # Logs
 pnpm-debug.log*
 
-# MacOS-specific files
+# OS-specific files
 .DS_Store
+Thumbs.db
 
 # Sensitive data
 .env

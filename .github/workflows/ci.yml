@@ -34,9 +34,9 @@ jobs:
     name: Lint
     uses: ./.github/workflows/prettier.yml
 
-  lint_tsc:
+  lint_check:
     name: Lint
-    uses: ./.github/workflows/tsc.yml
+    uses: ./.github/workflows/check.yml
 
   lint_typos:
     name: Lint
@@ -49,11 +49,11 @@ jobs:
   publish_preview:
     name: Publish
     uses: ./.github/workflows/preview.yml
-    needs: [lint_eslint, lint_prettier, lint_tsc, lint_typos, test]
+    needs: [lint_eslint, lint_prettier, lint_check, lint_typos, test]
 
   publish_typedoc:
     name: Publish
     uses: ./.github/workflows/typedoc.yml
-    needs: [lint_eslint, lint_prettier, lint_tsc, lint_typos, test]
+    needs: [lint_eslint, lint_prettier, lint_check, lint_typos, test]
     with:
       type: ${{ github.event_name == 'pull_request' && contains(fromJson('["opened", "reopened", "synchronize"]'), github.event.action) && 'pr-preview' || 'deploy' }}
