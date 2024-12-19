@@ -11,13 +11,13 @@
 import * as v from "valibot";
 
 /**
- * Serialize data as stringified JSON, so it can be used for e.g. RESTful API.
+ * Encode data as stringified JSON, so it can be used for e.g. RESTful API.
  *
  * @param {ParsedComponent} data
  * @param {Parameters<typeof JSON.stringify>[2]} [indent]
  * @returns {string}
  */
-export function serialize(data, indent) {
+export function encode(data, indent) {
 	return JSON.stringify(
 		data,
 		(key, value) => {

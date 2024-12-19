@@ -88,7 +88,7 @@ async function plugin() {
 					filepath: svelte_filepath_url.pathname,
 					cache: CACHE_STORAGE,
 				});
-				const stringified = `export default /** @type {const} */(${docgen.serialize(parsed)});`;
+				const stringified = `export default /** @type {const} */(${docgen.encode(parsed)});`;
 				const ast = transform_encoded(this.parse(stringified));
 				const { code } = print(ast);
 				return code;
