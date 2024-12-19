@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 
 import { create_options } from "../tests/shared.js";
 import { parse } from "./parser/mod.js";
-import { deserialize, encode } from "./codec.js";
+import { decode, encode } from "./codec.js";
 
 describe("encode()", () => {
 	const parsed = parse(
@@ -259,7 +259,7 @@ describe("encode()", () => {
 	});
 });
 
-describe("deserialize", () => {
+describe("decode()", () => {
 	it("revives 'props' as Map", ({ expect }) => {
 		const parsed = parse(
 			`
@@ -273,11 +273,10 @@ describe("deserialize", () => {
 				let { ..._ }: Props = $props();
 			</script>
 			`,
-			create_options("deserialize.svelte"),
+			create_options("decode.svelte"),
 		);
 		const encoded = encode(parsed);
-		const deserialized = deserialize(encoded);
-		expect(deserialized.props).toBeInstanceOf(Map);
-		//
+		const decoded = decode(encoded);
+		expect(decoded.props).toBeInstanceOf(Map);
 	});
 });

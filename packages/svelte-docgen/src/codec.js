@@ -38,7 +38,7 @@ export function encode(data, indent) {
  * @param {string} stringified
  * @returns {Partial<ParsedComponent>}
  */
-export function deserialize(stringified) {
+export function decode(stringified) {
 	return JSON.parse(stringified, (key, value) => {
 		switch (key) {
 			case "exports":
