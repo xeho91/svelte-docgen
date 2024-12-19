@@ -8,7 +8,7 @@
  * @import { RequestOptions, ParsedComponent } from "./schema.js";
  */
 
-import { deserialize } from "svelte-docgen";
+import { decode } from "svelte-docgen";
 
 import { APP } from "./app.js";
 
@@ -29,7 +29,7 @@ export class Server {
 			headers: new Headers({ "Content-Type": "application/json" }),
 		});
 		const data = await response.json();
-		return deserialize(data);
+		return decode(data);
 	}
 }
 
