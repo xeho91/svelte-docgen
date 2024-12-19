@@ -33,9 +33,7 @@ const CACHE_STORAGE = docgen.createCacheStorage();
  * export default defineConfig({
  *     plugins: [
  *         // 👇 Add to plugins list - there's no strict requirement on the order
- *         pluginSvelteDocgen({
- *             // [OPTIONAL] Specify your plugins option here
- *         }),
+ *         pluginSvelteDocgen(),
  *     ],
  *     ...
  * });
@@ -88,7 +86,7 @@ async function plugin() {
 					filepath: svelte_filepath_url.pathname,
 					cache: CACHE_STORAGE,
 				});
-				const stringified = `export default /** @type {const} */(${docgen.serialize(parsed)});`;
+				const stringified = `export default /** @type {const} */(${docgen.encode(parsed)});`;
 				const ast = transform_encoded(this.parse(stringified));
 				const { code } = print(ast);
 				return code;

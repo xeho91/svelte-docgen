@@ -19,7 +19,7 @@ beforeEach(async () => {
 });
 
 describe("plugin", async () => {
-	it("it should create a virtual file with revived serialized data", async ({ expect }) => {
+	it("it should create a virtual file with revived encoded data", async ({ expect }) => {
 		const docgen = await VITE_DEV_SERVER.ssrLoadModule("./examples/button.svelte?docgen");
 		expect(docgen.default.isLegacy).toBe(false);
 		expect(docgen.default.exports).toBeInstanceOf(Map);
