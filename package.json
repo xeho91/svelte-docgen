@@ -55,7 +55,7 @@
 	"pnpm": {
 		"overrides": {
 			"vite": "catalog:",
-			"vite-plugin-svelte": "^5.0.0"
+			"@sveltejs/vite-plugin-svelte": "^5.0.0"
 		}
 	}
 }
