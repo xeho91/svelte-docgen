@@ -85,7 +85,7 @@
 		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
-		"esrap": "^1.2.3",
+		"esrap": "^1.3.2",
 		"svelte-docgen": "workspace:*",
 		"zimmerframe": "^1.1.2"
 	},

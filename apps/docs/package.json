@@ -1,0 +1,26 @@
+{
+	"name": "docs",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format": "prettier --write .",
+		"lint": "prettier --check . && eslint .",
+		"test:unit": "vitest",
+		"test": "npm run test:unit -- --run"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-cloudflare": "^4.8.0",
+		"@sveltejs/kit": "^2.12.1",
+		"@sveltejs/vite-plugin-svelte": "^5.0.2",
+		"@sveltepress/theme-default": "^5.0.5",
+		"@sveltepress/vite": "^1.1.2",
+		"autoprefixer": "^10.4.20",
+		"svelte": "catalog:"
+	}
+}
