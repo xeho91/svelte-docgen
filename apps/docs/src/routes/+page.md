@@ -1,5 +1,5 @@
 ---
-title: Welcome to svelte-docgen
+title: svelte-docgen
 heroImage: /sveltepress@3x.png
 tagline: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac purus nec diam laoreet sollicitudin.
 actions:
