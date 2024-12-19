@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 
 import { create_options } from "../tests/shared.js";
 import { parse } from "./parser/mod.js";
-import { deserialize, serialize } from "./serde.js";
+import { deserialize, serialize } from "./codec.js";
 
 describe("serialize", () => {
 	const parsed = parse(
