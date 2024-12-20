@@ -2,9 +2,9 @@
  * @import { extract } from "@svelte-docgen/extractor";
  */
 
-import fs from "node:fs";
-import path from "node:path";
-import url from "node:url";
+// import fs from "node:fs";
+// import url from "node:url";
+// import path from "pathe";
 
 import ts from "typescript";
 
@@ -170,32 +170,33 @@ export function get_sources(declarations, root_path_url) {
  * @throws {Error} If it cannot find nearest `package.json` file if project isn't a monorepo.
  */
 export function get_root_path_url() {
-	let directory = path.resolve(process.cwd());
-	const { root } = path.parse(directory);
-	/** @type {string | undefined} */
-	let package_json_filepath;
-	while (directory && directory !== root) {
-		try {
-			const pnpm_workspace_filepath = path.join(directory, "pnpm-workspace.yaml");
-			const stats = fs.statSync(pnpm_workspace_filepath, { throwIfNoEntry: false });
-			if (stats?.isFile()) return url.pathToFileURL(directory);
-		} catch {
-			/** Is okay, do nothing. Check for other possibilities. */
-		}
-		try {
-			package_json_filepath = path.join(directory, "package.json");
-			const stats = fs.statSync(package_json_filepath, { throwIfNoEntry: false });
-			if (stats?.isFile()) {
-				const content = fs.readFileSync(package_json_filepath, "utf-8");
-				if (JSON.parse(content).workspaces) return url.pathToFileURL(directory);
-			}
-		} catch {
-			/** Is okay, do nothing. Check parent up. */
-		}
-		// NOTE: This goes root up
-		directory = path.dirname(directory);
-	}
-	if (package_json_filepath) return url.pathToFileURL(path.dirname(package_json_filepath));
-	// TODO: Document error
-	throw new Error("Could not determine the the root path.");
+	return new URL("file:///");
+	// let directory = path.resolve(process.cwd());
+	// const { root } = path.parse(directory);
+	// /** @type {string | undefined} */
+	// let package_json_filepath;
+	// while (directory && directory !== root) {
+	// 	try {
+	// 		const pnpm_workspace_filepath = path.join(directory, "pnpm-workspace.yaml");
+	// 		const stats = fs.statSync(pnpm_workspace_filepath, { throwIfNoEntry: false });
+	// 		if (stats?.isFile()) return url.pathToFileURL(directory);
+	// 	} catch {
+	// 		/** Is okay, do nothing. Check for other possibilities. */
+	// 	}
+	// 	try {
+	// 		package_json_filepath = path.join(directory, "package.json");
+	// 		const stats = fs.statSync(package_json_filepath, { throwIfNoEntry: false });
+	// 		if (stats?.isFile()) {
+	// 			const content = fs.readFileSync(package_json_filepath, "utf-8");
+	// 			if (JSON.parse(content).workspaces) return url.pathToFileURL(directory);
+	// 		}
+	// 	} catch {
+	// 		/** Is okay, do nothing. Check parent up. */
+	// 	}
+	// 	// NOTE: This goes root up
+	// 	directory = path.dirname(directory);
+	// }
+	// if (package_json_filepath) return url.pathToFileURL(path.dirname(package_json_filepath));
+	// // TODO: Document error
+	// throw new Error("Could not determine the the root path.");
 }

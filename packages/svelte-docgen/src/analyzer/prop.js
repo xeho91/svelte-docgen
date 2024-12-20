@@ -2,7 +2,7 @@
  * @import * as Doc from "../doc/type.ts";
  */
 
-import path from "node:path";
+import path from "pathe";
 
 class PropAnalyzer {
 	/** @type {Doc.Prop} */

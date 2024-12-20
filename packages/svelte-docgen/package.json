@@ -88,13 +88,13 @@
 	},
 	"dependencies": {
 		"@svelte-docgen/extractor": "workspace:*",
-		"valibot": "catalog:"
+		"valibot": "catalog:",
+		"typescript": "catalog:"
 	},
 	"devDependencies": {
 		"dts-buddy": "catalog:"
 	},
 	"peerDependencies": {
-		"svelte": "catalog:",
-		"typescript": "catalog:"
+		"svelte": "catalog:"
 	}
 }

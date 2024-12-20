@@ -3,6 +3,13 @@ import { sveltepress } from "@sveltepress/vite";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+	resolve: {
+		alias: {
+			"path": "pathe",
+			"node:path": "pathe",
+		},
+	},
+
 	plugins: [
 		sveltepress({
 			siteConfig: {
@@ -17,6 +24,10 @@ export default defineConfig({
 					{
 						title: "Docs",
 						to: "/docs/",
+					},
+					{
+						title: "Demo Playground",
+						to: "/demo-playground/",
 					},
 					{
 						title: "Examples",

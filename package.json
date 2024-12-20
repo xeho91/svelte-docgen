@@ -38,6 +38,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.14.0",
+		"pathe": "^1.1.2",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.2",
 		"serve": "14.2.4",
@@ -49,12 +50,12 @@
 		"typedoc-plugin-mdn-links": "4.0.4",
 		"typescript": "catalog:",
 		"typescript-eslint": "^8.18.1",
-		"vite": "catalog:",
+		"vite": "^6.0.5",
 		"vitest": "2.1.8"
 	},
 	"pnpm": {
 		"overrides": {
-			"vite": "catalog:",
+			"vite": "^6.0.5",
 			"@sveltejs/vite-plugin-svelte": "^5.0.0"
 		}
 	}
