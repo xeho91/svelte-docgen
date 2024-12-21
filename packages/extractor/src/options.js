@@ -1,7 +1,8 @@
 /**
- * @import { SvelteFilepath } from "./util.js";
+ * @import { SvelteFilepath, TSXFilepath } from "./util.js";
  */
 
+import ts from "typescript";
 import { createCacheStorage } from "./cache.js";
 
 /** @typedef {Partial<Options> & { filepath?: SvelteFilepath | (string & {}) }} UserOptions */
@@ -11,15 +12,24 @@ export class Options {
 	cache;
 	/** @type {SvelteFilepath} */
 	filepath;
+	/** @type {TSXFilepath} */
+	tsx_filepath;
+	/** @type {ts.System} */
+	system;
+	/** @type {ts.CompilerHost | undefined} */
+	host;
 
 	/** @param {UserOptions} user_options */
 	constructor(user_options) {
-		this.cache = user_options.cache ?? createCacheStorage();
+		this.system = user_options.system ?? ts.sys;
+		this.cache = user_options.cache ?? createCacheStorage(this.system);
+		this.host = user_options.host;
 		if (user_options.filepath) {
 			const filepath = this.#parse_filepath(user_options.filepath);
 			this.#validate_filepath(filepath);
 			this.filepath = filepath;
 		} else this.filepath = this.#random_filepath;
+		this.tsx_filepath = `${this.filepath}.tsx`;
 	}
 
 	/**

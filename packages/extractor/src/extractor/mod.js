@@ -4,7 +4,7 @@
  * @import { createCacheStorage } from "../cache.js";
  */
 
-import path from "node:path";
+import path from "pathe";
 
 import ts from "typescript";
 
@@ -22,6 +22,8 @@ class Extractor {
 	parser;
 	/** @type {Compiler} */
 	compiler;
+	/** @type {ts.System} */
+	system;
 
 	/**
 	 * @param {Source} source
@@ -29,6 +31,7 @@ class Extractor {
 	 */
 	constructor(source, options) {
 		this.source = source;
+		this.system = options.system;
 		this.#options = new Options(options);
 		this.parser = new Parser(this.source);
 		this.compiler = new Compiler(this.source, this.parser, this.#options);
@@ -215,10 +218,10 @@ class Extractor {
 	#build_ts_options() {
 		const configpath = this.#find_ts_config_path();
 		if (configpath) {
-			const config_file = ts.readConfigFile(configpath, ts.sys.readFile);
+			const config_file = ts.readConfigFile(configpath, this.system.readFile);
 			const parsed = ts.parseJsonConfigFileContent(
 				config_file.config,
-				ts.sys,
+				this.system,
 				path.dirname(configpath),
 				undefined,
 				configpath,
@@ -245,8 +248,8 @@ class Extractor {
 	 */
 	#find_ts_config_path() {
 		return (
-			ts.findConfigFile(this.compiler.filepath, ts.sys.fileExists) ||
-			ts.findConfigFile(this.compiler.filepath, ts.sys.fileExists, "jsconfig.json")
+			ts.findConfigFile(this.compiler.filepath, this.system.fileExists) ||
+			ts.findConfigFile(this.compiler.filepath, this.system.fileExists, "jsconfig.json")
 		);
 	}
 
@@ -254,7 +257,7 @@ class Extractor {
 	 * @returns {ts.CompilerHost}
 	 */
 	#create_host() {
-		const default_host = ts.createCompilerHost(this.#get_ts_options());
+		const default_host = this.#options.host || ts.createCompilerHost(this.#get_ts_options());
 		/** @type {Partial<ts.CompilerHost>} */
 		const overridden_methods = {
 			fileExists: (filepath) => {

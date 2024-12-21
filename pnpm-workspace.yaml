@@ -10,4 +10,4 @@ catalog:
   "svelte": "^5.14.4"
   "typescript": "^5.7.0"
   "valibot": "1.0.0-beta.9"
-  "vite": "^6.0.0"
+  "vite": "^6.0.5"
