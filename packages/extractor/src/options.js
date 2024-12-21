@@ -1,5 +1,5 @@
 /**
- * @import { SvelteFilepath } from "./util.js";
+ * @import { SvelteFilepath, TSXFilepath } from "./util.js";
  */
 
 import ts from "typescript";
@@ -12,6 +12,8 @@ export class Options {
 	cache;
 	/** @type {SvelteFilepath} */
 	filepath;
+	/** @type {TSXFilepath} */
+	tsx_filepath;
 	/** @type {ts.System} */
 	system;
 	/** @type {ts.CompilerHost | undefined} */
@@ -27,6 +29,7 @@ export class Options {
 			this.#validate_filepath(filepath);
 			this.filepath = filepath;
 		} else this.filepath = this.#random_filepath;
+		this.tsx_filepath = `${this.filepath}.tsx`;
 	}
 
 	/**

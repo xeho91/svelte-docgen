@@ -43,11 +43,11 @@ class Cache {
 	/** @type {Set<string>} */
 	root_names = new Set(create_default_root_names());
 	/** @type {ts.System} */
-	system;
+	#system;
 
 	/** @param {ts.System | undefined} system */
 	constructor(system) {
-		this.system = system ?? ts.sys;
+		this.#system = system ?? ts.sys;
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Cache {
 	 */
 	get(filepath) {
 		const cached = this.#cached.get(filepath);
-		const last_modified = this.system.getModifiedTime?.(filepath);
+		const last_modified = this.#system.getModifiedTime?.(filepath);
 		if (cached?.last_modified?.getTime() === last_modified?.getTime()) return cached;
 	}
 
@@ -83,7 +83,7 @@ class Cache {
 	set(filepath, updated) {
 		const cached = this.#cached.get(filepath);
 		if (cached) return { ...cached, ...updated };
-		const last_modified = this.system?.getModifiedTime?.(filepath);
+		const last_modified = this.#system?.getModifiedTime?.(filepath);
 		const value = { ...updated, last_modified };
 		this.#cached.set(filepath, value);
 		return value;

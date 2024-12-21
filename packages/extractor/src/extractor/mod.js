@@ -31,8 +31,8 @@ class Extractor {
 	 */
 	constructor(source, options) {
 		this.source = source;
+		this.system = options.system;
 		this.#options = new Options(options);
-		this.system = this.#options.system;
 		this.parser = new Parser(this.source);
 		this.compiler = new Compiler(this.source, this.parser, this.#options);
 	}
